@@ -344,7 +344,9 @@ function KeyPointsAccordion({
               >
                 <svg
                   viewBox="0 0 24 24"
-                  className={`h-[11rem] w-[11rem] transition-transform duration-300 ease-out ${isOpen ? "rotate-45" : "rotate-0"}`}
+                  className={`h-[11rem] w-[11rem] transition-transform duration-300 ease-out ${
+                    isOpen ? "rotate-45" : "rotate-0"
+                  }`}
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2.2"
@@ -376,6 +378,214 @@ function KeyPointsAccordion({
   );
 }
 
+type ServiceNavigatorProps = {
+  activeIndex: number;
+  onSelect: (index: number) => void;
+};
+
+function ServiceNavigator({
+  activeIndex,
+  onSelect,
+}: ServiceNavigatorProps): React.JSX.Element {
+  const isVisible = activeIndex >= 0;
+  const [menuOpen, setMenuOpen] = useState(false);
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearCloseTimer = () => {
+    if (!closeTimerRef.current) return;
+
+    clearTimeout(closeTimerRef.current);
+    closeTimerRef.current = null;
+  };
+
+  const openMenu = () => {
+    clearCloseTimer();
+    setMenuOpen(true);
+  };
+
+  const scheduleClose = () => {
+    clearCloseTimer();
+
+    closeTimerRef.current = setTimeout(() => {
+      setMenuOpen(false);
+      closeTimerRef.current = null;
+    }, 220);
+  };
+
+  const handleSelect = (index: number) => {
+    clearCloseTimer();
+    setMenuOpen(false);
+    onSelect(index);
+  };
+
+  return (
+    <div
+      className={`services-quick-nav pointer-events-auto absolute left-[40rem] top-[145rem] z-[60] hidden transition-[opacity,transform] duration-700 ease-[cubic-bezier(.22,1,.36,1)] min-[1025px]:block max-[1500px]:left-[26rem] max-[1500px]:top-[130rem] ${
+        isVisible
+          ? "translate-x-0 opacity-100"
+          : "pointer-events-none -translate-x-[24rem] opacity-0"
+      }`}
+      aria-hidden={!isVisible}
+      onMouseEnter={openMenu}
+      onMouseLeave={scheduleClose}
+      onFocusCapture={openMenu}
+      onBlurCapture={(event) => {
+        const nextTarget = event.relatedTarget;
+
+        if (
+          nextTarget instanceof Node &&
+          event.currentTarget.contains(nextTarget)
+        ) {
+          return;
+        }
+
+        scheduleClose();
+      }}
+    >
+      <button
+        type="button"
+        onClick={() => {
+          clearCloseTimer();
+          setMenuOpen((current) => !current);
+        }}
+        className={`relative flex h-[60rem] min-w-[220rem] items-center justify-between gap-[22rem] overflow-hidden rounded-[11rem] border px-[18rem] text-left shadow-[0_14px_42px_rgba(0,0,0,.20)] backdrop-blur-[14px] transition-[background-color,border-color,box-shadow,transform] duration-300 focus-visible:outline-none focus-visible:ring-[2rem] focus-visible:ring-[var(--mvp-accent)] ${
+          menuOpen
+            ? "border-white/70 bg-[rgba(244,241,234,.98)] shadow-[0_20px_55px_rgba(0,0,0,.28)]"
+            : "border-white/55 bg-[rgba(244,241,234,.92)] hover:-translate-y-[2rem] hover:border-white/75 hover:bg-[rgba(244,241,234,.98)] hover:shadow-[0_20px_55px_rgba(0,0,0,.28)]"
+        }`}
+        aria-label="Show services navigation"
+        aria-expanded={menuOpen}
+        aria-haspopup="menu"
+      >
+        <span
+          className="absolute inset-x-0 top-0 h-[3rem] bg-[var(--mvp-accent)]"
+          aria-hidden="true"
+        />
+
+        <span className="text-[23rem] font-bold uppercase leading-none text-[var(--mvp-primary)]">
+          Services
+        </span>
+
+        <span
+          className={`flex h-[31rem] w-[31rem] shrink-0 items-center justify-center rounded-full text-white transition-[background-color,transform] duration-300 ${
+            menuOpen
+              ? "rotate-45 bg-[var(--mvp-accent)]"
+              : "bg-[var(--mvp-primary)]"
+          }`}
+          aria-hidden="true"
+        >
+          <svg viewBox="0 0 18 18" fill="none" className="h-[11rem] w-[11rem]">
+            <path
+              d="M9 3V15"
+              stroke="currentColor"
+              strokeWidth="1.7"
+              strokeLinecap="round"
+            />
+            <path
+              d="M3 9H15"
+              stroke="currentColor"
+              strokeWidth="1.7"
+              strokeLinecap="round"
+            />
+          </svg>
+        </span>
+      </button>
+
+      <div
+        className={`absolute left-0 top-full w-[500rem] pt-[10rem] transition-[opacity,transform,visibility] duration-300 ease-[cubic-bezier(.22,1,.36,1)] max-[1500px]:w-[455rem] ${
+          menuOpen
+            ? "pointer-events-auto visible translate-y-0 opacity-100"
+            : "pointer-events-none invisible -translate-y-[8rem] opacity-0"
+        }`}
+      >
+        <div
+          role="menu"
+          aria-label="Services"
+          className="overflow-hidden rounded-[15rem] border border-white/65 bg-[rgba(244,241,234,.96)] p-[8rem] shadow-[0_24px_70px_rgba(0,0,0,.30)] backdrop-blur-[18px]"
+        >
+          {services.map((service, index) => {
+            const isActive = activeIndex === index;
+
+            return (
+              <button
+                key={service.number}
+                type="button"
+                role="menuitem"
+                onClick={() => handleSelect(index)}
+                className={`group/item relative flex min-h-[52rem] w-full items-center gap-[13rem] rounded-[9rem] px-[14rem] py-[9rem] text-left transition-[background-color,color,transform] duration-250 ${
+                  isActive
+                    ? "bg-[var(--mvp-primary)] text-white"
+                    : "text-[var(--mvp-primary)] hover:bg-white/85"
+                }`}
+                aria-label={`Go to ${service.title}`}
+                aria-current={isActive ? "page" : undefined}
+              >
+                <span
+                  className={`h-[10rem] w-[10rem] shrink-0 rounded-full border transition-all duration-250 ${
+                    isActive
+                      ? "border-[var(--mvp-accent)] bg-[var(--mvp-accent)] shadow-[0_0_0_4px_rgba(233,81,29,.16)]"
+                      : "border-[var(--mvp-primary)]/45 bg-transparent group-hover/item:border-[var(--mvp-accent)] group-hover/item:bg-[var(--mvp-accent)]"
+                  }`}
+                  aria-hidden="true"
+                />
+
+                <span
+                  className={`w-[32rem] shrink-0 font-['Inter'] text-[12.5rem] font-semibold tracking-[.05em] ${
+                    isActive
+                      ? "text-[var(--mvp-accent)]"
+                      : "text-[var(--mvp-primary)]/65"
+                  }`}
+                >
+                  {service.number}
+                </span>
+
+                <span
+                  className={`min-w-0 flex-1 text-[18.5rem] font-bold uppercase leading-[1.08] transition-transform duration-250 max-[1500px]:text-[17.5rem] ${
+                    isActive
+                      ? "text-white"
+                      : "text-[var(--mvp-primary)] group-hover/item:translate-x-[2rem]"
+                  }`}
+                >
+                  {service.title}
+                </span>
+
+                <span
+                  className={`flex h-[27rem] w-[27rem] shrink-0 items-center justify-center rounded-full transition-[background-color,color,transform] duration-250 ${
+                    isActive
+                      ? "bg-[var(--mvp-accent)] text-white"
+                      : "bg-[var(--mvp-primary)]/8 text-[var(--mvp-primary)]/65 group-hover/item:translate-x-[2rem] group-hover/item:bg-[var(--mvp-accent)] group-hover/item:text-white"
+                  }`}
+                  aria-hidden="true"
+                >
+                  <svg
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    className="h-[10rem] w-[10rem]"
+                  >
+                    <path
+                      d="M3 8H13"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M9 4L13 8L9 12"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ServiceButton(): React.JSX.Element {
   return (
     <Link
@@ -386,11 +596,209 @@ function ServiceButton(): React.JSX.Element {
         <span className="text-hover-elem text-hover-elem-1">
           Order a service
         </span>
+
         <span className="text-hover-elem text-hover-elem-2">
           Order a service
         </span>
       </span>
     </Link>
+  );
+}
+
+function ServicesInquiryForm(): React.JSX.Element {
+  return (
+    <section className="services-inquiry-section relative overflow-hidden bg-white px-[20rem] py-[90rem] text-[var(--mvp-primary)] min-[1025px]:px-[40rem] min-[1025px]:py-[120rem]">
+      <div className="services-inquiry-frame mx-auto max-w-[1500rem] overflow-hidden rounded-[28rem] bg-[var(--mvp-light)] px-[30rem] pb-[55rem] pt-[30rem] max-[1024px]:rounded-[18rem] max-[1024px]:px-[20rem] max-[1024px]:pb-[40rem] max-[1024px]:pt-[22rem]">
+        <div className="services-inquiry-top flex items-center justify-between border-b border-[var(--mvp-primary)]/20 pb-[22rem]">
+          <span className="text-[20rem] font-bold uppercase leading-none">
+            Form
+          </span>
+
+          <span
+            className="h-[4rem] w-[110rem] bg-[var(--mvp-accent)] max-[640px]:w-[70rem]"
+            aria-hidden="true"
+          />
+        </div>
+
+        <div className="services-inquiry-title-wrap overflow-hidden">
+          <h2 className="services-inquiry-title mt-[42rem] max-w-[1100rem] text-[96rem] font-bold uppercase leading-[0.86] tracking-[-0.025em] max-[1024px]:mt-[32rem] max-[1024px]:text-[62rem] max-[640px]:text-[46rem]">
+            Send Your Request
+          </h2>
+        </div>
+
+        <form
+          className="services-inquiry-form mt-[58rem] grid grid-cols-2 gap-x-[55rem] gap-y-[38rem] max-[760px]:mt-[42rem] max-[760px]:grid-cols-1 max-[760px]:gap-y-[30rem]"
+          onSubmit={(event) => event.preventDefault()}
+        >
+          <label className="service-form-field group relative flex flex-col gap-[10rem] overflow-hidden pb-[4rem]">
+            <span className="service-form-label font-['Inter'] text-[14rem] font-semibold uppercase tracking-[.08em] text-[var(--mvp-primary)]/65">
+              Full Name <span className="text-[var(--mvp-accent)]">*</span>
+            </span>
+
+            <input
+              type="text"
+              name="fullName"
+              required
+              className="service-form-control h-[58rem] border-0 bg-transparent px-0 font-['Inter'] text-[20rem] font-normal text-[var(--mvp-primary)] outline-none placeholder:text-[var(--mvp-primary)]/30"
+              placeholder="Enter your full name"
+            />
+
+            <span
+              className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--mvp-primary)]/25"
+              aria-hidden="true"
+            />
+
+            <span
+              className="service-form-line-accent absolute bottom-0 left-0 h-[2rem] w-full origin-left scale-x-0 bg-[var(--mvp-accent)] transition-transform duration-500 group-focus-within:scale-x-100"
+              aria-hidden="true"
+            />
+          </label>
+
+          <label className="service-form-field group relative flex flex-col gap-[10rem] overflow-hidden pb-[4rem]">
+            <span className="service-form-label font-['Inter'] text-[14rem] font-semibold uppercase tracking-[.08em] text-[var(--mvp-primary)]/65">
+              Company Name
+            </span>
+
+            <input
+              type="text"
+              name="companyName"
+              className="service-form-control h-[58rem] border-0 bg-transparent px-0 font-['Inter'] text-[20rem] font-normal text-[var(--mvp-primary)] outline-none placeholder:text-[var(--mvp-primary)]/30"
+              placeholder="Enter company name"
+            />
+
+            <span
+              className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--mvp-primary)]/25"
+              aria-hidden="true"
+            />
+
+            <span
+              className="service-form-line-accent absolute bottom-0 left-0 h-[2rem] w-full origin-left scale-x-0 bg-[var(--mvp-accent)] transition-transform duration-500 group-focus-within:scale-x-100"
+              aria-hidden="true"
+            />
+          </label>
+
+          <label className="service-form-field group relative flex flex-col gap-[10rem] overflow-hidden pb-[4rem]">
+            <span className="service-form-label font-['Inter'] text-[14rem] font-semibold uppercase tracking-[.08em] text-[var(--mvp-primary)]/65">
+              Phone Number <span className="text-[var(--mvp-accent)]">*</span>
+            </span>
+
+            <input
+              type="tel"
+              name="phone"
+              required
+              className="service-form-control h-[58rem] border-0 bg-transparent px-0 font-['Inter'] text-[20rem] font-normal text-[var(--mvp-primary)] outline-none placeholder:text-[var(--mvp-primary)]/30"
+              placeholder="Enter phone number"
+            />
+
+            <span
+              className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--mvp-primary)]/25"
+              aria-hidden="true"
+            />
+
+            <span
+              className="service-form-line-accent absolute bottom-0 left-0 h-[2rem] w-full origin-left scale-x-0 bg-[var(--mvp-accent)] transition-transform duration-500 group-focus-within:scale-x-100"
+              aria-hidden="true"
+            />
+          </label>
+
+          <label className="service-form-field group relative flex flex-col gap-[10rem] overflow-hidden pb-[4rem]">
+            <span className="service-form-label font-['Inter'] text-[14rem] font-semibold uppercase tracking-[.08em] text-[var(--mvp-primary)]/65">
+              Email Address <span className="text-[var(--mvp-accent)]">*</span>
+            </span>
+
+            <input
+              type="email"
+              name="email"
+              required
+              className="service-form-control h-[58rem] border-0 bg-transparent px-0 font-['Inter'] text-[20rem] font-normal text-[var(--mvp-primary)] outline-none placeholder:text-[var(--mvp-primary)]/30"
+              placeholder="Enter email address"
+            />
+
+            <span
+              className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--mvp-primary)]/25"
+              aria-hidden="true"
+            />
+
+            <span
+              className="service-form-line-accent absolute bottom-0 left-0 h-[2rem] w-full origin-left scale-x-0 bg-[var(--mvp-accent)] transition-transform duration-500 group-focus-within:scale-x-100"
+              aria-hidden="true"
+            />
+          </label>
+
+          <label className="service-form-field group relative col-span-2 flex flex-col gap-[10rem] overflow-hidden pb-[4rem] max-[760px]:col-span-1">
+            <span className="service-form-label font-['Inter'] text-[14rem] font-semibold uppercase tracking-[.08em] text-[var(--mvp-primary)]/65">
+              Service Required
+            </span>
+
+            <select
+              name="service"
+              defaultValue=""
+              className="service-form-control h-[58rem] cursor-pointer border-0 bg-transparent px-0 font-['Inter'] text-[20rem] font-normal text-[var(--mvp-primary)] outline-none"
+            >
+              <option value="" disabled>
+                Select a service
+              </option>
+
+              {services.map((service) => (
+                <option key={service.number} value={service.title}>
+                  {service.title}
+                </option>
+              ))}
+            </select>
+
+            <span
+              className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--mvp-primary)]/25"
+              aria-hidden="true"
+            />
+
+            <span
+              className="service-form-line-accent absolute bottom-0 left-0 h-[2rem] w-full origin-left scale-x-0 bg-[var(--mvp-accent)] transition-transform duration-500 group-focus-within:scale-x-100"
+              aria-hidden="true"
+            />
+          </label>
+
+          <label className="service-form-field group relative col-span-2 flex flex-col gap-[10rem] overflow-hidden pb-[4rem] max-[760px]:col-span-1">
+            <span className="service-form-label font-['Inter'] text-[14rem] font-semibold uppercase tracking-[.08em] text-[var(--mvp-primary)]/65">
+              Tell Us About Your Requirement
+            </span>
+
+            <textarea
+              name="requirement"
+              rows={5}
+              className="service-form-control min-h-[145rem] resize-y border-0 bg-transparent px-0 py-[16rem] font-['Inter'] text-[20rem] font-normal leading-[1.45] text-[var(--mvp-primary)] outline-none placeholder:text-[var(--mvp-primary)]/30"
+              placeholder="Tell us what you need"
+            />
+
+            <span
+              className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--mvp-primary)]/25"
+              aria-hidden="true"
+            />
+
+            <span
+              className="service-form-line-accent absolute bottom-0 left-0 h-[2rem] w-full origin-left scale-x-0 bg-[var(--mvp-accent)] transition-transform duration-500 group-focus-within:scale-x-100"
+              aria-hidden="true"
+            />
+          </label>
+
+          <div className="service-form-submit-wrap col-span-2 mt-[14rem] max-[760px]:col-span-1">
+            <button
+              type="submit"
+              className="mvp-btn mvp-btn-accent text-hover w-[390rem] max-w-full max-[640px]:w-full"
+            >
+              <span className="mvp-btn-inner text-hover-inner">
+                <span className="text-hover-elem text-hover-elem-1">
+                  Send Your Request
+                </span>
+
+                <span className="text-hover-elem text-hover-elem-2">
+                  Send Your Request
+                </span>
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
   );
 }
 
@@ -401,6 +809,84 @@ export default function ServicesPageClient(): React.JSX.Element {
   const progressWrapRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
 
+  const masterTriggerRef = useRef<ReturnType<
+    typeof ScrollTrigger.create
+  > | null>(null);
+
+  const masterTimelineRef = useRef<gsap.core.Timeline | null>(null);
+  const serviceTargetTimesRef = useRef<number[]>([]);
+  const activeServiceIndexRef = useRef(-1);
+  const jumpTweenRef = useRef<gsap.core.Tween | null>(null);
+  const autoSnapTweenRef = useRef<gsap.core.Tween | null>(null);
+  const autoSnapTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isAutoSnappingRef = useRef(false);
+  const serviceFullTargetTimesRef = useRef<number[]>([]);
+
+  const [activeServiceIndex, setActiveServiceIndex] = useState(-1);
+
+  const updateActiveService = (index: number) => {
+    if (activeServiceIndexRef.current === index) return;
+
+    activeServiceIndexRef.current = index;
+    setActiveServiceIndex(index);
+  };
+
+  const jumpToService = (index: number) => {
+    const service = services[index];
+
+    if (!service) return;
+
+    updateActiveService(index);
+
+    if (window.innerWidth <= 1024) {
+      document.getElementById(`service-${service.number}`)?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+
+      return;
+    }
+
+    const trigger = masterTriggerRef.current;
+    const timeline = masterTimelineRef.current;
+    const targetTime = serviceTargetTimesRef.current[index];
+
+    if (
+      !trigger ||
+      !timeline ||
+      typeof targetTime !== "number" ||
+      timeline.duration() <= 0
+    ) {
+      return;
+    }
+
+    const progress = Math.min(1, Math.max(0, targetTime / timeline.duration()));
+
+    const targetScroll =
+      trigger.start + (trigger.end - trigger.start) * progress;
+
+    jumpTweenRef.current?.kill();
+
+    const scrollState = {
+      y: window.scrollY,
+    };
+
+    jumpTweenRef.current = gsap.to(scrollState, {
+      y: targetScroll,
+      duration: 0.9,
+      ease: "power3.inOut",
+      overwrite: true,
+
+      onUpdate: () => {
+        window.scrollTo(0, scrollState.y);
+      },
+
+      onComplete: () => {
+        jumpTweenRef.current = null;
+      },
+    });
+  };
+
   useLayoutEffect(() => {
     if (
       !rootRef.current ||
@@ -408,10 +894,12 @@ export default function ServicesPageClient(): React.JSX.Element {
       !trackRef.current ||
       !progressWrapRef.current ||
       !progressRef.current
-    )
+    ) {
       return;
+    }
 
     gsap.registerPlugin(ScrollTrigger, SplitText);
+
     window.scrollTo(0, 0);
 
     const root = rootRef.current;
@@ -428,9 +916,11 @@ export default function ServicesPageClient(): React.JSX.Element {
       const heroTitle = servicesSection.querySelector<HTMLElement>(
         ".services-main-animated-text",
       );
+
       const heroCopy = servicesSection.querySelector<HTMLElement>(
         ".services-hero-copy",
       );
+
       let heroChars: HTMLElement[] = [];
 
       if (heroTitle) {
@@ -441,6 +931,7 @@ export default function ServicesPageClient(): React.JSX.Element {
         });
 
         splits.push(heroSplit);
+
         heroChars = heroSplit.chars as HTMLElement[];
 
         gsap.set(heroChars, {
@@ -460,12 +951,15 @@ export default function ServicesPageClient(): React.JSX.Element {
 
       const transitionPlug =
         root.querySelector<HTMLElement>(".transition-plug");
+
       const transitionInner = root.querySelector<HTMLElement>(
         ".transition-plug__inner",
       );
 
       if (transitionPlug) {
-        gsap.set(transitionPlug, { yPercent: 0 });
+        gsap.set(transitionPlug, {
+          yPercent: 0,
+        });
       }
 
       if (transitionInner) {
@@ -487,14 +981,26 @@ export default function ServicesPageClient(): React.JSX.Element {
       if (transitionInner) {
         entrance.fromTo(
           transitionInner,
-          { top: "auto", bottom: 0, height: "100%" },
-          { height: "0%" },
+          {
+            top: "auto",
+            bottom: 0,
+            height: "100%",
+          },
+          {
+            height: "0%",
+          },
           0,
         );
       }
 
       if (transitionPlug) {
-        entrance.to(transitionPlug, { yPercent: 105 }, 0.05);
+        entrance.to(
+          transitionPlug,
+          {
+            yPercent: 105,
+          },
+          0.05,
+        );
       }
 
       if (heroChars.length) {
@@ -527,18 +1033,27 @@ export default function ServicesPageClient(): React.JSX.Element {
 
       const playEntrance = () => {
         window.scrollTo(0, 0);
-        requestAnimationFrame(() => entrance.play(0));
+
+        requestAnimationFrame(() => {
+          entrance.play(0);
+        });
       };
 
       if (document.readyState === "complete") {
         playEntrance();
       } else {
-        window.addEventListener("load", playEntrance, { once: true });
-        listeners.push(() => window.removeEventListener("load", playEntrance));
+        window.addEventListener("load", playEntrance, {
+          once: true,
+        });
+
+        listeners.push(() => {
+          window.removeEventListener("load", playEntrance);
+        });
       }
 
       root.querySelectorAll<HTMLElement>(".text-hover").forEach((element) => {
         const lines = element.querySelectorAll<HTMLElement>(".text-hover-elem");
+
         if (!lines.length) return;
 
         lines.forEach((line) => {
@@ -554,6 +1069,7 @@ export default function ServicesPageClient(): React.JSX.Element {
         const first = element.querySelectorAll<HTMLElement>(
           ".text-hover-elem-1 .char",
         );
+
         const second = element.querySelectorAll<HTMLElement>(
           ".text-hover-elem-2 .char",
         );
@@ -567,43 +1083,70 @@ export default function ServicesPageClient(): React.JSX.Element {
           },
         });
 
-        if (first.length) timeline.to(first, { yPercent: -120 });
-        if (second.length) timeline.to(second, { yPercent: -100 }, 0);
+        if (first.length) {
+          timeline.to(first, {
+            yPercent: -120,
+          });
+        }
+
+        if (second.length) {
+          timeline.to(
+            second,
+            {
+              yPercent: -100,
+            },
+            0,
+          );
+        }
 
         const enter = () => {
-          if (window.innerWidth > 1024) timeline.play();
+          if (window.innerWidth > 1024) {
+            timeline.play();
+          }
         };
 
         const leave = () => {
-          if (window.innerWidth > 1024) timeline.reverse();
+          if (window.innerWidth > 1024) {
+            timeline.reverse();
+          }
         };
 
         element.addEventListener("mouseenter", enter);
+
         element.addEventListener("mouseleave", leave);
 
         listeners.push(() => {
           element.removeEventListener("mouseenter", enter);
+
           element.removeEventListener("mouseleave", leave);
+
           timeline.kill();
         });
       });
 
       const setupPanelSplits = (panel: HTMLElement) => {
         const localSplits: SplitText[] = [];
+
         const imageTitle = panel.querySelector<HTMLElement>(
           ".service-image-title",
         );
+
         const tagline = panel.querySelector<HTMLElement>(".service-tagline");
+
         const description = panel.querySelector<HTMLElement>(
           ".service-description",
         );
+
         const supporting = panel.querySelector<HTMLElement>(
           ".service-supporting",
         );
 
         let imageTitleWords: HTMLElement[] = [];
+
         let taglineWords: HTMLElement[] = [];
+
         let descriptionLines: HTMLElement[] = [];
+
         let supportingLines: HTMLElement[] = [];
 
         if (imageTitle) {
@@ -614,6 +1157,7 @@ export default function ServicesPageClient(): React.JSX.Element {
           });
 
           localSplits.push(split);
+
           imageTitleWords = split.words as HTMLElement[];
 
           gsap.set(split.lines, {
@@ -630,6 +1174,7 @@ export default function ServicesPageClient(): React.JSX.Element {
           });
 
           localSplits.push(split);
+
           taglineWords = split.words as HTMLElement[];
 
           gsap.set(split.lines, {
@@ -645,6 +1190,7 @@ export default function ServicesPageClient(): React.JSX.Element {
           });
 
           localSplits.push(split);
+
           descriptionLines = split.lines as HTMLElement[];
         }
 
@@ -655,6 +1201,7 @@ export default function ServicesPageClient(): React.JSX.Element {
           });
 
           localSplits.push(split);
+
           supportingLines = split.lines as HTMLElement[];
         }
 
@@ -672,26 +1219,37 @@ export default function ServicesPageClient(): React.JSX.Element {
           "[data-services-panel]",
           servicesSection,
         );
+
         const servicePanels = gsap.utils.toArray<HTMLElement>(
           "[data-service-panel]",
           servicesSection,
         );
+
         const reducedMotion = window.matchMedia(
           "(prefers-reduced-motion: reduce)",
         ).matches;
+
         const panelSplits: SplitText[] = [];
 
-        gsap.set(track, { x: 0 });
+        gsap.set(track, {
+          x: 0,
+        });
+
         gsap.set(progress, {
           width: "100%",
           scaleX: 0,
           transformOrigin: "left center",
         });
-        gsap.set(progressWrap, { opacity: 1 });
+
+        gsap.set(progressWrap, {
+          opacity: 1,
+        });
 
         if (reducedMotion) {
           const reducedTimeline = gsap.timeline({
-            defaults: { ease: "none" },
+            defaults: {
+              ease: "none",
+            },
           });
 
           panels.slice(1).forEach((_, index) => {
@@ -702,58 +1260,268 @@ export default function ServicesPageClient(): React.JSX.Element {
             });
           });
 
+          const reducedTargetTimes = servicePanels.map((_, index) => index + 1);
+
+          const reducedActivationTimes = servicePanels.map(
+            (_, index) => index + 0.5,
+          );
+
+          serviceTargetTimesRef.current = reducedTargetTimes;
+
+          masterTimelineRef.current = reducedTimeline;
+
           const reducedTrigger = ScrollTrigger.create({
             trigger: servicesSection,
+
             start: "top top",
+
             end: () =>
               `+=${window.innerWidth * Math.max(1, servicePanels.length)}`,
+
             pin: true,
             scrub: 1,
             anticipatePin: 1,
             invalidateOnRefresh: true,
             animation: reducedTimeline,
+
             onUpdate: (self) => {
-              gsap.set(progress, { scaleX: self.progress });
-              gsap.set(progressWrap, { opacity: self.progress > 0.97 ? 0 : 1 });
+              gsap.set(progress, {
+                scaleX: self.progress,
+              });
+
+              gsap.set(progressWrap, {
+                opacity: self.progress > 0.97 ? 0 : 1,
+              });
+
+              const currentTime = reducedTimeline.time();
+
+              let nextActiveIndex = -1;
+
+              reducedActivationTimes.forEach((activationTime, index) => {
+                if (currentTime >= activationTime) {
+                  nextActiveIndex = index;
+                }
+              });
+
+              updateActiveService(nextActiveIndex);
             },
           });
 
+          masterTriggerRef.current = reducedTrigger;
+
           return () => {
+            if (masterTriggerRef.current === reducedTrigger) {
+              masterTriggerRef.current = null;
+
+              masterTimelineRef.current = null;
+
+              serviceTargetTimesRef.current = [];
+            }
+
             reducedTrigger.kill();
             reducedTimeline.kill();
           };
         }
 
-        const master = gsap.timeline({ paused: true });
+        const master = gsap.timeline({
+          paused: true,
+        });
+
+        const serviceTargetTimes: number[] = [];
+
+        const serviceActivationTimes: number[] = [];
+
+        const serviceRevealFinishTimes: number[] = [];
+
+        const lockedPanels = new Set<number>();
+
+        const setPanelFinalState = (panel: HTMLElement) => {
+          const visualShell = panel.querySelector<HTMLElement>(
+            ".service-visual-shell",
+          );
+
+          const visualImage = panel.querySelector<HTMLElement>(
+            ".service-visual-image",
+          );
+
+          const visualOverlay = panel.querySelector<HTMLElement>(
+            ".service-visual-overlay",
+          );
+
+          const numberWrap = panel.querySelector<HTMLElement>(
+            ".service-number-wrap",
+          );
+
+          const imageTitleWords = panel.querySelectorAll<HTMLElement>(
+            ".service-image-title .word",
+          );
+
+          const copyPanel = panel.querySelector<HTMLElement>(
+            ".service-copy-panel",
+          );
+
+          const copyInner = panel.querySelector<HTMLElement>(
+            ".service-copy-inner",
+          );
+
+          const taglineWords = panel.querySelectorAll<HTMLElement>(
+            ".service-tagline .word",
+          );
+
+          const descriptionLines = panel.querySelectorAll<HTMLElement>(
+            ".service-description .service-copy-line",
+          );
+
+          const keypointLabel = panel.querySelector<HTMLElement>(
+            ".service-keypoints-label",
+          );
+
+          const keypointRows = panel.querySelectorAll<HTMLElement>(
+            ".service-keypoint-row",
+          );
+
+          const supportingLines = panel.querySelectorAll<HTMLElement>(
+            ".service-supporting .service-copy-line",
+          );
+
+          const cta = panel.querySelector<HTMLElement>(".service-cta");
+
+          if (visualShell) {
+            gsap.set(visualShell, {
+              clipPath: "inset(0 0% 0 0 round 0px)",
+            });
+          }
+
+          if (visualImage) {
+            gsap.set(visualImage, {
+              scale: 1,
+              xPercent: 0,
+              rotateZ: 0,
+            });
+          }
+
+          if (visualOverlay) {
+            gsap.set(visualOverlay, {
+              opacity: 1,
+            });
+          }
+
+          if (numberWrap) {
+            gsap.set(numberWrap, {
+              xPercent: 0,
+              opacity: 1,
+              skewX: 0,
+              rotateZ: 0,
+            });
+          }
+
+          if (imageTitleWords.length) {
+            gsap.set(imageTitleWords, {
+              yPercent: 0,
+              rotateX: 0,
+              rotateZ: 0,
+              opacity: 1,
+            });
+          }
+
+          if (copyPanel) {
+            gsap.set(copyPanel, {
+              clipPath: "inset(0 0 0 0%)",
+            });
+          }
+
+          if (copyInner) {
+            gsap.set(copyInner, {
+              x: 0,
+              opacity: 1,
+            });
+          }
+
+          if (taglineWords.length) {
+            gsap.set(taglineWords, {
+              yPercent: 0,
+              rotateX: 0,
+              rotateZ: 0,
+              opacity: 1,
+            });
+          }
+
+          if (descriptionLines.length) {
+            gsap.set(descriptionLines, {
+              x: 0,
+              y: 0,
+              opacity: 1,
+            });
+          }
+
+          if (keypointLabel) {
+            gsap.set(keypointLabel, {
+              x: 0,
+              opacity: 1,
+            });
+          }
+
+          if (keypointRows.length) {
+            gsap.set(keypointRows, {
+              x: 0,
+              opacity: 1,
+            });
+          }
+
+          if (supportingLines.length) {
+            gsap.set(supportingLines, {
+              y: 0,
+              opacity: 1,
+            });
+          }
+
+          if (cta) {
+            gsap.set(cta, {
+              x: 0,
+              y: 0,
+              opacity: 1,
+              scale: 1,
+            });
+          }
+        };
 
         servicePanels.forEach((panel, index) => {
           const visualShell = panel.querySelector<HTMLElement>(
             ".service-visual-shell",
           );
+
           const visualImage = panel.querySelector<HTMLElement>(
             ".service-visual-image",
           );
+
           const visualOverlay = panel.querySelector<HTMLElement>(
             ".service-visual-overlay",
           );
+
           const numberWrap = panel.querySelector<HTMLElement>(
             ".service-number-wrap",
           );
+
           const copyPanel = panel.querySelector<HTMLElement>(
             ".service-copy-panel",
           );
+
           const copyInner = panel.querySelector<HTMLElement>(
             ".service-copy-inner",
           );
+
           const contentSweep = panel.querySelector<HTMLElement>(
             ".service-content-sweep",
           );
+
           const keypointRows = panel.querySelectorAll<HTMLElement>(
             ".service-keypoint-row",
           );
+
           const keypointLabel = panel.querySelector<HTMLElement>(
             ".service-keypoints-label",
           );
+
           const cta = panel.querySelector<HTMLElement>(".service-cta");
 
           const {
@@ -768,53 +1536,55 @@ export default function ServicesPageClient(): React.JSX.Element {
 
           if (visualShell) {
             gsap.set(visualShell, {
-              clipPath: "inset(0 26% 0 0 round 0px)",
+              clipPath: "inset(0 12% 0 0 round 0px)",
               transformOrigin: "left center",
             });
           }
 
           if (visualImage) {
             gsap.set(visualImage, {
-              scale: 1.2,
-              xPercent: 9,
-              rotateZ: 1.4,
+              scale: 1.07,
+              xPercent: 0,
+              rotateZ: 0,
               transformOrigin: "50% 50%",
             });
           }
 
           if (visualOverlay) {
-            gsap.set(visualOverlay, { opacity: 0.28 });
+            gsap.set(visualOverlay, {
+              opacity: 0.55,
+            });
           }
 
           if (numberWrap) {
             gsap.set(numberWrap, {
-              xPercent: -95,
+              xPercent: 0,
+              y: 18,
               opacity: 0,
-              skewX: -13,
-              rotateZ: -3,
+              skewX: 0,
+              rotateZ: 0,
             });
           }
 
           if (imageTitleWords.length) {
             gsap.set(imageTitleWords, {
-              yPercent: 155,
-              rotateX: -82,
-              rotateZ: 2,
+              yPercent: 32,
+              rotateX: 0,
               opacity: 0,
               transformOrigin: "50% 100%",
-              transformPerspective: 1100,
+              transformPerspective: 900,
             });
           }
 
           if (copyPanel) {
             gsap.set(copyPanel, {
-              clipPath: "inset(0 0 0 14%)",
+              clipPath: "inset(0 0 0 0%)",
             });
           }
 
           if (copyInner) {
             gsap.set(copyInner, {
-              x: 105,
+              x: 0,
               opacity: 0,
             });
           }
@@ -828,66 +1598,83 @@ export default function ServicesPageClient(): React.JSX.Element {
 
           if (taglineWords.length) {
             gsap.set(taglineWords, {
-              yPercent: 145,
-              rotateX: -72,
-              rotateZ: 1.5,
+              yPercent: 34,
+              rotateX: 0,
               opacity: 0,
               transformOrigin: "50% 100%",
-              transformPerspective: 1100,
+              transformPerspective: 900,
             });
           }
 
           if (descriptionLines.length) {
             gsap.set(descriptionLines, {
-              y: 34,
-              x: 14,
+              y: 22,
               opacity: 0,
             });
           }
 
           if (keypointLabel) {
             gsap.set(keypointLabel, {
-              x: 50,
+              x: 24,
               opacity: 0,
             });
           }
 
           if (keypointRows.length) {
             gsap.set(keypointRows, {
-              x: 90,
+              x: 38,
               opacity: 0,
             });
           }
 
           if (supportingLines.length) {
             gsap.set(supportingLines, {
-              y: 28,
+              y: 18,
               opacity: 0,
             });
           }
 
           if (cta) {
             gsap.set(cta, {
-              y: 48,
-              x: 20,
+              y: 30,
               opacity: 0,
-              scale: 0.94,
+              scale: 0.975,
               transformOrigin: "left center",
             });
           }
 
           const segmentStart = master.duration();
-          const moveDuration = 0.92;
-          const settleDuration = 0.34;
-          const visualStart = segmentStart + 0.06;
-          const copyStart = segmentStart + 0.46;
+
+          const moveDuration = 0.82;
+
+          const panelLanding = segmentStart + moveDuration;
+
+          const visualQuickStart = segmentStart + moveDuration * 0.58;
+
+          const quickCopyStart = panelLanding - 0.08;
+
+          const quickCopyFinish = panelLanding + 0.28;
+
+          const detailsStart = panelLanding + 0.3;
+
+          const revealFinish = panelLanding + 1.26;
+
+          const holdDuration = 0.3;
+
+          const segmentEnd = revealFinish + holdDuration;
+
+          serviceActivationTimes[index] = segmentStart + moveDuration * 0.66;
+
+          serviceRevealFinishTimes[index] = revealFinish;
+
+          serviceTargetTimes[index] = quickCopyFinish;
 
           master.to(
             track,
             {
               x: () => -(index + 1) * window.innerWidth,
               duration: moveDuration,
-              ease: "power2.inOut",
+              ease: "power3.inOut",
             },
             segmentStart,
           );
@@ -897,10 +1684,10 @@ export default function ServicesPageClient(): React.JSX.Element {
               visualShell,
               {
                 clipPath: "inset(0 0% 0 0 round 0px)",
-                duration: 0.6,
-                ease: "power4.inOut",
+                duration: 0.34,
+                ease: "power3.out",
               },
-              visualStart,
+              visualQuickStart - 0.05,
             );
           }
 
@@ -908,13 +1695,13 @@ export default function ServicesPageClient(): React.JSX.Element {
             master.to(
               visualImage,
               {
-                scale: 1.035,
+                scale: 1,
                 xPercent: 0,
                 rotateZ: 0,
-                duration: 0.82,
+                duration: 0.48,
                 ease: "power3.out",
               },
-              visualStart,
+              visualQuickStart - 0.04,
             );
           }
 
@@ -923,10 +1710,10 @@ export default function ServicesPageClient(): React.JSX.Element {
               visualOverlay,
               {
                 opacity: 1,
-                duration: 0.5,
+                duration: 0.34,
                 ease: "power2.out",
               },
-              visualStart + 0.08,
+              visualQuickStart,
             );
           }
 
@@ -934,14 +1721,12 @@ export default function ServicesPageClient(): React.JSX.Element {
             master.to(
               numberWrap,
               {
-                xPercent: 0,
+                y: 0,
                 opacity: 1,
-                skewX: 0,
-                rotateZ: 0,
-                duration: 0.42,
-                ease: "power4.out",
+                duration: 0.28,
+                ease: "power3.out",
               },
-              visualStart + 0.22,
+              visualQuickStart + 0.03,
             );
           }
 
@@ -950,26 +1735,24 @@ export default function ServicesPageClient(): React.JSX.Element {
               imageTitleWords,
               {
                 yPercent: 0,
-                rotateX: 0,
-                rotateZ: 0,
                 opacity: 1,
-                duration: 0.46,
-                stagger: 0.026,
-                ease: "power4.out",
+                duration: 0.3,
+                stagger: 0.012,
+                ease: "power3.out",
               },
-              visualStart + 0.27,
+              visualQuickStart + 0.07,
             );
           }
 
-          if (copyPanel) {
+          if (copyInner) {
             master.to(
-              copyPanel,
+              copyInner,
               {
-                clipPath: "inset(0 0 0 0%)",
-                duration: 0.48,
-                ease: "power4.inOut",
+                opacity: 1,
+                duration: 0.24,
+                ease: "power2.out",
               },
-              copyStart - 0.08,
+              quickCopyStart,
             );
           }
 
@@ -979,34 +1762,21 @@ export default function ServicesPageClient(): React.JSX.Element {
                 contentSweep,
                 {
                   scaleY: 1,
-                  duration: 0.18,
+                  duration: 0.12,
                   ease: "power3.in",
                 },
-                copyStart - 0.06,
+                quickCopyStart,
               )
               .to(
                 contentSweep,
                 {
                   scaleY: 0,
                   transformOrigin: "bottom center",
-                  duration: 0.25,
+                  duration: 0.18,
                   ease: "power3.out",
                 },
-                copyStart + 0.16,
+                quickCopyStart + 0.12,
               );
-          }
-
-          if (copyInner) {
-            master.to(
-              copyInner,
-              {
-                x: 0,
-                opacity: 1,
-                duration: 0.46,
-                ease: "power3.out",
-              },
-              copyStart,
-            );
           }
 
           if (taglineWords.length) {
@@ -1014,14 +1784,12 @@ export default function ServicesPageClient(): React.JSX.Element {
               taglineWords,
               {
                 yPercent: 0,
-                rotateX: 0,
-                rotateZ: 0,
                 opacity: 1,
-                duration: 0.42,
-                stagger: 0.018,
-                ease: "power4.out",
+                duration: 0.32,
+                stagger: 0.012,
+                ease: "power3.out",
               },
-              copyStart + 0.04,
+              quickCopyStart + 0.02,
             );
           }
 
@@ -1030,13 +1798,12 @@ export default function ServicesPageClient(): React.JSX.Element {
               descriptionLines,
               {
                 y: 0,
-                x: 0,
                 opacity: 1,
-                duration: 0.34,
-                stagger: 0.03,
-                ease: "power3.out",
+                duration: 0.3,
+                stagger: 0.018,
+                ease: "power2.out",
               },
-              copyStart + 0.16,
+              quickCopyStart + 0.12,
             );
           }
 
@@ -1046,10 +1813,10 @@ export default function ServicesPageClient(): React.JSX.Element {
               {
                 x: 0,
                 opacity: 1,
-                duration: 0.28,
+                duration: 0.25,
                 ease: "power3.out",
               },
-              copyStart + 0.26,
+              detailsStart,
             );
           }
 
@@ -1060,10 +1827,10 @@ export default function ServicesPageClient(): React.JSX.Element {
                 x: 0,
                 opacity: 1,
                 duration: 0.34,
-                stagger: 0.045,
-                ease: "power4.out",
+                stagger: 0.11,
+                ease: "power3.out",
               },
-              copyStart + 0.3,
+              detailsStart + 0.1,
             );
           }
 
@@ -1073,11 +1840,11 @@ export default function ServicesPageClient(): React.JSX.Element {
               {
                 y: 0,
                 opacity: 1,
-                duration: 0.3,
-                stagger: 0.025,
+                duration: 0.32,
+                stagger: 0.035,
                 ease: "power3.out",
               },
-              copyStart + 0.48,
+              detailsStart + 0.62,
             );
           }
 
@@ -1086,58 +1853,313 @@ export default function ServicesPageClient(): React.JSX.Element {
               cta,
               {
                 y: 0,
-                x: 0,
                 opacity: 1,
                 scale: 1,
-                duration: 0.35,
-                ease: "back.out(1.55)",
+                duration: 0.36,
+                ease: "back.out(1.3)",
               },
-              copyStart + 0.56,
-            );
-          }
-
-          if (visualImage) {
-            master.to(
-              visualImage,
-              {
-                scale: 1,
-                xPercent: -2.5,
-                duration: settleDuration,
-                ease: "none",
-              },
-              segmentStart + moveDuration,
+              detailsStart + 0.78,
             );
           }
 
           master.to(
             {},
-            { duration: settleDuration },
-            segmentStart + moveDuration,
+            {
+              duration: holdDuration,
+            },
+            revealFinish,
+          );
+
+          master.to(
+            {},
+            {
+              duration: 0.001,
+            },
+            segmentEnd,
           );
         });
 
+        serviceTargetTimesRef.current = serviceTargetTimes;
+
+        serviceFullTargetTimesRef.current = serviceRevealFinishTimes;
+
+        masterTimelineRef.current = master;
+
         const masterTrigger = ScrollTrigger.create({
           trigger: servicesSection,
+
           start: "top top",
+
           end: () => `+=${window.innerWidth * Math.max(master.duration(), 1)}`,
+
           pin: true,
-          scrub: 1,
+          scrub: 0.7,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           animation: master,
+
           onUpdate: (self) => {
-            gsap.set(progress, { scaleX: self.progress });
+            gsap.set(progress, {
+              scaleX: self.progress,
+            });
+
             gsap.to(progressWrap, {
               opacity: self.progress > 0.97 ? 0 : 1,
+
               duration: 0.2,
               overwrite: true,
+            });
+
+            const currentTime = master.time();
+
+            let nextActiveIndex = -1;
+
+            serviceActivationTimes.forEach((activationTime, index) => {
+              if (currentTime >= activationTime) {
+                nextActiveIndex = index;
+              }
+            });
+
+            updateActiveService(nextActiveIndex);
+
+            serviceRevealFinishTimes.forEach((finishTime, index) => {
+              if (currentTime >= finishTime) {
+                lockedPanels.add(index);
+              }
+            });
+
+            if (self.direction < 0 && nextActiveIndex >= 0) {
+              lockedPanels.add(nextActiveIndex);
+            }
+
+            lockedPanels.forEach((panelIndex) => {
+              const panel = servicePanels[panelIndex];
+
+              if (panel) {
+                setPanelFinalState(panel);
+              }
             });
           },
         });
 
+        masterTriggerRef.current = masterTrigger;
+
+        const clearAutoSnapTimer = () => {
+          if (!autoSnapTimerRef.current) {
+            return;
+          }
+
+          clearTimeout(autoSnapTimerRef.current);
+
+          autoSnapTimerRef.current = null;
+        };
+
+        const cancelAutoSnapTween = () => {
+          if (!isAutoSnappingRef.current) {
+            return;
+          }
+
+          autoSnapTweenRef.current?.kill();
+
+          autoSnapTweenRef.current = null;
+
+          isAutoSnappingRef.current = false;
+        };
+
+        const snapToDominantPanel = () => {
+          autoSnapTimerRef.current = null;
+
+          if (
+            isAutoSnappingRef.current ||
+            window.innerWidth <= 1024 ||
+            !masterTriggerRef.current ||
+            master.duration() <= 0
+          ) {
+            return;
+          }
+
+          const trigger = masterTriggerRef.current;
+
+          const currentScroll = window.scrollY;
+
+          if (
+            currentScroll < trigger.start - 2 ||
+            currentScroll > trigger.end + 2
+          ) {
+            return;
+          }
+
+          const trackX = Number(gsap.getProperty(track, "x")) || 0;
+
+          const panelPosition = Math.max(
+            0,
+            Math.min(
+              servicePanels.length,
+              Math.abs(trackX) / Math.max(window.innerWidth, 1),
+            ),
+          );
+
+          const dominantPanel = Math.round(panelPosition);
+
+          const distanceFromAligned = Math.abs(panelPosition - dominantPanel);
+
+          const currentTimelineTime = master.time();
+
+          let targetTime = 0;
+          let targetServiceIndex = -1;
+
+          if (dominantPanel > 0) {
+            targetServiceIndex = dominantPanel - 1;
+
+            const fullTargetTime =
+              serviceFullTargetTimesRef.current[targetServiceIndex];
+
+            if (typeof fullTargetTime !== "number") {
+              return;
+            }
+
+            const panelIsAligned = distanceFromAligned < 0.025;
+
+            const contentIsComplete =
+              currentTimelineTime >= fullTargetTime - 0.025;
+
+            if (panelIsAligned && contentIsComplete) {
+              return;
+            }
+
+            targetTime = fullTargetTime;
+          } else {
+            if (distanceFromAligned < 0.025) {
+              return;
+            }
+
+            targetTime = 0;
+          }
+
+          const targetProgress = Math.min(
+            1,
+            Math.max(0, targetTime / master.duration()),
+          );
+
+          const targetScroll =
+            trigger.start + (trigger.end - trigger.start) * targetProgress;
+
+          jumpTweenRef.current?.kill();
+
+          autoSnapTweenRef.current?.kill();
+
+          const scrollState = {
+            y: window.scrollY,
+          };
+
+          isAutoSnappingRef.current = true;
+
+          autoSnapTweenRef.current = gsap.to(scrollState, {
+            y: targetScroll,
+            duration: 0.95,
+            ease: "power3.inOut",
+            overwrite: true,
+
+            onUpdate: () => {
+              window.scrollTo(0, scrollState.y);
+            },
+
+            onComplete: () => {
+              autoSnapTweenRef.current = null;
+
+              isAutoSnappingRef.current = false;
+
+              if (targetServiceIndex >= 0) {
+                updateActiveService(targetServiceIndex);
+
+                const panel = servicePanels[targetServiceIndex];
+
+                if (panel) {
+                  lockedPanels.add(targetServiceIndex);
+
+                  setPanelFinalState(panel);
+                }
+              } else {
+                updateActiveService(-1);
+              }
+            },
+          });
+        };
+
+        const scheduleAutoSnap = () => {
+          clearAutoSnapTimer();
+
+          if (isAutoSnappingRef.current || window.innerWidth <= 1024) {
+            return;
+          }
+
+          const trigger = masterTriggerRef.current;
+
+          if (!trigger) return;
+
+          const currentScroll = window.scrollY;
+
+          if (
+            currentScroll < trigger.start - 2 ||
+            currentScroll > trigger.end + 2
+          ) {
+            return;
+          }
+
+          autoSnapTimerRef.current = setTimeout(() => {
+            snapToDominantPanel();
+          }, 2000);
+        };
+
+        const handleUserInterrupt = () => {
+          if (isAutoSnappingRef.current) {
+            cancelAutoSnapTween();
+          }
+
+          clearAutoSnapTimer();
+        };
+
+        window.addEventListener("scroll", scheduleAutoSnap, {
+          passive: true,
+        });
+
+        window.addEventListener("wheel", handleUserInterrupt, {
+          passive: true,
+        });
+
+        window.addEventListener("touchstart", handleUserInterrupt, {
+          passive: true,
+        });
+
+        window.addEventListener("pointerdown", handleUserInterrupt, {
+          passive: true,
+        });
+
         return () => {
+          window.removeEventListener("scroll", scheduleAutoSnap);
+
+          window.removeEventListener("wheel", handleUserInterrupt);
+
+          window.removeEventListener("touchstart", handleUserInterrupt);
+
+          window.removeEventListener("pointerdown", handleUserInterrupt);
+
+          clearAutoSnapTimer();
+          cancelAutoSnapTween();
+
+          if (masterTriggerRef.current === masterTrigger) {
+            masterTriggerRef.current = null;
+
+            masterTimelineRef.current = null;
+
+            serviceTargetTimesRef.current = [];
+
+            serviceFullTargetTimesRef.current = [];
+          }
+
           masterTrigger.kill();
           master.kill();
+
           panelSplits.forEach((split) => split.revert());
         };
       });
@@ -1147,37 +2169,52 @@ export default function ServicesPageClient(): React.JSX.Element {
           "[data-service-panel]",
           servicesSection,
         );
+
         const reducedMotion = window.matchMedia(
           "(prefers-reduced-motion: reduce)",
         ).matches;
+
         const mobileTimelines: gsap.core.Timeline[] = [];
+
         const mobileSplits: SplitText[] = [];
 
-        gsap.set(track, { clearProps: "transform" });
-        gsap.set(progressWrap, { display: "none" });
+        gsap.set(track, {
+          clearProps: "transform",
+        });
+
+        gsap.set(progressWrap, {
+          display: "none",
+        });
 
         servicePanels.forEach((panel) => {
           const visualShell = panel.querySelector<HTMLElement>(
             ".service-visual-shell",
           );
+
           const visualImage = panel.querySelector<HTMLElement>(
             ".service-visual-image",
           );
+
           const numberWrap = panel.querySelector<HTMLElement>(
             ".service-number-wrap",
           );
+
           const copyPanel = panel.querySelector<HTMLElement>(
             ".service-copy-panel",
           );
+
           const contentSweep = panel.querySelector<HTMLElement>(
             ".service-content-sweep",
           );
+
           const keypointRows = panel.querySelectorAll<HTMLElement>(
             ".service-keypoint-row",
           );
+
           const keypointLabel = panel.querySelector<HTMLElement>(
             ".service-keypoints-label",
           );
+
           const cta = panel.querySelector<HTMLElement>(".service-cta");
 
           const {
@@ -1190,7 +2227,9 @@ export default function ServicesPageClient(): React.JSX.Element {
 
           mobileSplits.push(...localSplits);
 
-          if (reducedMotion) return;
+          if (reducedMotion) {
+            return;
+          }
 
           if (visualShell) {
             gsap.set(visualShell, {
@@ -1276,6 +2315,7 @@ export default function ServicesPageClient(): React.JSX.Element {
             const visualTimeline = gsap.timeline({
               scrollTrigger: {
                 trigger: visualShell,
+
                 start: "top 90%",
                 end: "top 42%",
                 scrub: 0.7,
@@ -1340,6 +2380,7 @@ export default function ServicesPageClient(): React.JSX.Element {
             const copyTimeline = gsap.timeline({
               scrollTrigger: {
                 trigger: copyPanel,
+
                 start: "top 88%",
                 end: "top 38%",
                 scrub: 0.7,
@@ -1466,20 +2507,285 @@ export default function ServicesPageClient(): React.JSX.Element {
         };
       });
 
-      requestAnimationFrame(() => ScrollTrigger.refresh());
+      const inquirySection = root.querySelector<HTMLElement>(
+        ".services-inquiry-section",
+      );
+
+      const inquiryFrame = root.querySelector<HTMLElement>(
+        ".services-inquiry-frame",
+      );
+
+      const inquiryTop = root.querySelector<HTMLElement>(
+        ".services-inquiry-top",
+      );
+
+      const inquiryTitle = root.querySelector<HTMLElement>(
+        ".services-inquiry-title",
+      );
+
+      const inquiryForm = root.querySelector<HTMLElement>(
+        ".services-inquiry-form",
+      );
+
+      const inquiryFields = root.querySelectorAll<HTMLElement>(
+        ".service-form-field",
+      );
+
+      const inquiryLabels = root.querySelectorAll<HTMLElement>(
+        ".service-form-label",
+      );
+
+      const inquiryControls = root.querySelectorAll<HTMLElement>(
+        ".service-form-control",
+      );
+
+      const inquiryLines =
+        root.querySelectorAll<HTMLElement>(".service-form-line");
+
+      const inquirySubmit = root.querySelector<HTMLElement>(
+        ".service-form-submit-wrap",
+      );
+
+      if (inquirySection && inquiryFrame) {
+        gsap.set(inquiryFrame, {
+          scale: 0.72,
+          transformOrigin: "50% 50%",
+        });
+
+        gsap.to(inquiryFrame, {
+          scale: 1,
+          ease: "none",
+
+          scrollTrigger: {
+            trigger: inquirySection,
+
+            start: "top bottom",
+            end: "center center",
+            scrub: true,
+          },
+        });
+
+        if (inquiryTop) {
+          gsap.set(inquiryTop, {
+            opacity: 0,
+          });
+
+          gsap.to(inquiryTop, {
+            opacity: 1,
+            duration: 1,
+            ease: "power4.inOut",
+
+            scrollTrigger: {
+              trigger: inquiryTop,
+
+              start: "center 92%",
+
+              toggleActions: "play none none none",
+            },
+          });
+        }
+
+        if (inquiryTitle) {
+          const inquiryTitleSplit = new SplitText(inquiryTitle, {
+            type: "chars,words",
+            charsClass: "char",
+            wordsClass: "word",
+          });
+
+          splits.push(inquiryTitleSplit);
+
+          gsap.set(inquiryTitleSplit.chars, {
+            willChange: "transform",
+
+            transformOrigin: "50% 0%",
+
+            scaleY: 0,
+            opacity: 0,
+          });
+
+          gsap.to(inquiryTitleSplit.chars, {
+            scaleY: 1,
+            opacity: 1,
+            duration: 0.85,
+            stagger: 0.025,
+
+            ease: "back.out(1.7)",
+
+            scrollTrigger: {
+              trigger: inquiryTitle,
+
+              start: "center bottom-=5%",
+
+              toggleActions: "play none none none",
+            },
+          });
+        }
+
+        if (inquiryForm) {
+          gsap.set(inquiryForm, {
+            opacity: 0,
+          });
+
+          gsap.to(inquiryForm, {
+            opacity: 1,
+            duration: 0.55,
+            ease: "power2.out",
+
+            scrollTrigger: {
+              trigger: inquiryForm,
+
+              start: "top 88%",
+
+              toggleActions: "play none none none",
+            },
+          });
+        }
+
+        if (inquiryFields.length) {
+          gsap.set(inquiryFields, {
+            y: 58,
+            opacity: 0,
+
+            clipPath: "inset(0 0 100% 0)",
+          });
+
+          gsap.to(inquiryFields, {
+            y: 0,
+            opacity: 1,
+
+            clipPath: "inset(0 0 0% 0)",
+
+            duration: 0.85,
+            stagger: 0.075,
+            ease: "power4.out",
+
+            scrollTrigger: {
+              trigger: inquiryForm ?? inquirySection,
+
+              start: "top 84%",
+
+              toggleActions: "play none none none",
+            },
+          });
+        }
+
+        if (inquiryLabels.length) {
+          gsap.set(inquiryLabels, {
+            x: 28,
+            opacity: 0,
+          });
+
+          gsap.to(inquiryLabels, {
+            x: 0,
+            opacity: 1,
+            duration: 0.65,
+            stagger: 0.055,
+            ease: "power3.out",
+
+            scrollTrigger: {
+              trigger: inquiryForm ?? inquirySection,
+
+              start: "top 82%",
+
+              toggleActions: "play none none none",
+            },
+          });
+        }
+
+        if (inquiryControls.length) {
+          gsap.set(inquiryControls, {
+            y: 24,
+            opacity: 0,
+          });
+
+          gsap.to(inquiryControls, {
+            y: 0,
+            opacity: 1,
+            duration: 0.7,
+            stagger: 0.06,
+            ease: "power3.out",
+
+            scrollTrigger: {
+              trigger: inquiryForm ?? inquirySection,
+
+              start: "top 80%",
+
+              toggleActions: "play none none none",
+            },
+          });
+        }
+
+        if (inquiryLines.length) {
+          gsap.set(inquiryLines, {
+            scaleX: 0,
+
+            transformOrigin: "left center",
+          });
+
+          gsap.to(inquiryLines, {
+            scaleX: 1,
+            duration: 0.8,
+            stagger: 0.06,
+            ease: "power4.out",
+
+            scrollTrigger: {
+              trigger: inquiryForm ?? inquirySection,
+
+              start: "top 78%",
+
+              toggleActions: "play none none none",
+            },
+          });
+        }
+
+        if (inquirySubmit) {
+          gsap.set(inquirySubmit, {
+            y: 55,
+            opacity: 0,
+            scale: 0.94,
+
+            transformOrigin: "left center",
+          });
+
+          gsap.to(inquirySubmit, {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.8,
+
+            ease: "back.out(1.5)",
+
+            scrollTrigger: {
+              trigger: inquirySubmit,
+
+              start: "top 92%",
+
+              toggleActions: "play none none none",
+            },
+          });
+        }
+      }
+
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh();
+      });
     }, root);
 
     let resizeTimer: ReturnType<typeof setTimeout> | null = null;
 
     const handleResize = () => {
-      if (resizeTimer) clearTimeout(resizeTimer);
+      if (resizeTimer) {
+        clearTimeout(resizeTimer);
+      }
 
       resizeTimer = setTimeout(() => {
         ScrollTrigger.refresh();
       }, 150);
     };
 
-    window.addEventListener("resize", handleResize, { passive: true });
+    window.addEventListener("resize", handleResize, {
+      passive: true,
+    });
 
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -1488,8 +2794,29 @@ export default function ServicesPageClient(): React.JSX.Element {
         clearTimeout(resizeTimer);
       }
 
-      listeners.forEach((cleanup) => cleanup());
-      splits.forEach((split) => split.revert());
+      jumpTweenRef.current?.kill();
+      jumpTweenRef.current = null;
+
+      if (autoSnapTimerRef.current) {
+        clearTimeout(autoSnapTimerRef.current);
+
+        autoSnapTimerRef.current = null;
+      }
+
+      autoSnapTweenRef.current?.kill();
+
+      autoSnapTweenRef.current = null;
+
+      isAutoSnappingRef.current = false;
+
+      listeners.forEach((cleanup) => {
+        cleanup();
+      });
+
+      splits.forEach((split) => {
+        split.revert();
+      });
+
       mm.revert();
       ctx.revert();
     };
@@ -1504,6 +2831,11 @@ export default function ServicesPageClient(): React.JSX.Element {
           ref={servicesRef}
           className="hero-services relative min-[1025px]:h-[100svh]"
         >
+          <ServiceNavigator
+            activeIndex={activeServiceIndex}
+            onSelect={jumpToService}
+          />
+
           <div
             ref={trackRef}
             className="hero-services__x-scroll flex w-full flex-col min-[1025px]:h-full min-[1025px]:w-max min-[1025px]:flex-row"
@@ -1521,6 +2853,7 @@ export default function ServicesPageClient(): React.JSX.Element {
                 sizes="100vw"
                 className="object-cover object-center"
               />
+
               <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,18,55,.18)_0%,rgba(10,18,55,.38)_48%,rgba(10,18,55,.82)_100%)]" />
 
               <div className="mvp-container relative z-[2] flex w-full items-end justify-between gap-[70rem] max-[1024px]:flex-col max-[1024px]:items-start max-[1024px]:gap-[30rem]">
@@ -1539,6 +2872,7 @@ export default function ServicesPageClient(): React.JSX.Element {
                       working conditions all influence how transportation should
                       be handled.
                     </p>
+
                     <p>
                       Difference Integrated provides specialized transport and
                       logistics services shaped around the operational
@@ -1557,7 +2891,7 @@ export default function ServicesPageClient(): React.JSX.Element {
                 data-service-panel
                 className="flex h-auto min-h-[650rem] w-full shrink-0 flex-col bg-white min-[1025px]:h-[100svh] min-[1025px]:w-screen min-[1025px]:flex-row"
               >
-                <div className="service-visual-shell relative flex h-[395rem] w-full shrink-0 items-end overflow-hidden px-[20rem] py-[20rem] min-[1025px]:h-full min-[1025px]:w-[955rem] min-[1025px]:px-[40rem]">
+                <div className="service-visual-shell relative flex h-[395rem] w-full shrink-0 items-end overflow-hidden px-[20rem] py-[20rem] min-[1025px]:h-full min-[1025px]:w-[50vw] min-[1025px]:px-[40rem] min-[1025px]:pb-[34rem]">
                   <Image
                     src={service.image}
                     alt={service.title}
@@ -1567,6 +2901,7 @@ export default function ServicesPageClient(): React.JSX.Element {
                     sizes="(max-width: 1024px) 100vw, 50vw"
                     className="service-visual-image object-cover object-center"
                   />
+
                   <div className="service-visual-overlay absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-transparent" />
 
                   <div className="relative z-[2] flex items-end gap-[65rem] text-white max-[1024px]:flex-col max-[1024px]:items-start max-[1024px]:gap-[10rem]">
@@ -1574,6 +2909,7 @@ export default function ServicesPageClient(): React.JSX.Element {
                       <span className="text-[150rem] leading-[0.8] max-[1024px]:text-[100rem]">
                         {service.number}
                       </span>
+
                       <span className="mb-[8rem] font-['Inter'] text-[16rem] font-medium leading-none text-white/75 max-[1024px]:mb-[4rem]">
                         / 10
                       </span>
@@ -1585,21 +2921,22 @@ export default function ServicesPageClient(): React.JSX.Element {
                   </div>
                 </div>
 
-                <div className="service-copy-panel relative flex flex-1 flex-col justify-between overflow-hidden bg-white px-[clamp(45rem,5vw,110rem)] pb-[32rem] pt-[55rem] max-[1024px]:gap-[35rem] max-[1024px]:px-[20rem] max-[1024px]:pb-[80rem] max-[1024px]:pt-[40rem]">
+                <div className="service-copy-panel relative flex flex-1 flex-col justify-between overflow-hidden bg-white px-[clamp(42rem,4.6vw,96rem)] pb-[38rem] pt-[clamp(102rem,7vw,128rem)] min-[1025px]:h-full min-[1025px]:w-[50vw] max-[1024px]:gap-[35rem] max-[1024px]:px-[20rem] max-[1024px]:pb-[80rem] max-[1024px]:pt-[40rem]">
                   <span
                     className="service-content-sweep pointer-events-none absolute inset-y-0 left-0 z-[3] w-[8rem] bg-[var(--mvp-accent)] max-[1024px]:inset-x-0 max-[1024px]:bottom-auto max-[1024px]:h-[5rem] max-[1024px]:w-full"
                     aria-hidden="true"
                   />
-                  <div className="service-copy-inner max-w-[760rem]">
-                    <h3 className="service-tagline text-[60rem] font-bold uppercase leading-[54rem] max-[1024px]:text-[38rem] max-[1024px]:leading-[36rem]">
+
+                  <div className="service-copy-inner max-w-[720rem]">
+                    <h3 className="service-tagline text-[56rem] font-bold uppercase leading-[0.92] tracking-[-0.012em] max-[1024px]:text-[38rem] max-[1024px]:leading-[36rem]">
                       {service.tagline}
                     </h3>
 
-                    <p className="service-description mt-[16rem] font-['Inter'] text-[20rem] font-normal leading-[27rem] text-[var(--mvp-primary)]/90 max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
+                    <p className="service-description mt-[18rem] max-w-[700rem] font-['Inter'] text-[19rem] font-normal leading-[27rem] text-[var(--mvp-primary)]/88 max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
                       {service.description}
                     </p>
 
-                    <div className="mt-[22rem]">
+                    <div className="mt-[26rem]">
                       <p className="service-keypoints-label mb-[10rem] text-[18rem] font-bold uppercase tracking-[0.04em]">
                         Key Points
                       </p>
@@ -1607,12 +2944,12 @@ export default function ServicesPageClient(): React.JSX.Element {
                       <KeyPointsAccordion points={service.points} />
                     </div>
 
-                    <p className="service-supporting mt-[18rem] max-w-[700rem] font-['Inter'] text-[17rem] font-normal leading-[23rem] text-[var(--mvp-primary)]/85 max-[1024px]:text-[15rem] max-[1024px]:leading-[21rem]">
+                    <p className="service-supporting mt-[20rem] max-w-[680rem] font-['Inter'] text-[16rem] font-normal leading-[23rem] text-[var(--mvp-primary)]/76 max-[1024px]:text-[15rem] max-[1024px]:leading-[21rem]">
                       {service.supportingCopy}
                     </p>
                   </div>
 
-                  <div className="service-cta">
+                  <div className="service-cta mt-[26rem] max-w-[545rem]">
                     <ServiceButton />
                   </div>
                 </div>
@@ -1630,6 +2967,8 @@ export default function ServicesPageClient(): React.JSX.Element {
             />
           </div>
         </section>
+
+        <ServicesInquiryForm />
       </main>
     </div>
   );

@@ -17,7 +17,7 @@ export function Footer() {
         <div className="flex flex-col gap-[275rem] max-[1024px]:gap-[60rem]">
           <div className="flex items-start justify-between max-[1024px]:flex-col max-[1024px]:items-stretch">
             <a
-              href="https://mvplogistics.eu/en/main-en/"
+              href="/"
               className="flex max-[1024px]:hidden"
             >
               <img
@@ -63,7 +63,7 @@ export function Footer() {
                 </div>
 
                 <a
-                  href="https://mvplogistics.eu/en/privacy-policy/"
+                  href="/privacy-policy"
                   className="text-hover text-[12rem] uppercase max-[1024px]:hidden"
                 >
                   <HoverText>Privacy Policy</HoverText>

@@ -9,7 +9,7 @@ export const navItems = [
   },
   {
     label: "Blog",
-    href: "/blog",
+    href: "#",
   },
   {
     label: "Contacts",
@@ -101,6 +101,7 @@ export const services = [
     number: "01",
     heading: "Construction Logistics",
     text: "Transportation and logistics support for construction and infrastructure projects.",
+    image: "/assets/img/home/services/construction-logistics.webp",
     accent: false,
   },
   {
@@ -108,6 +109,7 @@ export const services = [
     number: "02",
     heading: "Sand Transportation",
     text: "Sand movement from source and supply locations to construction and development sites.",
+    image: "/assets/img/home/services/sand-transportation.webp",
     accent: true,
   },
   {
@@ -115,6 +117,7 @@ export const services = [
     number: "03",
     heading: "Heavy Dumper Logistics",
     text: "Heavy-duty dumper operations for demanding construction environments and continuous project schedules.",
+    image: "/assets/img/home/services/heavy-dumper-logistics.webp",
     accent: false,
   },
   {
@@ -122,6 +125,7 @@ export const services = [
     number: "04",
     heading: "Logistics Coordination",
     text: "Route planning, scheduling, dispatch, fleet monitoring and delivery coordination.",
+    image: "/assets/img/home/services/logistics-coordination.webp",
     accent: true,
   },
   {
@@ -129,6 +133,7 @@ export const services = [
     number: "05",
     heading: "Container Transportation",
     text: "Container and containerised cargo movement with route coordination and scheduled delivery.",
+    image: "/assets/img/home/services/container-transportation.webp",
     accent: false,
   },
   {
@@ -136,6 +141,7 @@ export const services = [
     number: "06",
     heading: "Fuel & Tanker Transportation",
     text: "Coordinated tanker transportation supported by scheduling, route management and regulatory compliance.",
+    image: "/assets/img/home/services/fuel-tanker-transportation.webp",
     accent: true,
   },
   {
@@ -143,6 +149,8 @@ export const services = [
     number: "07",
     heading: "Bulk Construction Material Transport",
     text: "Reliable transport of sand, aggregates, fill materials and other high-volume construction materials.",
+    image:
+      "/assets/img/home/services/bulk-construction-material.webp",
     accent: false,
   },
   {
@@ -150,6 +158,7 @@ export const services = [
     number: "08",
     heading: "Fleet & Equipment",
     text: "Heavy-duty transportation vehicles and equipment supporting diverse logistics requirements.",
+    image: "/assets/img/home/services/fleet-equipment.webp",
     accent: true,
   },
   {
@@ -157,6 +166,8 @@ export const services = [
     number: "09",
     heading: "Aggregate & Construction Material Transportation",
     text: "Reliable movement of aggregates, fill materials, sand and other bulk construction materials.",
+    image:
+      "/assets/img/home/services/aggregate-construction-material-transportation.webp",
     accent: false,
   },
   {
@@ -164,6 +175,7 @@ export const services = [
     number: "10",
     heading: "General Freight & Logistics Solutions",
     text: "Flexible transportation support for general cargo, freight movement, route planning and delivery coordination.",
+    image: "/assets/img/home/services/general-freight-logistics-solutions.webp",
     accent: true,
   },
 ];
@@ -215,23 +227,24 @@ export const footerColumns = [
   },
   {
     heading: "About Us",
-    href: "https://mvplogistics.eu/en/about-en/",
+    href: "/about",
     items: ["Why Us?", "Our Main Goals", "Key Advantages"],
   },
   {
     heading: "Blog",
-    href: "https://mvplogistics.eu/en/blog-en/",
+    href: "/blog",
     items: ["General materials"],
   },
   {
     heading: "Contacts",
-    href: "https://mvplogistics.eu/en/contacts-en/",
+    href: "/contact",
     items: ["Our Contacts", "Contact Us"],
   },
 ];
 
 export const videoSources = {
   hero: "/assets/img/video-bg.mp4",
+
   footer:
     "https://mvplogistics.eu/wp-content/themes/mvp/assets/img/home/videos/footer.mp4",
 };
