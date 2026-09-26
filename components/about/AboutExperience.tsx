@@ -12,6 +12,8 @@ import { AnimatedButton } from "@/components/ui/AnimatedButton";
 import { PageTransition } from "@/components/ui/PageTransition";
 import { Contact } from "@/components/home/Contact";
 
+const SERVICES_SNAP_DELAY = 1;
+
 const goals = [
   {
     number: "01",
@@ -253,7 +255,6 @@ function Goals() {
                 <h3 className="mb-[18rem] text-[60rem] font-bold leading-[54rem] uppercase max-[1024px]:text-[42rem] max-[1024px]:leading-[40rem]">
                   {goal.heading}
                 </h3>
-
                 <p className="max-w-[440rem] font-['Inter'] text-[20rem] font-normal leading-[27rem] max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
                   {goal.text}
                 </p>
@@ -300,7 +301,6 @@ function WhatShapesEveryOperation() {
                     <h3 className="mb-[22rem] text-[60rem] font-bold leading-[54rem] uppercase max-[1024px]:mb-[15rem] max-[1024px]:text-[38rem] max-[1024px]:leading-[36rem]">
                       {item.heading}
                     </h3>
-
                     <p className="font-['Inter'] text-[20rem] font-normal leading-[27rem] normal-case max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
                       {item.text}
                     </p>
@@ -330,7 +330,6 @@ function Mission() {
               connecting the details that matter before, during, and at the end
               of every trip.
             </h3>
-
             <h3 className="mb-[45rem] text-[60rem] font-bold leading-[54rem] uppercase max-[1024px]:mb-[30rem] max-[1024px]:text-[42rem] max-[1024px]:leading-[40rem]">
               We support projects and businesses across Saudi Arabia with an
               approach built around preparation, coordination, field execution,
@@ -371,7 +370,6 @@ function Statement() {
               access, and final handoff all determine how well a movement is
               completed.
             </p>
-
             <p>That is why we look at the operation as a whole.</p>
           </div>
         </div>
@@ -402,7 +400,6 @@ function Facts() {
                 <h3 className="mb-[22rem] text-[60rem] font-bold leading-[54rem] uppercase max-[1024px]:text-[40rem] max-[1024px]:leading-[38rem]">
                   {fact.title}
                 </h3>
-
                 <p className="max-w-[480rem] font-['Inter'] text-[20rem] font-normal leading-[27rem] normal-case max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
                   {fact.text}
                 </p>
@@ -427,7 +424,6 @@ export function AboutExperience() {
     const splits: SplitText[] = [];
     const listeners: Array<() => void> = [];
     const mm = gsap.matchMedia();
-
     let smoother: ReturnType<typeof ScrollSmoother.create> | null = null;
 
     const ctx = gsap.context(() => {
@@ -472,7 +468,6 @@ export function AboutExperience() {
           scaleY: 1,
           yPercent: 0,
           stagger: 0.03,
-
           scrollTrigger: {
             trigger: element,
             start: "center bottom-=5%",
@@ -482,7 +477,6 @@ export function AboutExperience() {
 
       gsap.utils.toArray<HTMLElement>(".reading-block").forEach((section) => {
         const text = section.querySelector<HTMLElement>(".reading-block__text");
-
         if (!text) return;
 
         const split = new SplitText(text, {
@@ -502,7 +496,6 @@ export function AboutExperience() {
           ease: "none",
           opacity: 1,
           stagger: 0.05,
-
           scrollTrigger: {
             trigger: section,
             start: "center center",
@@ -514,15 +507,11 @@ export function AboutExperience() {
       });
 
       gsap.utils.toArray<HTMLElement>(".opacity-block").forEach((element) => {
-        gsap.set(element, {
-          opacity: 0,
-        });
-
+        gsap.set(element, { opacity: 0 });
         gsap.to(element, {
           opacity: 1,
           duration: 1,
           ease: "power4.inOut",
-
           scrollTrigger: {
             trigger: element,
             start: "center 92%",
@@ -533,20 +522,14 @@ export function AboutExperience() {
       gsap.utils
         .toArray<HTMLElement>(".main-opacity-block")
         .forEach((element) => {
-          gsap.set(element, {
-            opacity: 0,
-          });
+          gsap.set(element, { opacity: 0 });
         });
 
       gsap.utils.toArray<HTMLElement>(".scale-block").forEach((element) => {
-        gsap.set(element, {
-          scale: 0.7,
-        });
-
+        gsap.set(element, { scale: 0.7 });
         gsap.to(element, {
           scale: 1,
           ease: "none",
-
           scrollTrigger: {
             trigger: element,
             start: "top bottom",
@@ -568,7 +551,6 @@ export function AboutExperience() {
         const scrollbox = document.querySelector<HTMLElement>(
           ".advantages__scrollbox",
         );
-
         const firstItem = document.querySelector<HTMLElement>(
           ".advantages__scrollbox-item",
         );
@@ -588,33 +570,13 @@ export function AboutExperience() {
                 invalidateOnRefresh: true,
               },
             })
-            .to(
-              scrollbox,
-              {
-                y: () => -distance(),
-                ease: "none",
-              },
-              0,
-            )
+            .to(scrollbox, { y: () => -distance(), ease: "none" }, 0)
             .to(
               ".advantages__progressbar-fill",
-              {
-                width: "100%",
-                ease: "none",
-              },
+              { width: "100%", ease: "none" },
               0,
             );
         }
-
-        /*
-         * =========================================
-         * SERVICES
-         *
-         * Same Services component as Home.
-         * About page has its own GSAP setup,
-         * so service images need to be synced here.
-         * =========================================
-         */
 
         const services = document.querySelector<HTMLElement>(".services");
 
@@ -634,10 +596,6 @@ export function AboutExperience() {
           const getServicesEnd = () =>
             `+=${window.innerHeight * Math.max(serviceItems.length - 2, 4)}`;
 
-          /*
-           * Image 01 is visible initially.
-           * Images 02-10 stay below the fixed left panel.
-           */
           serviceVisuals.forEach((visual, index) => {
             gsap.set(visual, {
               yPercent: index === 0 ? 0 : 100,
@@ -650,7 +608,6 @@ export function AboutExperience() {
             gsap.to(serviceProgress, {
               width: "100%",
               ease: "none",
-
               scrollTrigger: {
                 trigger: services,
                 start: "center center",
@@ -662,6 +619,8 @@ export function AboutExperience() {
           }
 
           if (serviceItems.length > 0) {
+            let serviceSnapPoints: number[] = [0, 1];
+
             const servicesTimeline = gsap.timeline({
               scrollTrigger: {
                 trigger: services,
@@ -669,13 +628,36 @@ export function AboutExperience() {
                 end: getServicesEnd,
                 pin: true,
                 scrub: true,
+                snap: {
+                  snapTo: (progress) => {
+                    let closest = serviceSnapPoints[0] ?? 0;
+                    let smallestDistance = Math.abs(progress - closest);
+
+                    serviceSnapPoints.forEach((point) => {
+                      const distance = Math.abs(progress - point);
+
+                      if (distance < smallestDistance) {
+                        closest = point;
+                        smallestDistance = distance;
+                      }
+                    });
+
+                    return closest;
+                  },
+                  delay: SERVICES_SNAP_DELAY,
+                  duration: {
+                    min: 0.35,
+                    max: 0.8,
+                  },
+                  ease: "power3.inOut",
+                  inertia: false,
+                },
                 invalidateOnRefresh: true,
               },
             });
 
-            /*
-             * Existing first-card animation preserved.
-             */
+            const serviceTargetTimes: number[] = [0];
+
             servicesTimeline.to(
               serviceItems[0],
               {
@@ -686,14 +668,9 @@ export function AboutExperience() {
 
             serviceItems.slice(1).forEach((item, index) => {
               const currentIndex = index + 1;
-
               const previousVisual = serviceVisuals[currentIndex - 1];
-
               const currentVisual = serviceVisuals[currentIndex];
 
-              /*
-               * Existing card timing preserved.
-               */
               servicesTimeline.to(
                 item,
                 {
@@ -702,9 +679,6 @@ export function AboutExperience() {
                 index === 0 ? "<" : ">",
               );
 
-              /*
-               * Previous service image exits upward.
-               */
               if (previousVisual) {
                 servicesTimeline.to(
                   previousVisual,
@@ -716,9 +690,6 @@ export function AboutExperience() {
                 );
               }
 
-              /*
-               * Current service image enters from below.
-               */
               if (currentVisual) {
                 servicesTimeline.to(
                   currentVisual,
@@ -730,9 +701,8 @@ export function AboutExperience() {
                 );
               }
 
-              /*
-               * Existing card scale animation preserved.
-               */
+              serviceTargetTimes.push(servicesTimeline.duration());
+
               if (index < serviceItems.length - 2) {
                 servicesTimeline.to(
                   item,
@@ -743,6 +713,14 @@ export function AboutExperience() {
                 );
               }
             });
+
+            const totalDuration = servicesTimeline.duration();
+
+            if (totalDuration > 0) {
+              serviceSnapPoints = serviceTargetTimes.map((time) =>
+                Math.min(1, Math.max(0, time / totalDuration)),
+              );
+            }
           }
         }
 
@@ -768,10 +746,7 @@ export function AboutExperience() {
         };
       });
 
-      gsap.set(".transition-plug", {
-        yPercent: 0,
-      });
-
+      gsap.set(".transition-plug", { yPercent: 0 });
       gsap.set(".transition-plug__inner", {
         top: "auto",
         bottom: 0,
@@ -784,7 +759,6 @@ export function AboutExperience() {
 
       const entrance = gsap.timeline({
         paused: true,
-
         defaults: {
           ease: "power4.inOut",
           duration: 2,
@@ -794,24 +768,11 @@ export function AboutExperience() {
       entrance
         .fromTo(
           ".transition-plug__inner",
-          {
-            top: "auto",
-            bottom: 0,
-            height: "100%",
-            duration: 0,
-          },
-          {
-            height: "0%",
-          },
+          { top: "auto", bottom: 0, height: "100%", duration: 0 },
+          { height: "0%" },
           0,
         )
-        .to(
-          ".transition-plug",
-          {
-            yPercent: 105,
-          },
-          0.05,
-        )
+        .to(".transition-plug", { yPercent: 105 }, 0.05)
         .to(
           heroChars,
           {
@@ -824,21 +785,8 @@ export function AboutExperience() {
           },
           ">",
         )
-        .to(
-          ".main-animated-line",
-          {
-            width: "100%",
-          },
-          "<",
-        )
-        .to(
-          ".main-opacity-block",
-          {
-            opacity: 1,
-            duration: 1,
-          },
-          "<+=1",
-        );
+        .to(".main-animated-line", { width: "100%" }, "<")
+        .to(".main-opacity-block", { opacity: 1, duration: 1 }, "<+=1");
 
       const start = () => {
         window.scrollTo(0, 0);
@@ -848,37 +796,20 @@ export function AboutExperience() {
       if (document.readyState === "complete") {
         requestAnimationFrame(start);
       } else {
-        window.addEventListener("load", start, {
-          once: true,
-        });
-
-        listeners.push(() => {
-          window.removeEventListener("load", start);
-        });
+        window.addEventListener("load", start, { once: true });
+        listeners.push(() => window.removeEventListener("load", start));
       }
 
-      const refresh = () => {
-        ScrollTrigger.refresh();
-      };
-
+      const refresh = () => ScrollTrigger.refresh();
       window.addEventListener("resize", refresh);
+      listeners.push(() => window.removeEventListener("resize", refresh));
 
-      listeners.push(() => {
-        window.removeEventListener("resize", refresh);
-      });
-
-      requestAnimationFrame(() => {
-        ScrollTrigger.refresh();
-      });
+      requestAnimationFrame(() => ScrollTrigger.refresh());
     }, rootRef);
 
     return () => {
       listeners.forEach((cleanup) => cleanup());
-
-      splits.forEach((split) => {
-        split.revert();
-      });
-
+      splits.forEach((split) => split.revert());
       mm.revert();
       ctx.revert();
       smoother?.kill();
@@ -888,7 +819,6 @@ export function AboutExperience() {
   return (
     <div ref={rootRef}>
       <PageTransition initialCovered />
-
       <div id="smooth-wrapper">
         <div
           id="smooth-content"
@@ -904,7 +834,6 @@ export function AboutExperience() {
           <Facts />
           <Services />
           <Contact />
-
           <div className="bg-[var(--mvp-dark)]">
             <Footer />
           </div>
