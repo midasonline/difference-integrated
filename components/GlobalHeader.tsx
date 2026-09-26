@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { BackToTop } from "@/components/ui/BackToTop";
 import { usePathname } from "next/navigation";
 
 import { Header, type HeaderVariant } from "@/components/Header";
@@ -148,6 +149,8 @@ export function GlobalHeader() {
         <Header variant={headerVariant} />
       </div>
 
+      <BackToTop />
+
       <style jsx global>{`
         /*
          * Hide any old Header component
@@ -158,7 +161,14 @@ export function GlobalHeader() {
         }
 
         .global-site-header .header__menu-item[data-active-route="true"] {
-          box-shadow: inset 0 -1.5px 0 currentColor;
+          color: var(--mvp-accent) !important;
+          box-shadow: inset 0 -1.5px 0 var(--mvp-accent);
+        }
+
+        .global-site-header
+          .header__menu-item[data-active-route="true"]
+          .text-hover-elem {
+          color: var(--mvp-accent) !important;
         }
       `}</style>
     </>

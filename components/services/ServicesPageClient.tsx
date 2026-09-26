@@ -51,7 +51,7 @@ const services: Service[] = [
     ],
     supportingCopy:
       "The objective is not simply to reach the site. It is to make each delivery fit the way the site is actually operating.",
-    image: "/assets/img/services-page/service-01.png",
+    image: "/assets/img/services-page/construction-logistics.webp",
   },
   {
     number: "02",
@@ -79,7 +79,7 @@ const services: Service[] = [
     ],
     supportingCopy:
       "When multiple loads are moving through the same cycle, control over timing and turnaround becomes critical to the operation.",
-    image: "/assets/img/services-page/service-02.png",
+    image: "/assets/img/services-page/sand-transportation.webp",
   },
   {
     number: "03",
@@ -107,7 +107,7 @@ const services: Service[] = [
     ],
     supportingCopy:
       "In repeated haulage operations, the efficiency of the cycle matters just as much as the capacity of the vehicle.",
-    image: "/assets/img/services-page/service-04.png",
+    image: "/assets/img/services-page/heavy-dumper-logistics.webp",
   },
   {
     number: "04",
@@ -135,7 +135,7 @@ const services: Service[] = [
     ],
     supportingCopy:
       "Coordination is what keeps separate transport activities working as one operation.",
-    image: "/assets/img/services-page/service-05.png",
+    image: "/assets/img/services-page/logistics-coordination.webp",
   },
   {
     number: "05",
@@ -163,7 +163,7 @@ const services: Service[] = [
     ],
     supportingCopy:
       "The smoother the handoff between pickup, transport, and receiving, the more controlled the overall movement becomes.",
-    image: "/assets/img/services-page/service-08.png",
+    image: "/assets/img/services-page/container-transportation.webp",
   },
   {
     number: "06",
@@ -191,7 +191,7 @@ const services: Service[] = [
     ],
     supportingCopy:
       "For tanker transportation, how the movement is carried out is as important as where it is going.",
-    image: "/assets/img/services-page/service-09.png",
+    image: "/assets/img/services-page/fuel-tanker-transportation.webp",
   },
   {
     number: "07",
@@ -219,7 +219,7 @@ const services: Service[] = [
     ],
     supportingCopy:
       "Bulk transport works best when the movement rate stays aligned with the rate at which the project requires material.",
-    image: "/assets/img/services-page/service-03.png",
+    image: "/assets/img/services-page/bulk-construction-material.webp",
   },
   {
     number: "08",
@@ -247,7 +247,7 @@ const services: Service[] = [
     ],
     supportingCopy:
       "The right fleet decision starts with understanding the job, not simply identifying what is available.",
-    image: "/assets/img/services-page/service-06.png",
+    image: "/assets/img/services-page/fleet-equipment.webp",
   },
   {
     number: "09",
@@ -275,7 +275,7 @@ const services: Service[] = [
     ],
     supportingCopy:
       "The value of a delivery is not only in the quantity moved, but in whether that material reaches the project when it can actually be used.",
-    image: "/assets/img/services-page/service-07.png",
+    image: "/assets/img/services-page/aggregate-transportation.webp",
   },
   {
     number: "10",
@@ -303,7 +303,7 @@ const services: Service[] = [
     ],
     supportingCopy:
       "There is no single transport formula for general freight. The operating requirement determines the approach.",
-    image: "/assets/img/services-page/service-10.png",
+    image: "/assets/img/services-page/general-freight.webp",
   },
 ];
 
