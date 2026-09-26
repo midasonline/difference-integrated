@@ -114,11 +114,14 @@ function AboutHero() {
           </h2>
 
           <p className="font-['Inter'] text-[20rem] font-normal leading-[27rem] max-[1024px]:text-[14rem] max-[1024px]:leading-[20rem]">
-            Difference Integrated supports transport operations where load requirements, site conditions, timing, and coordination all need to work together.
+            Difference Integrated supports transport operations where load
+            requirements, site conditions, timing, and coordination all need to
+            work together.
           </p>
 
           <p className="font-['Inter'] text-[20rem] font-normal leading-[27rem] max-[1024px]:text-[14rem] max-[1024px]:leading-[20rem]">
-            Across Saudi Arabia, we bring structure to the movement behind construction, infrastructure, commercial, and industrial activity.
+            Across Saudi Arabia, we bring structure to the movement behind
+            construction, infrastructure, commercial, and industrial activity.
           </p>
         </div>
       </div>
@@ -132,16 +135,21 @@ function BrandStatement() {
       <div className="mvp-container">
         <div className="reading-block__text mx-auto max-w-[1540rem]">
           <h2 className="mb-[70rem] max-w-[1250rem] text-[125rem] font-bold leading-[.84] uppercase max-[1024px]:mb-[40rem] max-[1024px]:text-[64rem]">
-            BEFORE THE ROAD, <br />THERE&apos;S THE OPERATION.
+            BEFORE THE ROAD, <br />
+            THERE&apos;S THE OPERATION.
           </h2>
 
           <div className="grid grid-cols-[1fr_.9fr] gap-[120rem] max-[1024px]:grid-cols-1 max-[1024px]:gap-[45rem]">
             <div className="max-w-[680rem] space-y-[24rem] font-['Inter'] text-[20rem] font-normal leading-[27rem] normal-case max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
               <p>
-                Every movement starts with understanding the load, the site, access conditions, timing, vehicle requirements, and the people involved.
+                Every movement starts with understanding the load, the site,
+                access conditions, timing, vehicle requirements, and the people
+                involved.
               </p>
               <p>
-                Difference Integrated connects those details before dispatch begins, helping reduce disruption at loading points, on the road, and at the destination.
+                Difference Integrated connects those details before dispatch
+                begins, helping reduce disruption at loading points, on the
+                road, and at the destination.
               </p>
             </div>
 
@@ -159,7 +167,10 @@ function BrandStatement() {
 
 function OurStory() {
   return (
-    <section id="our-story" className="bg-white py-[90rem] max-[1024px]:py-[45rem]">
+    <section
+      id="our-story"
+      className="bg-white py-[90rem] max-[1024px]:py-[45rem]"
+    >
       <div className="mvp-container">
         <div className="scale-block overflow-hidden rounded-[20rem] bg-[var(--mvp-primary)] px-[40rem] pb-[20rem] pt-[45rem] text-white max-[1024px]:rounded-[10rem] max-[1024px]:px-[20rem] max-[1024px]:pt-[30rem]">
           <div className="opacity-block flex items-center justify-between border-b border-white/15 pb-[10rem] uppercase max-[1024px]:text-[15rem]">
@@ -170,25 +181,35 @@ function OurStory() {
           <div className="opacity-block grid grid-cols-2 px-[80rem] max-[1024px]:grid-cols-1 max-[1024px]:px-0">
             <div className="border-r border-white/15 py-[90rem] pr-[90rem] max-[1024px]:border-b max-[1024px]:border-r-0 max-[1024px]:py-[35rem] max-[1024px]:pr-0">
               <h2 className="animated-text mb-[28rem] text-[70rem] font-bold leading-[.9] uppercase max-[1024px]:text-[60rem]">
-                WE PLAN FOR MORE <br />THAN THE DISTANCE.
+                WE PLAN FOR MORE <br />
+                THAN THE DISTANCE.
               </h2>
 
               <p className="mb-[18rem] max-w-[570rem] font-['Inter'] text-[20rem] font-normal leading-[27rem] max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
-                Difference Integrated is a Saudi transportation and logistics company focused on the practical requirements behind every movement.
+                Difference Integrated is a Saudi transportation and logistics
+                company focused on the practical requirements behind every
+                movement.
               </p>
             </div>
 
             <div className="py-[90rem] pl-[90rem] max-[1024px]:py-[35rem] max-[1024px]:pl-0">
               <div className="mb-[55rem] max-w-[620rem] space-y-[24rem] font-['Inter'] text-[20rem] font-normal leading-[27rem] max-[1024px]:mb-[35rem] max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
                 <p>
-                  Vehicle suitability, loading conditions, site access, delivery sequencing, driver readiness, and communication all influence how the job is handled.
+                  Vehicle suitability, loading conditions, site access, delivery
+                  sequencing, driver readiness, and communication all influence
+                  how the job is handled.
                 </p>
                 <p>
-                  That means the transport plan is shaped around the actual requirements of the assignment rather than treated as a standard trip from one point to another.
+                  That means the transport plan is shaped around the actual
+                  requirements of the assignment rather than treated as a
+                  standard trip from one point to another.
                 </p>
               </div>
 
-              <AnimatedButton href="/#services" className="inline-flex max-[1024px]:w-full">
+              <AnimatedButton
+                href="/#services"
+                className="inline-flex max-[1024px]:w-full"
+              >
                 EXPLORE OUR CAPABILITIES
               </AnimatedButton>
             </div>
@@ -209,7 +230,10 @@ function OurStory() {
 
 function Goals() {
   return (
-    <section id="goals" className="bg-white py-[120rem] max-[1024px]:py-[60rem]">
+    <section
+      id="goals"
+      className="bg-white py-[120rem] max-[1024px]:py-[60rem]"
+    >
       <div className="mvp-container">
         <h2 className="animated-text mb-[70rem] text-[180rem] leading-[.8] uppercase max-[1024px]:mb-[40rem] max-[1024px]:text-[80rem]">
           OUR MAIN GOALS
@@ -217,7 +241,10 @@ function Goals() {
 
         <div className="grid grid-cols-3 gap-[10rem] max-[1024px]:grid-cols-1">
           {goals.map((goal) => (
-            <article key={goal.number} className="scale-block flex min-h-[560rem] flex-col justify-between rounded-[20rem] bg-[var(--mvp-light)] p-[55rem] max-[1024px]:min-h-[330rem] max-[1024px]:rounded-[10rem] max-[1024px]:p-[30rem]">
+            <article
+              key={goal.number}
+              className="scale-block flex min-h-[560rem] flex-col justify-between rounded-[20rem] bg-[var(--mvp-light)] p-[55rem] max-[1024px]:min-h-[330rem] max-[1024px]:rounded-[10rem] max-[1024px]:p-[30rem]"
+            >
               <span className="text-[140rem] leading-none text-[var(--mvp-primary)] max-[1024px]:text-[80rem]">
                 {goal.number}
               </span>
@@ -226,6 +253,7 @@ function Goals() {
                 <h3 className="mb-[18rem] text-[60rem] font-bold leading-[54rem] uppercase max-[1024px]:text-[42rem] max-[1024px]:leading-[40rem]">
                   {goal.heading}
                 </h3>
+
                 <p className="max-w-[440rem] font-['Inter'] text-[20rem] font-normal leading-[27rem] max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
                   {goal.text}
                 </p>
@@ -240,12 +268,16 @@ function Goals() {
 
 function WhatShapesEveryOperation() {
   return (
-    <section id="advantages" className="advantages relative max-h-screen overflow-hidden bg-white pb-[50rem] pt-[140rem] max-[1024px]:max-h-none max-[1024px]:overflow-visible max-[1024px]:py-[60rem]">
+    <section
+      id="advantages"
+      className="advantages relative max-h-screen overflow-hidden bg-white pb-[50rem] pt-[140rem] max-[1024px]:max-h-none max-[1024px]:overflow-visible max-[1024px]:py-[60rem]"
+    >
       <div className="mvp-container">
         <div className="flex items-start justify-between gap-[70rem] max-[1024px]:flex-col max-[1024px]:gap-[40rem]">
           <div className="flex h-[760rem] w-[42%] flex-col justify-between max-[1024px]:h-auto max-[1024px]:w-full">
             <h2 className="animated-text text-[155rem] leading-[.8] uppercase max-[1024px]:text-[80rem]">
-              WHAT SHAPES <br />EVERY OPERATION
+              WHAT SHAPES <br />
+              EVERY OPERATION
             </h2>
 
             <div className="relative h-[2rem] w-full overflow-hidden bg-[var(--mvp-primary)]/15 max-[1024px]:hidden">
@@ -256,7 +288,10 @@ function WhatShapesEveryOperation() {
           <div className="advantages__scrollbox w-[52%] max-[1024px]:w-full">
             <div className="flex flex-col gap-[10rem]">
               {operationFactors.map((item) => (
-                <article key={item.number} className="advantages__scrollbox-item grid min-h-[360rem] grid-cols-[95rem_minmax(0,580rem)] content-center gap-x-[45rem] rounded-[20rem] bg-[var(--mvp-primary)] px-[55rem] py-[45rem] text-white max-[1024px]:min-h-0 max-[1024px]:grid-cols-[60rem_minmax(0,1fr)] max-[1024px]:gap-x-[24rem] max-[1024px]:rounded-[10rem] max-[1024px]:p-[30rem]">
+                <article
+                  key={item.number}
+                  className="advantages__scrollbox-item grid min-h-[360rem] grid-cols-[95rem_minmax(0,580rem)] content-center gap-x-[45rem] rounded-[20rem] bg-[var(--mvp-primary)] px-[55rem] py-[45rem] text-white max-[1024px]:min-h-0 max-[1024px]:grid-cols-[60rem_minmax(0,1fr)] max-[1024px]:gap-x-[24rem] max-[1024px]:rounded-[10rem] max-[1024px]:p-[30rem]"
+                >
                   <span className="self-start text-[72rem] leading-none max-[1024px]:text-[50rem]">
                     {item.number}
                   </span>
@@ -265,6 +300,7 @@ function WhatShapesEveryOperation() {
                     <h3 className="mb-[22rem] text-[60rem] font-bold leading-[54rem] uppercase max-[1024px]:mb-[15rem] max-[1024px]:text-[38rem] max-[1024px]:leading-[36rem]">
                       {item.heading}
                     </h3>
+
                     <p className="font-['Inter'] text-[20rem] font-normal leading-[27rem] normal-case max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
                       {item.text}
                     </p>
@@ -290,10 +326,15 @@ function Mission() {
 
           <div className="reading-block__text max-w-[900rem]">
             <h3 className="mb-[45rem] text-[60rem] font-bold leading-[54rem] uppercase max-[1024px]:mb-[30rem] max-[1024px]:text-[42rem] max-[1024px]:leading-[40rem]">
-              to bring clarity and structure to transport operations by connecting the details that matter before, during, and at the end of every trip.
+              to bring clarity and structure to transport operations by
+              connecting the details that matter before, during, and at the end
+              of every trip.
             </h3>
+
             <h3 className="mb-[45rem] text-[60rem] font-bold leading-[54rem] uppercase max-[1024px]:mb-[30rem] max-[1024px]:text-[42rem] max-[1024px]:leading-[40rem]">
-              We support projects and businesses across Saudi Arabia with an approach built around preparation, coordination, field execution, and accountability.
+              We support projects and businesses across Saudi Arabia with an
+              approach built around preparation, coordination, field execution,
+              and accountability.
             </h3>
 
             {/* <div className="space-y-[24rem] font-['Inter'] text-[20rem] font-normal leading-[27rem] normal-case max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
@@ -326,11 +367,12 @@ function Statement() {
 
           <div className="mt-[55rem] max-w-[900rem] space-y-[18rem] font-['Inter'] text-[20rem] font-normal leading-[27rem] max-[1024px]:mt-[35rem] max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
             <p>
-              Loading conditions, fleet readiness, timing, communication, site access, and final handoff all determine how well a movement is completed.
+              Loading conditions, fleet readiness, timing, communication, site
+              access, and final handoff all determine how well a movement is
+              completed.
             </p>
-            <p>
-              That is why we look at the operation as a whole.
-            </p>
+
+            <p>That is why we look at the operation as a whole.</p>
           </div>
         </div>
       </div>
@@ -348,7 +390,10 @@ function Facts() {
 
         <div className="grid grid-cols-3 gap-[10rem] max-[1024px]:grid-cols-1">
           {facts.map((fact) => (
-            <article key={fact.heading} className="scale-block flex min-h-[590rem] flex-col justify-between rounded-[20rem] bg-[var(--mvp-primary)] p-[55rem] text-white max-[1024px]:min-h-[400rem] max-[1024px]:rounded-[10rem] max-[1024px]:p-[30rem]">
+            <article
+              key={fact.heading}
+              className="scale-block flex min-h-[590rem] flex-col justify-between rounded-[20rem] bg-[var(--mvp-primary)] p-[55rem] text-white max-[1024px]:min-h-[400rem] max-[1024px]:rounded-[10rem] max-[1024px]:p-[30rem]"
+            >
               <span className="text-[120rem] leading-none max-[1024px]:text-[80rem]">
                 {fact.heading}
               </span>
@@ -357,6 +402,7 @@ function Facts() {
                 <h3 className="mb-[22rem] text-[60rem] font-bold leading-[54rem] uppercase max-[1024px]:text-[40rem] max-[1024px]:leading-[38rem]">
                   {fact.title}
                 </h3>
+
                 <p className="max-w-[480rem] font-['Inter'] text-[20rem] font-normal leading-[27rem] normal-case max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
                   {fact.text}
                 </p>
@@ -381,6 +427,7 @@ export function AboutExperience() {
     const splits: SplitText[] = [];
     const listeners: Array<() => void> = [];
     const mm = gsap.matchMedia();
+
     let smoother: ReturnType<typeof ScrollSmoother.create> | null = null;
 
     const ctx = gsap.context(() => {
@@ -425,6 +472,7 @@ export function AboutExperience() {
           scaleY: 1,
           yPercent: 0,
           stagger: 0.03,
+
           scrollTrigger: {
             trigger: element,
             start: "center bottom-=5%",
@@ -434,6 +482,7 @@ export function AboutExperience() {
 
       gsap.utils.toArray<HTMLElement>(".reading-block").forEach((section) => {
         const text = section.querySelector<HTMLElement>(".reading-block__text");
+
         if (!text) return;
 
         const split = new SplitText(text, {
@@ -453,6 +502,7 @@ export function AboutExperience() {
           ease: "none",
           opacity: 1,
           stagger: 0.05,
+
           scrollTrigger: {
             trigger: section,
             start: "center center",
@@ -464,11 +514,15 @@ export function AboutExperience() {
       });
 
       gsap.utils.toArray<HTMLElement>(".opacity-block").forEach((element) => {
-        gsap.set(element, { opacity: 0 });
+        gsap.set(element, {
+          opacity: 0,
+        });
+
         gsap.to(element, {
           opacity: 1,
           duration: 1,
           ease: "power4.inOut",
+
           scrollTrigger: {
             trigger: element,
             start: "center 92%",
@@ -479,14 +533,20 @@ export function AboutExperience() {
       gsap.utils
         .toArray<HTMLElement>(".main-opacity-block")
         .forEach((element) => {
-          gsap.set(element, { opacity: 0 });
+          gsap.set(element, {
+            opacity: 0,
+          });
         });
 
       gsap.utils.toArray<HTMLElement>(".scale-block").forEach((element) => {
-        gsap.set(element, { scale: 0.7 });
+        gsap.set(element, {
+          scale: 0.7,
+        });
+
         gsap.to(element, {
           scale: 1,
           ease: "none",
+
           scrollTrigger: {
             trigger: element,
             start: "top bottom",
@@ -508,6 +568,7 @@ export function AboutExperience() {
         const scrollbox = document.querySelector<HTMLElement>(
           ".advantages__scrollbox",
         );
+
         const firstItem = document.querySelector<HTMLElement>(
           ".advantages__scrollbox-item",
         );
@@ -527,19 +588,43 @@ export function AboutExperience() {
                 invalidateOnRefresh: true,
               },
             })
-            .to(scrollbox, { y: () => -distance(), ease: "none" }, 0)
+            .to(
+              scrollbox,
+              {
+                y: () => -distance(),
+                ease: "none",
+              },
+              0,
+            )
             .to(
               ".advantages__progressbar-fill",
-              { width: "100%", ease: "none" },
+              {
+                width: "100%",
+                ease: "none",
+              },
               0,
             );
         }
+
+        /*
+         * =========================================
+         * SERVICES
+         *
+         * Same Services component as Home.
+         * About page has its own GSAP setup,
+         * so service images need to be synced here.
+         * =========================================
+         */
 
         const services = document.querySelector<HTMLElement>(".services");
 
         if (services) {
           const serviceItems = Array.from(
             services.querySelectorAll<HTMLElement>(".services__item"),
+          );
+
+          const serviceVisuals = Array.from(
+            services.querySelectorAll<HTMLElement>(".services__visual"),
           );
 
           const serviceProgress = services.querySelector<HTMLElement>(
@@ -549,10 +634,23 @@ export function AboutExperience() {
           const getServicesEnd = () =>
             `+=${window.innerHeight * Math.max(serviceItems.length - 2, 4)}`;
 
+          /*
+           * Image 01 is visible initially.
+           * Images 02-10 stay below the fixed left panel.
+           */
+          serviceVisuals.forEach((visual, index) => {
+            gsap.set(visual, {
+              yPercent: index === 0 ? 0 : 100,
+              opacity: 1,
+              force3D: true,
+            });
+          });
+
           if (serviceProgress) {
             gsap.to(serviceProgress, {
               width: "100%",
               ease: "none",
+
               scrollTrigger: {
                 trigger: services,
                 start: "center center",
@@ -575,17 +673,74 @@ export function AboutExperience() {
               },
             });
 
-            servicesTimeline.to(serviceItems[0], { scale: 0.8 }, 0);
+            /*
+             * Existing first-card animation preserved.
+             */
+            servicesTimeline.to(
+              serviceItems[0],
+              {
+                scale: 0.8,
+              },
+              0,
+            );
 
             serviceItems.slice(1).forEach((item, index) => {
+              const currentIndex = index + 1;
+
+              const previousVisual = serviceVisuals[currentIndex - 1];
+
+              const currentVisual = serviceVisuals[currentIndex];
+
+              /*
+               * Existing card timing preserved.
+               */
               servicesTimeline.to(
                 item,
-                { transform: "translate(-50%, -50%)" },
+                {
+                  transform: "translate(-50%, -50%)",
+                },
                 index === 0 ? "<" : ">",
               );
 
+              /*
+               * Previous service image exits upward.
+               */
+              if (previousVisual) {
+                servicesTimeline.to(
+                  previousVisual,
+                  {
+                    yPercent: -100,
+                    force3D: true,
+                  },
+                  "<",
+                );
+              }
+
+              /*
+               * Current service image enters from below.
+               */
+              if (currentVisual) {
+                servicesTimeline.to(
+                  currentVisual,
+                  {
+                    yPercent: 0,
+                    force3D: true,
+                  },
+                  "<",
+                );
+              }
+
+              /*
+               * Existing card scale animation preserved.
+               */
               if (index < serviceItems.length - 2) {
-                servicesTimeline.to(item, { scale: 0.8 }, ">");
+                servicesTimeline.to(
+                  item,
+                  {
+                    scale: 0.8,
+                  },
+                  ">",
+                );
               }
             });
           }
@@ -613,7 +768,10 @@ export function AboutExperience() {
         };
       });
 
-      gsap.set(".transition-plug", { yPercent: 0 });
+      gsap.set(".transition-plug", {
+        yPercent: 0,
+      });
+
       gsap.set(".transition-plug__inner", {
         top: "auto",
         bottom: 0,
@@ -626,6 +784,7 @@ export function AboutExperience() {
 
       const entrance = gsap.timeline({
         paused: true,
+
         defaults: {
           ease: "power4.inOut",
           duration: 2,
@@ -635,11 +794,24 @@ export function AboutExperience() {
       entrance
         .fromTo(
           ".transition-plug__inner",
-          { top: "auto", bottom: 0, height: "100%", duration: 0 },
-          { height: "0%" },
+          {
+            top: "auto",
+            bottom: 0,
+            height: "100%",
+            duration: 0,
+          },
+          {
+            height: "0%",
+          },
           0,
         )
-        .to(".transition-plug", { yPercent: 105 }, 0.05)
+        .to(
+          ".transition-plug",
+          {
+            yPercent: 105,
+          },
+          0.05,
+        )
         .to(
           heroChars,
           {
@@ -652,8 +824,21 @@ export function AboutExperience() {
           },
           ">",
         )
-        .to(".main-animated-line", { width: "100%" }, "<")
-        .to(".main-opacity-block", { opacity: 1, duration: 1 }, "<+=1");
+        .to(
+          ".main-animated-line",
+          {
+            width: "100%",
+          },
+          "<",
+        )
+        .to(
+          ".main-opacity-block",
+          {
+            opacity: 1,
+            duration: 1,
+          },
+          "<+=1",
+        );
 
       const start = () => {
         window.scrollTo(0, 0);
@@ -663,20 +848,37 @@ export function AboutExperience() {
       if (document.readyState === "complete") {
         requestAnimationFrame(start);
       } else {
-        window.addEventListener("load", start, { once: true });
-        listeners.push(() => window.removeEventListener("load", start));
+        window.addEventListener("load", start, {
+          once: true,
+        });
+
+        listeners.push(() => {
+          window.removeEventListener("load", start);
+        });
       }
 
-      const refresh = () => ScrollTrigger.refresh();
-      window.addEventListener("resize", refresh);
-      listeners.push(() => window.removeEventListener("resize", refresh));
+      const refresh = () => {
+        ScrollTrigger.refresh();
+      };
 
-      requestAnimationFrame(() => ScrollTrigger.refresh());
+      window.addEventListener("resize", refresh);
+
+      listeners.push(() => {
+        window.removeEventListener("resize", refresh);
+      });
+
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh();
+      });
     }, rootRef);
 
     return () => {
       listeners.forEach((cleanup) => cleanup());
-      splits.forEach((split) => split.revert());
+
+      splits.forEach((split) => {
+        split.revert();
+      });
+
       mm.revert();
       ctx.revert();
       smoother?.kill();
@@ -686,6 +888,7 @@ export function AboutExperience() {
   return (
     <div ref={rootRef}>
       <PageTransition initialCovered />
+
       <div id="smooth-wrapper">
         <div
           id="smooth-content"
@@ -701,6 +904,7 @@ export function AboutExperience() {
           <Facts />
           <Services />
           <Contact />
+
           <div className="bg-[var(--mvp-dark)]">
             <Footer />
           </div>

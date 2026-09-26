@@ -149,8 +149,7 @@ export const services = [
     number: "07",
     heading: "Bulk Construction Material Transport",
     text: "Reliable transport of sand, aggregates, fill materials and other high-volume construction materials.",
-    image:
-      "/assets/img/home/services/bulk-construction-material.webp",
+    image: "/assets/img/home/services/bulk-construction-material.webp",
     accent: false,
   },
   {
@@ -166,8 +165,7 @@ export const services = [
     number: "09",
     heading: "Aggregate & Construction Material Transportation",
     text: "Reliable movement of aggregates, fill materials, sand and other bulk construction materials.",
-    image:
-      "/assets/img/home/services/aggregate-construction-material-transportation.webp",
+    image: "/assets/img/home/services/aggregate-transportation.webp",
     accent: false,
   },
   {
@@ -175,7 +173,7 @@ export const services = [
     number: "10",
     heading: "General Freight & Logistics Solutions",
     text: "Flexible transportation support for general cargo, freight movement, route planning and delivery coordination.",
-    image: "/assets/img/home/services/general-freight-logistics-solutions.webp",
+    image: "/assets/img/home/services/general-freight.webp",
     accent: true,
   },
 ];
