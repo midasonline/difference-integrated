@@ -2108,7 +2108,7 @@ export default function ServicesPageClient(): React.JSX.Element {
 
           autoSnapTimerRef.current = setTimeout(() => {
             snapToDominantPanel();
-          }, 2000);
+          }, 1000);
         };
 
         const handleUserInterrupt = () => {

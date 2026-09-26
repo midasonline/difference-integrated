@@ -1,10 +1,16 @@
 "use client";
 
 import { RefObject, useLayoutEffect } from "react";
+
 import gsap from "gsap";
+
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 import { ScrollSmoother } from "gsap/ScrollSmoother";
+
 import { SplitText } from "gsap/SplitText";
+
+const SERVICES_SNAP_DELAY = 1;
 
 export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
   useLayoutEffect(() => {
@@ -15,18 +21,24 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
     window.scrollTo(0, 0);
 
     const splits: SplitText[] = [];
+
     const listeners: Array<() => void> = [];
+
     const mm = gsap.matchMedia();
 
     let smoother: ReturnType<typeof ScrollSmoother.create> | null = null;
 
     const ctx = gsap.context(() => {
       gsap.utils
+
         .toArray<HTMLElement>(".main-animated-text")
+
         .forEach((element) => {
           const split = new SplitText(element, {
             type: "chars,words",
+
             charsClass: "char",
+
             wordsClass: "word",
           });
 
@@ -34,8 +46,11 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
 
           gsap.set(split.chars, {
             willChange: "transform",
+
             transformOrigin: "50% 0%",
+
             scaleY: 0,
+
             opacity: 0,
           });
         });
@@ -43,7 +58,9 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
       gsap.utils.toArray<HTMLElement>(".animated-text").forEach((element) => {
         const split = new SplitText(element, {
           type: "chars,words",
+
           charsClass: "char",
+
           wordsClass: "word",
         });
 
@@ -51,19 +68,28 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
 
         gsap.set(split.chars, {
           willChange: "transform",
+
           transformOrigin: "50% 0%",
+
           scaleY: 0,
+
           opacity: 0,
         });
 
         gsap.to(split.chars, {
           ease: "back",
+
           opacity: 1,
+
           scaleY: 1,
+
           yPercent: 0,
+
           stagger: 0.03,
+
           scrollTrigger: {
             trigger: element,
+
             start: "center bottom-=5%",
           },
         });
@@ -77,7 +103,9 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
         lines.forEach((line) => {
           const split = new SplitText(line, {
             type: "chars,words",
+
             charsClass: "char",
+
             wordsClass: "word",
           });
 
@@ -94,9 +122,12 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
 
         const timeline = gsap.timeline({
           paused: true,
+
           defaults: {
             stagger: 0.015,
+
             duration: 0.35,
+
             ease: "power3.out",
           },
         });
@@ -110,22 +141,28 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
         if (second.length) {
           timeline.to(
             second,
+
             {
               yPercent: -100,
             },
+
             0,
           );
         }
 
         const enter = () => timeline.play();
+
         const leave = () => timeline.reverse();
 
         element.addEventListener("mouseenter", enter);
+
         element.addEventListener("mouseleave", leave);
 
         listeners.push(() => {
           element.removeEventListener("mouseenter", enter);
+
           element.removeEventListener("mouseleave", leave);
+
           timeline.kill();
         });
       });
@@ -137,10 +174,14 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
 
         gsap.to(element, {
           opacity: 1,
+
           duration: 1,
+
           ease: "power4.inOut",
+
           scrollTrigger: {
             trigger: element,
+
             start: "center 92%",
           },
         });
@@ -153,11 +194,16 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
 
         gsap.to(element, {
           scale: 1,
+
           ease: "none",
+
           scrollTrigger: {
             trigger: element,
+
             start: "top bottom",
+
             end: "center center",
+
             scrub: true,
           },
         });
@@ -166,9 +212,13 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
       mm.add("(min-width: 1025px)", () => {
         smoother = ScrollSmoother.create({
           wrapper: "#smooth-wrapper",
+
           content: "#smooth-content",
+
           smooth: 2.5,
+
           speed: 0.7,
+
           normalizeScroll: true,
         });
 
@@ -176,19 +226,29 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
 
         ScrollTrigger.create({
           trigger: ".hero__video-wrapper",
+
           endTrigger: ".hero__video-container",
+
           start: "top top",
+
           end: "bottom top",
+
           scrub: true,
+
           pin: true,
         });
 
         ScrollTrigger.create({
           trigger: ".footer__video-wrapper",
+
           endTrigger: ".footer__video-container",
+
           start: "top top",
+
           end: "bottom bottom",
+
           scrub: true,
+
           pin: true,
         });
 
@@ -204,48 +264,73 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
           const distance = () =>
             Math.max(
               0,
+
               advantagesScrollbox.offsetHeight - advantageItem.offsetHeight * 2,
             );
 
           gsap
+
             .timeline({
               scrollTrigger: {
                 trigger: ".advantages",
+
                 start: "top top",
+
                 end: "bottom+=100% top",
+
                 scrub: true,
+
                 pin: true,
+
                 invalidateOnRefresh: true,
               },
             })
+
             .to(
               advantagesScrollbox,
+
               {
                 y: () => -distance(),
+
                 ease: "none",
               },
+
               0,
             )
+
             .to(
               ".advantages__progressbar-fill",
+
               {
                 width: "100%",
+
                 ease: "none",
               },
+
               0,
             );
         }
 
         /*
+
          * =========================================
+
          * SERVICES
+
          *
+
          * Right-side cards scroll as before.
+
          * Left panel remains fixed.
+
          * Left-side image now scrolls vertically
+
          * with the corresponding service card.
+
          * No fade transition is used.
+
          * =========================================
+
          */
 
         const serviceItems = gsap.utils.toArray<HTMLElement>(".services__item");
@@ -259,7 +344,9 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
           serviceVisuals.forEach((visual, index) => {
             gsap.set(visual, {
               yPercent: index === 0 ? 0 : 100,
+
               opacity: 1,
+
               force3D: true,
             });
           });
@@ -267,26 +354,50 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
           const servicesTimeline = gsap.timeline({
             defaults: {
               duration: 1,
+
               ease: "none",
             },
 
             scrollTrigger: {
               trigger: ".services",
+
               start: "center center",
+
               end: () => `bottom+=${serviceSteps * 80}% bottom`,
+
               pin: true,
+
               scrub: true,
+
+              snap: {
+                // After scrolling stops, complete to whichever card is more visible.
+                // Change SERVICES_SNAP_DELAY above to control the wait time.
+                snapTo: (progress) =>
+                  Math.round(progress * serviceSteps) / serviceSteps,
+                delay: SERVICES_SNAP_DELAY,
+                duration: {
+                  min: 0.35,
+                  max: 0.8,
+                },
+                ease: "power3.inOut",
+                inertia: false,
+              },
+
               invalidateOnRefresh: true,
             },
           });
 
           servicesTimeline.to(
             ".services__progressbar-fill",
+
             {
               width: "100%",
+
               duration: serviceSteps,
+
               ease: "none",
             },
+
             0,
           );
 
@@ -302,60 +413,91 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
             const step = index - 1;
 
             /*
+
              * Previous right-side card scales down.
+
              */
+
             servicesTimeline.to(
               previousItem,
+
               {
                 scale: 0.8,
+
                 duration: 1,
+
                 ease: "none",
               },
+
               step,
             );
 
             /*
+
              * New right-side card moves up into position.
+
              */
+
             servicesTimeline.to(
               item,
+
               {
                 transform: "translate(-50%, -50%)",
+
                 duration: 1,
+
                 ease: "none",
               },
+
               step,
             );
 
             /*
+
              * Previous left-side image scrolls upward
+
              * and leaves the fixed image box.
+
              */
+
             if (previousVisual) {
               servicesTimeline.to(
                 previousVisual,
+
                 {
                   yPercent: -100,
+
                   duration: 1,
+
                   ease: "none",
+
                   force3D: true,
                 },
+
                 step,
               );
             }
 
             /*
+
              * Current left-side image enters from below.
+
              */
+
             if (currentVisual) {
               servicesTimeline.to(
                 currentVisual,
+
                 {
                   yPercent: 0,
+
                   duration: 1,
+
                   ease: "none",
+
                   force3D: true,
                 },
+
                 step,
               );
             }
@@ -368,15 +510,21 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
         if (headerContainer) {
           ScrollTrigger.create({
             trigger: document.body,
+
             start: "top+=10 top",
+
             end: "bottom bottom",
 
             onUpdate: (self) => {
               gsap.to(headerContainer, {
                 yPercent: self.direction === 1 ? -105 : 0,
+
                 y: self.direction === 1 ? "-120rem" : 0,
+
                 duration: 0.8,
+
                 ease: "power3.out",
+
                 overwrite: true,
               });
             },
@@ -385,6 +533,7 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
 
         return () => {
           smoother?.kill();
+
           smoother = null;
         };
       });
@@ -392,10 +541,15 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
       mm.add("(max-width: 1024px)", () => {
         smoother = ScrollSmoother.create({
           wrapper: "#smooth-wrapper",
+
           content: "#smooth-content",
+
           smooth: 1,
+
           speed: 1,
+
           normalizeScroll: true,
+
           ignoreMobileResize: true,
         });
 
@@ -403,6 +557,7 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
 
         return () => {
           smoother?.kill();
+
           smoother = null;
         };
       });
@@ -424,47 +579,65 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
 
         defaults: {
           ease: "power4.inOut",
+
           duration: 2,
         },
       });
 
       timeline
+
         .to(
           ".hero__video-cover",
+
           {
             top: "50%",
+
             transform: "translate(-50%, -50%) scale(0.35) rotate(0deg)",
+
             delay: 1,
           },
+
           0,
         )
 
         .to(
           ".preloader__container-line",
+
           {
             width: "100%",
           },
+
           "<+=1",
         )
 
         .to(
           preloaderChars,
+
           {
             ease: "back",
+
             opacity: 1,
+
             scaleY: 1,
+
             yPercent: 0,
+
             stagger: 0.03,
+
             duration: 1,
           },
+
           "<",
         )
 
         .to(
           counter,
+
           {
             value: 100,
+
             duration: 3,
+
             ease: "power1.in",
 
             onUpdate: () => {
@@ -477,13 +650,16 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
               }
             },
           },
+
           ">",
         )
 
         .to(
           ".preloader",
+
           {
             opacity: 0,
+
             duration: 1,
 
             onComplete: () => {
@@ -494,32 +670,43 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
               }
             },
           },
+
           ">",
         )
 
         .to(
           ".hero__video-cover",
+
           {
             transform: "translate(-50%, -50%) scale(1) rotate(0deg)",
           },
+
           "<",
         )
 
         .to(
           heroChars,
+
           {
             ease: "back",
+
             opacity: 1,
+
             scaleY: 1,
+
             yPercent: 0,
+
             stagger: 0.03,
+
             duration: 1,
           },
+
           ">",
         )
 
         .to(
           ".main-animated-line",
+
           {
             width: "100%",
 
@@ -527,19 +714,23 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
               smoother?.paused(false);
             },
           },
+
           "<",
         )
 
         .to(
           ".header",
+
           {
             transform: "translateY(0%)",
           },
+
           ">-=1",
         )
 
         .to(
           ".hero-slider",
+
           {
             transform: "translateX(0%)",
 
@@ -547,14 +738,17 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
               window.dispatchEvent(new Event("mvp:hero-slider-start"));
             },
           },
+
           "<",
         )
 
         .to(
           ".hero__btn",
+
           {
             transform: "translateY(0%)",
           },
+
           "<",
         );
 
@@ -591,7 +785,9 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
       splits.forEach((split) => split.revert());
 
       mm.revert();
+
       ctx.revert();
+
       smoother?.kill();
     };
   }, [rootRef]);
