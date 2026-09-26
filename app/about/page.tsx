@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { AboutExperience } from "@/components/about/AboutExperience";
+import AboutExperience from "@/components/about/AboutExperience";
 
 export const metadata: Metadata = {
-  title: "About Us | Difference Integrated Logistics",
+  title: "About Us | Difference Integrated",
   description:
-    "Learn how Difference Integrated supports freight movement, material transportation, fleet operations and project logistics across Saudi Arabia.",
+    "Learn how Difference Integrated approaches transportation and logistics operations across Saudi Arabia.",
 };
 
 export default function AboutPage() {

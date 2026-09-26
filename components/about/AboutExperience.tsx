@@ -1,15 +1,25 @@
 "use client";
 
 import { useLayoutEffect, useRef } from "react";
+
+import Image from "next/image";
+
 import gsap from "gsap";
+
 import { ScrollSmoother } from "gsap/ScrollSmoother";
+
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 import { SplitText } from "gsap/SplitText";
 
 import { Footer } from "@/components/Footer";
+
 import { Services } from "@/components/home/Services";
+
 import { AnimatedButton } from "@/components/ui/AnimatedButton";
+
 import { PageTransition } from "@/components/ui/PageTransition";
+
 import { Contact } from "@/components/home/Contact";
 
 const SERVICES_SNAP_DELAY = 1;
@@ -17,50 +27,81 @@ const SERVICES_SNAP_DELAY = 1;
 const goals = [
   {
     number: "01",
+
     heading: "PREPARE",
+
     text: "Understand the movement before dispatch begins, from load conditions and site access to timing and vehicle requirements.",
+
+    image: "/assets/img/about/goals/prepare.webp",
   },
+
   {
     number: "02",
+
     heading: "CONTROL",
+
     text: "Keep each stage connected so operational changes can be managed without losing sight of the delivery objective.",
+
+    image: "/assets/img/about/goals/control.webp",
   },
+
   {
     number: "03",
+
     heading: "DELIVER",
+
     text: "Complete each movement with the discipline required by the cargo, project environment, and receiving site.",
+
+    image: "/assets/img/about/goals/deliver.webp",
   },
 ];
 
 const operationFactors = [
   {
     number: "01",
+
     heading: "THE LOAD SETS THE REQUIREMENTS.",
+
     text: "Different materials, cargo types, weights, and handling conditions call for different transport decisions.",
   },
+
   {
     number: "02",
+
     heading: "THE SITE CHANGES THE PLAN.",
+
     text: "Access points, unloading areas, operating hours, and active site conditions affect how a movement is prepared.",
   },
+
   {
     number: "03",
+
     heading: "THE VEHICLE HAS TO FIT THE JOB.",
+
     text: "Fleet selection depends on the load, route, handling requirements, and destination - not simply availability.",
   },
+
   {
     number: "04",
+
     heading: "TIMING CONNECTS TO EVERYTHING ELSE.",
+
     text: "Delivery windows, construction sequences, receiving teams, and site activity all depend on transport arriving when expected.",
   },
+
   {
     number: "05",
+
     heading: "COMMUNICATION CANNOT STOP AT DISPATCH.",
+
     text: "Clients, drivers, operations teams, and receiving locations need to stay aligned while the movement is underway.",
   },
+
   {
     number: "06",
+
     heading: "COMPLIANCE STARTS BEFORE DEPARTURE.",
+
     text: "Applicable transport requirements and operating procedures are considered as part of the job from the beginning.",
   },
 ];
@@ -70,16 +111,19 @@ const facts = [
     heading: "KSA",
     title: "THE OPERATING ENVIRONMENT",
     text: "Transport planning informed by Saudi routes, project locations, working conditions, and delivery requirements.",
+    image: "/assets/img/about/plan-around/ksa.webp",
   },
   {
     heading: "B2B",
     title: "THE BUSINESS REQUIREMENT",
     text: "Support structured around contractors, developers, industrial teams, procurement functions, and businesses managing ongoing transport activity.",
+    image: "/assets/img/about/plan-around/b2b.webp",
   },
   {
     heading: "FIELD",
     title: "THE CONDITIONS ON THE GROUND",
     text: "Decisions shaped by what happens at loading points, on the road, and inside active project sites.",
+    image: "/assets/img/about/plan-around/field.webp",
   },
 ];
 
@@ -99,6 +143,7 @@ function AboutHero() {
           <div className="hero-about__abb flex w-[1100rem] items-center justify-between text-[40rem] leading-[.9] max-[1024px]:w-full max-[1024px]:text-[20rem]">
             <div className="hero-about__abb-wrapper flex gap-[160rem] max-[1024px]:gap-[20rem]">
               <span className="hero-about__abb-item">D.</span>
+
               <span className="hero-about__abb-item">I.</span>
             </div>
 
@@ -148,6 +193,7 @@ function BrandStatement() {
                 access conditions, timing, vehicle requirements, and the people
                 involved.
               </p>
+
               <p>
                 Difference Integrated connects those details before dispatch
                 begins, helping reduce disruption at loading points, on the
@@ -157,7 +203,9 @@ function BrandStatement() {
 
             <div className="flex flex-col gap-[18rem] text-[60rem] font-bold leading-[54rem] uppercase max-[1024px]:gap-[12rem] max-[1024px]:text-[38rem] max-[1024px]:leading-[36rem]">
               <p>PLAN WITH CONTEXT.</p>
+
               <p>COORDINATE WITH CLARITY.</p>
+
               <p>EXECUTE WITH CONTROL.</p>
             </div>
           </div>
@@ -177,6 +225,7 @@ function OurStory() {
         <div className="scale-block overflow-hidden rounded-[20rem] bg-[var(--mvp-primary)] px-[40rem] pb-[20rem] pt-[45rem] text-white max-[1024px]:rounded-[10rem] max-[1024px]:px-[20rem] max-[1024px]:pt-[30rem]">
           <div className="opacity-block flex items-center justify-between border-b border-white/15 pb-[10rem] uppercase max-[1024px]:text-[15rem]">
             <span>WHO WE ARE</span>
+
             <span>Difference Integrated</span>
           </div>
 
@@ -201,6 +250,7 @@ function OurStory() {
                   sequencing, driver readiness, and communication all influence
                   how the job is handled.
                 </p>
+
                 <p>
                   That means the transport plan is shaped around the actual
                   requirements of the assignment rather than treated as a
@@ -220,7 +270,9 @@ function OurStory() {
           <div className="border-t border-white/15 pt-[15rem] text-center text-[210rem] font-normal leading-none tracking-[-.03em] text-white/5 uppercase max-[1024px]:hidden">
             <div className="ticker">
               <span className="ticker-item">Built for Saudi logistics</span>
+
               <span className="ticker-item">Built for Saudi logistics</span>
+
               <span className="ticker-item">Built for Saudi logistics</span>
             </div>
           </div>
@@ -245,19 +297,32 @@ function Goals() {
           {goals.map((goal) => (
             <article
               key={goal.number}
-              className="scale-block flex min-h-[560rem] flex-col justify-between rounded-[20rem] bg-[var(--mvp-light)] p-[55rem] max-[1024px]:min-h-[330rem] max-[1024px]:rounded-[10rem] max-[1024px]:p-[30rem]"
+              className="scale-block group relative min-h-[620rem] overflow-hidden rounded-[20rem] max-[1024px]:min-h-[460rem] max-[1024px]:rounded-[10rem]"
             >
-              <span className="text-[140rem] leading-none text-[var(--mvp-primary)] max-[1024px]:text-[80rem]">
-                {goal.number}
-              </span>
+              <Image
+                src={goal.image}
+                alt={goal.heading}
+                fill
+                sizes="(min-width: 1025px) 33vw, 100vw"
+                className="object-cover object-center transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.035]"
+              />
 
-              <div>
-                <h3 className="mb-[18rem] text-[60rem] font-bold leading-[54rem] uppercase max-[1024px]:text-[42rem] max-[1024px]:leading-[40rem]">
-                  {goal.heading}
-                </h3>
-                <p className="max-w-[440rem] font-['Inter'] text-[20rem] font-normal leading-[27rem] max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
-                  {goal.text}
-                </p>
+              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(25,37,91,.16)_0%,rgba(25,37,91,.28)_42%,rgba(25,37,91,.88)_100%)]" />
+
+              <div className="relative z-[2] flex min-h-[620rem] flex-col justify-between p-[55rem] text-white max-[1024px]:min-h-[460rem] max-[1024px]:p-[30rem]">
+                <span className="text-[130rem] leading-none max-[1024px]:text-[80rem]">
+                  {goal.number}
+                </span>
+
+                <div>
+                  <h3 className="mb-[18rem] text-[60rem] font-bold leading-[54rem] uppercase max-[1024px]:text-[42rem] max-[1024px]:leading-[40rem]">
+                    {goal.heading}
+                  </h3>
+
+                  <p className="max-w-[460rem] font-['Inter'] text-[20rem] font-normal leading-[27rem] text-white/90 max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
+                    {goal.text}
+                  </p>
+                </div>
               </div>
             </article>
           ))}
@@ -301,6 +366,7 @@ function WhatShapesEveryOperation() {
                     <h3 className="mb-[22rem] text-[60rem] font-bold leading-[54rem] uppercase max-[1024px]:mb-[15rem] max-[1024px]:text-[38rem] max-[1024px]:leading-[36rem]">
                       {item.heading}
                     </h3>
+
                     <p className="font-['Inter'] text-[20rem] font-normal leading-[27rem] normal-case max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
                       {item.text}
                     </p>
@@ -330,6 +396,7 @@ function Mission() {
               connecting the details that matter before, during, and at the end
               of every trip.
             </h3>
+
             <h3 className="mb-[45rem] text-[60rem] font-bold leading-[54rem] uppercase max-[1024px]:mb-[30rem] max-[1024px]:text-[42rem] max-[1024px]:leading-[40rem]">
               We support projects and businesses across Saudi Arabia with an
               approach built around preparation, coordination, field execution,
@@ -337,12 +404,19 @@ function Mission() {
             </h3>
 
             {/* <div className="space-y-[24rem] font-['Inter'] text-[20rem] font-normal leading-[27rem] normal-case max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
+
               <p>
+
                 Our mission is to bring clarity and structure to transport operations by connecting the details that matter before, during, and at the end of every trip.
+
               </p>
+
               <p>
+
                 We support projects and businesses across Saudi Arabia with an approach built around preparation, coordination, field execution, and accountability.
+
               </p>
+
             </div> */}
           </div>
         </div>
@@ -370,6 +444,7 @@ function Statement() {
               access, and final handoff all determine how well a movement is
               completed.
             </p>
+
             <p>That is why we look at the operation as a whole.</p>
           </div>
         </div>
@@ -390,19 +465,38 @@ function Facts() {
           {facts.map((fact) => (
             <article
               key={fact.heading}
-              className="scale-block flex min-h-[590rem] flex-col justify-between rounded-[20rem] bg-[var(--mvp-primary)] p-[55rem] text-white max-[1024px]:min-h-[400rem] max-[1024px]:rounded-[10rem] max-[1024px]:p-[30rem]"
+              className="scale-block group relative min-h-[590rem] overflow-hidden rounded-[20rem] max-[1024px]:min-h-[460rem] max-[1024px]:rounded-[10rem]"
             >
-              <span className="text-[120rem] leading-none max-[1024px]:text-[80rem]">
-                {fact.heading}
-              </span>
+              <Image
+                src={fact.image}
+                alt={fact.title}
+                fill
+                sizes="(min-width: 1025px) 33vw, 100vw"
+                className="object-cover object-center transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.045]"
+              />
 
-              <div>
-                <h3 className="mb-[22rem] text-[60rem] font-bold leading-[54rem] uppercase max-[1024px]:text-[40rem] max-[1024px]:leading-[38rem]">
-                  {fact.title}
-                </h3>
-                <p className="max-w-[480rem] font-['Inter'] text-[20rem] font-normal leading-[27rem] normal-case max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
-                  {fact.text}
-                </p>
+              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(25,37,91,.18)_0%,rgba(25,37,91,.30)_40%,rgba(25,37,91,.93)_100%)] transition-all duration-500 group-hover:bg-[linear-gradient(180deg,rgba(25,37,91,.25)_0%,rgba(25,37,91,.43)_40%,rgba(25,37,91,.97)_100%)]" />
+
+              <div className="relative z-[2] flex min-h-[590rem] flex-col justify-between p-[55rem] text-white max-[1024px]:min-h-[460rem] max-[1024px]:p-[30rem]">
+                <span className="text-[120rem] leading-none max-[1024px]:text-[80rem]">
+                  {fact.heading}
+                </span>
+
+                <div className="max-w-[500rem]">
+                  <div className="mb-[20rem] h-[3rem] w-[58rem] bg-[var(--mvp-accent)] transition-all duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover:w-[95rem]" />
+
+                  <h3 className="text-[60rem] font-bold leading-[54rem] uppercase transition-transform duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover:-translate-y-[14rem] max-[1024px]:mb-[18rem] max-[1024px]:translate-y-0 max-[1024px]:text-[40rem] max-[1024px]:leading-[38rem]">
+                    {fact.title}
+                  </h3>
+
+                  <div className="grid translate-y-[24rem] opacity-0 transition-[grid-template-rows,opacity,transform] duration-500 ease-[cubic-bezier(.22,1,.36,1)] [grid-template-rows:0fr] group-hover:translate-y-0 group-hover:opacity-100 group-hover:[grid-template-rows:1fr] max-[1024px]:translate-y-0 max-[1024px]:opacity-100 max-[1024px]:[grid-template-rows:1fr]">
+                    <div className="overflow-hidden">
+                      <p className="pt-[5rem] font-['Inter'] text-[20rem] font-normal leading-[27rem] text-white/90 max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
+                        {fact.text}
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </article>
           ))}
@@ -419,11 +513,15 @@ export function AboutExperience() {
     if (!rootRef.current) return;
 
     gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
+
     window.scrollTo(0, 0);
 
     const splits: SplitText[] = [];
+
     const listeners: Array<() => void> = [];
+
     const mm = gsap.matchMedia();
+
     let smoother: ReturnType<typeof ScrollSmoother.create> | null = null;
 
     const ctx = gsap.context(() => {
@@ -434,7 +532,9 @@ export function AboutExperience() {
       mainAnimated.forEach((element) => {
         const split = new SplitText(element, {
           type: "chars,words",
+
           charsClass: "char",
+
           wordsClass: "word",
         });
 
@@ -442,7 +542,9 @@ export function AboutExperience() {
 
         gsap.set(split.chars, {
           willChange: "transform",
+
           transformOrigin: "50% 0%",
+
           scaleY: 0,
         });
       });
@@ -450,7 +552,9 @@ export function AboutExperience() {
       gsap.utils.toArray<HTMLElement>(".animated-text").forEach((element) => {
         const split = new SplitText(element, {
           type: "chars,words",
+
           charsClass: "char",
+
           wordsClass: "word",
         });
 
@@ -458,18 +562,26 @@ export function AboutExperience() {
 
         gsap.set(split.chars, {
           willChange: "transform",
+
           transformOrigin: "50% 0%",
+
           scaleY: 0,
         });
 
         gsap.to(split.chars, {
           ease: "back",
+
           opacity: 1,
+
           scaleY: 1,
+
           yPercent: 0,
+
           stagger: 0.03,
+
           scrollTrigger: {
             trigger: element,
+
             start: "center bottom-=5%",
           },
         });
@@ -477,11 +589,14 @@ export function AboutExperience() {
 
       gsap.utils.toArray<HTMLElement>(".reading-block").forEach((section) => {
         const text = section.querySelector<HTMLElement>(".reading-block__text");
+
         if (!text) return;
 
         const split = new SplitText(text, {
           type: "chars,words",
+
           charsClass: "char",
+
           wordsClass: "word",
         });
 
@@ -489,18 +604,26 @@ export function AboutExperience() {
 
         gsap.set(split.words, {
           willChange: "opacity",
+
           opacity: 0.1,
         });
 
         gsap.to(split.words, {
           ease: "none",
+
           opacity: 1,
+
           stagger: 0.05,
+
           scrollTrigger: {
             trigger: section,
+
             start: "center center",
+
             end: "bottom+=50% bottom",
+
             scrub: true,
+
             pin: true,
           },
         });
@@ -508,32 +631,45 @@ export function AboutExperience() {
 
       gsap.utils.toArray<HTMLElement>(".opacity-block").forEach((element) => {
         gsap.set(element, { opacity: 0 });
+
         gsap.to(element, {
           opacity: 1,
+
           duration: 1,
+
           ease: "power4.inOut",
+
           scrollTrigger: {
             trigger: element,
+
             start: "center 92%",
           },
         });
       });
 
       gsap.utils
+
         .toArray<HTMLElement>(".main-opacity-block")
+
         .forEach((element) => {
           gsap.set(element, { opacity: 0 });
         });
 
       gsap.utils.toArray<HTMLElement>(".scale-block").forEach((element) => {
         gsap.set(element, { scale: 0.7 });
+
         gsap.to(element, {
           scale: 1,
+
           ease: "none",
+
           scrollTrigger: {
             trigger: element,
+
             start: "top bottom",
+
             end: "center center",
+
             scrub: true,
           },
         });
@@ -542,15 +678,20 @@ export function AboutExperience() {
       mm.add("(min-width: 1025px)", () => {
         smoother = ScrollSmoother.create({
           wrapper: "#smooth-wrapper",
+
           content: "#smooth-content",
+
           smooth: 2.5,
+
           speed: 0.7,
+
           normalizeScroll: true,
         });
 
         const scrollbox = document.querySelector<HTMLElement>(
           ".advantages__scrollbox",
         );
+
         const firstItem = document.querySelector<HTMLElement>(
           ".advantages__scrollbox-item",
         );
@@ -560,20 +701,30 @@ export function AboutExperience() {
             Math.max(0, scrollbox.offsetHeight - firstItem.offsetHeight * 2);
 
           gsap
+
             .timeline({
               scrollTrigger: {
                 trigger: ".advantages",
+
                 start: "top top",
+
                 end: "bottom+=100% top",
+
                 scrub: true,
+
                 pin: true,
+
                 invalidateOnRefresh: true,
               },
             })
+
             .to(scrollbox, { y: () => -distance(), ease: "none" }, 0)
+
             .to(
               ".advantages__progressbar-fill",
+
               { width: "100%", ease: "none" },
+
               0,
             );
         }
@@ -599,7 +750,9 @@ export function AboutExperience() {
           serviceVisuals.forEach((visual, index) => {
             gsap.set(visual, {
               yPercent: index === 0 ? 0 : 100,
+
               opacity: 1,
+
               force3D: true,
             });
           });
@@ -607,12 +760,18 @@ export function AboutExperience() {
           if (serviceProgress) {
             gsap.to(serviceProgress, {
               width: "100%",
+
               ease: "none",
+
               scrollTrigger: {
                 trigger: services,
+
                 start: "center center",
+
                 end: getServicesEnd,
+
                 scrub: true,
+
                 invalidateOnRefresh: true,
               },
             });
@@ -624,13 +783,19 @@ export function AboutExperience() {
             const servicesTimeline = gsap.timeline({
               scrollTrigger: {
                 trigger: services,
+
                 start: "center center",
+
                 end: getServicesEnd,
+
                 pin: true,
+
                 scrub: true,
+
                 snap: {
                   snapTo: (progress) => {
                     let closest = serviceSnapPoints[0] ?? 0;
+
                     let smallestDistance = Math.abs(progress - closest);
 
                     serviceSnapPoints.forEach((point) => {
@@ -638,20 +803,27 @@ export function AboutExperience() {
 
                       if (distance < smallestDistance) {
                         closest = point;
+
                         smallestDistance = distance;
                       }
                     });
 
                     return closest;
                   },
+
                   delay: SERVICES_SNAP_DELAY,
+
                   duration: {
                     min: 0.35,
+
                     max: 0.8,
                   },
+
                   ease: "power3.inOut",
+
                   inertia: false,
                 },
+
                 invalidateOnRefresh: true,
               },
             });
@@ -660,32 +832,41 @@ export function AboutExperience() {
 
             servicesTimeline.to(
               serviceItems[0],
+
               {
                 scale: 0.8,
               },
+
               0,
             );
 
             serviceItems.slice(1).forEach((item, index) => {
               const currentIndex = index + 1;
+
               const previousVisual = serviceVisuals[currentIndex - 1];
+
               const currentVisual = serviceVisuals[currentIndex];
 
               servicesTimeline.to(
                 item,
+
                 {
                   transform: "translate(-50%, -50%)",
                 },
+
                 index === 0 ? "<" : ">",
               );
 
               if (previousVisual) {
                 servicesTimeline.to(
                   previousVisual,
+
                   {
                     yPercent: -100,
+
                     force3D: true,
                   },
+
                   "<",
                 );
               }
@@ -693,10 +874,13 @@ export function AboutExperience() {
               if (currentVisual) {
                 servicesTimeline.to(
                   currentVisual,
+
                   {
                     yPercent: 0,
+
                     force3D: true,
                   },
+
                   "<",
                 );
               }
@@ -706,9 +890,11 @@ export function AboutExperience() {
               if (index < serviceItems.length - 2) {
                 servicesTimeline.to(
                   item,
+
                   {
                     scale: 0.8,
                   },
+
                   ">",
                 );
               }
@@ -726,6 +912,7 @@ export function AboutExperience() {
 
         return () => {
           smoother?.kill();
+
           smoother = null;
         };
       });
@@ -733,23 +920,32 @@ export function AboutExperience() {
       mm.add("(max-width: 1024px)", () => {
         smoother = ScrollSmoother.create({
           wrapper: "#smooth-wrapper",
+
           content: "#smooth-content",
+
           smooth: 1,
+
           speed: 1,
+
           normalizeScroll: true,
+
           ignoreMobileResize: true,
         });
 
         return () => {
           smoother?.kill();
+
           smoother = null;
         };
       });
 
       gsap.set(".transition-plug", { yPercent: 0 });
+
       gsap.set(".transition-plug__inner", {
         top: "auto",
+
         bottom: 0,
+
         height: "100%",
       });
 
@@ -759,37 +955,55 @@ export function AboutExperience() {
 
       const entrance = gsap.timeline({
         paused: true,
+
         defaults: {
           ease: "power4.inOut",
+
           duration: 2,
         },
       });
 
       entrance
+
         .fromTo(
           ".transition-plug__inner",
+
           { top: "auto", bottom: 0, height: "100%", duration: 0 },
+
           { height: "0%" },
+
           0,
         )
+
         .to(".transition-plug", { yPercent: 105 }, 0.05)
+
         .to(
           heroChars,
+
           {
             ease: "back",
+
             opacity: 1,
+
             scaleY: 1,
+
             yPercent: 0,
+
             stagger: 0.03,
+
             duration: 1,
           },
+
           ">",
         )
+
         .to(".main-animated-line", { width: "100%" }, "<")
+
         .to(".main-opacity-block", { opacity: 1, duration: 1 }, "<+=1");
 
       const start = () => {
         window.scrollTo(0, 0);
+
         entrance.play(0);
       };
 
@@ -797,11 +1011,14 @@ export function AboutExperience() {
         requestAnimationFrame(start);
       } else {
         window.addEventListener("load", start, { once: true });
+
         listeners.push(() => window.removeEventListener("load", start));
       }
 
       const refresh = () => ScrollTrigger.refresh();
+
       window.addEventListener("resize", refresh);
+
       listeners.push(() => window.removeEventListener("resize", refresh));
 
       requestAnimationFrame(() => ScrollTrigger.refresh());
@@ -809,9 +1026,13 @@ export function AboutExperience() {
 
     return () => {
       listeners.forEach((cleanup) => cleanup());
+
       splits.forEach((split) => split.revert());
+
       mm.revert();
+
       ctx.revert();
+
       smoother?.kill();
     };
   }, []);
@@ -819,21 +1040,32 @@ export function AboutExperience() {
   return (
     <div ref={rootRef}>
       <PageTransition initialCovered />
+
       <div id="smooth-wrapper">
         <div
           id="smooth-content"
           className="overflow-hidden bg-white text-[var(--mvp-primary)]"
         >
           <AboutHero />
+
           <BrandStatement />
+
           <OurStory />
+
           <Goals />
+
           <WhatShapesEveryOperation />
+
           <Mission />
+
           <Statement />
+
           <Facts />
+
           <Services />
+
           <Contact />
+
           <div className="bg-[var(--mvp-dark)]">
             <Footer />
           </div>
@@ -842,3 +1074,5 @@ export function AboutExperience() {
     </div>
   );
 }
+
+export default AboutExperience;
