@@ -3,31 +3,44 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 import { navItems } from "@/data/site";
+
 import { AnimatedButton } from "@/components/ui/AnimatedButton";
+
 import { HoverText } from "@/components/ui/HoverText";
+
 import { ContactModal } from "@/components/ui/ContactModal";
 
 export type HeaderVariant = "dark" | "light";
 
 type HeaderProps = {
   variant?: HeaderVariant;
+  instantRevealOnScrollUp?: boolean;
 };
 
 type HeaderStyle = CSSProperties & {
   "--header-nav-color": string;
 };
 
-export function Header({ variant = "dark" }: HeaderProps) {
+export function Header({
+  variant = "dark",
+  instantRevealOnScrollUp = false,
+}: HeaderProps) {
   const [langOpen, setLangOpen] = useState(false);
+
   const [menuOpen, setMenuOpen] = useState(false);
+
   const [contactOpen, setContactOpen] = useState(false);
 
   const [headerEntered, setHeaderEntered] = useState(false);
+
   const [headerVisible, setHeaderVisible] = useState(true);
+
   const [scrolled, setScrolled] = useState(false);
 
   const lastScrollY = useRef(0);
+
   const ticking = useRef(false);
+
   const overlayOpenRef = useRef(false);
 
   const revealTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -147,6 +160,7 @@ export function Header({ variant = "dark" }: HeaderProps) {
         setHeaderVisible(true);
 
         lastScrollY.current = currentScrollY;
+
         ticking.current = false;
 
         return;
@@ -156,6 +170,7 @@ export function Header({ variant = "dark" }: HeaderProps) {
         setHeaderVisible(true);
 
         lastScrollY.current = currentScrollY;
+
         ticking.current = false;
 
         return;
@@ -174,6 +189,7 @@ export function Header({ variant = "dark" }: HeaderProps) {
       }
 
       lastScrollY.current = currentScrollY;
+
       ticking.current = false;
     };
 
@@ -195,15 +211,25 @@ export function Header({ variant = "dark" }: HeaderProps) {
   }, []);
 
   /*
+
    * DARK variant:
+
    * Dark hero → light nav + white/orange logo
+
    *
+
    * LIGHT variant:
+
    * Light hero → primary nav + coloured logo
+
    *
+
    * Once scrolled:
+
    * light sticky header + primary nav + coloured logo
+
    */
+
   const useLightContent = variant === "dark" && !scrolled;
 
   const logoSrc = useLightContent
@@ -244,25 +270,30 @@ export function Header({ variant = "dark" }: HeaderProps) {
             boxShadow: scrolled ? "0 8px 30px rgba(25, 37, 91, 0.08)" : "none",
 
             transition:
-              "transform 1.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.35s ease, box-shadow 0.35s ease, backdrop-filter 0.35s ease",
+              instantRevealOnScrollUp &&
+              headerEntered &&
+              headerVisible &&
+              scrolled
+                ? "transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.35s ease, box-shadow 0.35s ease, backdrop-filter 0.35s ease"
+                : "transform 1.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.35s ease, box-shadow 0.35s ease, backdrop-filter 0.35s ease",
 
             willChange: "transform",
           }}
         >
-          <div className="header__container mvp-container relative z-[2] flex items-center justify-between py-[20rem]">
+          <div className="header__container mvp-container relative z-[2] flex items-center justify-between gap-[20rem] py-[20rem] max-[1600px]:gap-[16rem] max-[1440px]:py-[16rem] max-[1200px]:gap-[10rem] max-[1200px]:py-[14rem] max-[1024px]:py-[12rem] max-[640px]:gap-[6rem] max-[640px]:py-[10rem]">
             <a
               href="/"
-              className="header__logo flex h-[80rem] items-center justify-center rounded-[5rem] bg-transparent px-[30rem] max-[1024px]:h-[60rem] max-[1024px]:px-[8rem]"
+              className="header__logo flex h-[80rem] shrink-0 items-center justify-center rounded-[5rem] bg-transparent px-[30rem] max-[1600px]:px-[24rem] max-[1440px]:h-[72rem] max-[1440px]:px-[18rem] max-[1200px]:h-[66rem] max-[1200px]:px-[12rem] max-[1024px]:h-[60rem] max-[1024px]:px-[8rem] max-[640px]:h-[52rem] max-[640px]:px-[4rem]"
             >
               <img
                 key={logoSrc}
                 src={logoSrc}
                 alt="Difference Integrated Logistics"
-                className="header__logo-img w-[180rem] max-[1024px]:w-[130rem]"
+                className="header__logo-img w-[180rem] max-[1600px]:w-[165rem] max-[1440px]:w-[150rem] max-[1200px]:w-[140rem] max-[1024px]:w-[130rem] max-[640px]:w-[112rem] max-[420px]:w-[102rem]"
               />
             </a>
 
-            <nav className="header__menu flex h-[80rem] items-center justify-center gap-[50rem] rounded-[5rem] bg-transparent px-[40rem] text-[20rem] uppercase max-[1024px]:hidden">
+            <nav className="header__menu flex h-[80rem] min-w-0 items-center justify-center gap-[50rem] whitespace-nowrap rounded-[5rem] bg-transparent px-[40rem] text-[20rem] uppercase max-[1600px]:gap-[38rem] max-[1600px]:px-[30rem] max-[1600px]:text-[18rem] max-[1440px]:h-[72rem] max-[1440px]:gap-[28rem] max-[1440px]:px-[22rem] max-[1440px]:text-[16rem] max-[1200px]:h-[66rem] max-[1200px]:gap-[18rem] max-[1200px]:px-[12rem] max-[1200px]:text-[14rem] max-[1024px]:hidden">
               {navItems.map((item) => (
                 <a
                   key={item.label}
@@ -276,11 +307,11 @@ export function Header({ variant = "dark" }: HeaderProps) {
               ))}
             </nav>
 
-            <div className="header__actions flex gap-[10rem]">
+            <div className="header__actions flex shrink-0 items-center gap-[10rem] max-[1440px]:gap-[8rem] max-[1200px]:gap-[6rem] max-[640px]:gap-[4rem]">
               <button
                 type="button"
                 onClick={() => setMenuOpen((value) => !value)}
-                className="header__hamburger-btn mvp-btn hidden max-[1024px]:inline-flex"
+                className="header__hamburger-btn mvp-btn hidden max-[1024px]:inline-flex max-[640px]:min-w-[68rem] max-[640px]:px-[14rem] max-[640px]:text-[12rem] max-[420px]:min-w-[62rem] max-[420px]:px-[10rem]"
               >
                 {menuOpen ? "Close" : "Menu"}
               </button>
@@ -345,11 +376,11 @@ export function Header({ variant = "dark" }: HeaderProps) {
         </div>
 
         <div
-          className={`header__hamburger mvp-container pointer-events-auto fixed inset-0 -z-[1] hidden h-screen flex-col overflow-y-auto bg-primary pb-[20rem] transition-transform duration-700 max-[1024px]:flex ${
+          className={`header__hamburger mvp-container pointer-events-auto fixed inset-0 -z-[1] hidden min-h-[100dvh] flex-col overflow-y-auto bg-primary pb-[max(20rem,env(safe-area-inset-bottom))] pt-[105rem] transition-transform duration-700 max-[1024px]:flex max-[640px]:pt-[88rem] ${
             menuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
-          <nav className="relative top-[18vh] flex flex-col items-center gap-[25rem] pb-[180rem] text-[30rem] uppercase text-light">
+          <nav className="relative flex flex-1 flex-col items-center justify-center gap-[25rem] pb-[80rem] text-center text-[30rem] uppercase text-light max-[768px]:gap-[20rem] max-[768px]:text-[27rem] max-[640px]:gap-[16rem] max-[640px]:pb-[55rem] max-[640px]:text-[24rem] max-[420px]:gap-[14rem] max-[420px]:text-[21rem]">
             {navItems.map((item) => (
               <a
                 key={item.label}
@@ -362,11 +393,12 @@ export function Header({ variant = "dark" }: HeaderProps) {
             ))}
           </nav>
 
-          <div className="mt-auto">
+          <div className="mt-auto w-full pb-[10rem] max-[640px]:pb-[6rem]">
             <AnimatedButton
               className="inline-flex"
               onClick={() => {
                 setMenuOpen(false);
+
                 setContactOpen(true);
               }}
             >
@@ -386,16 +418,152 @@ export function Header({ variant = "dark" }: HeaderProps) {
       <style jsx global>{`
         .header .header__menu-item {
           color: var(--header-nav-color) !important;
-          transition: color 0.3s ease;
+          transition:
+            color 0.3s ease,
+            box-shadow 0.3s ease;
         }
 
         .header .header__menu-item[data-active-route="true"] {
-          box-shadow: inset 0 -1.5px 0 currentColor;
+          color: var(--mvp-accent) !important;
+          box-shadow: inset 0 -1.5px 0 var(--mvp-accent);
+        }
+
+        .header .header__menu-item[data-active-route="true"] .text-hover-elem {
+          color: var(--mvp-accent) !important;
         }
 
         .header__logo-img {
           display: block;
           height: auto;
+          max-width: 100%;
+        }
+
+        @media (max-width: 1600px) and (min-width: 1025px) {
+          .header .header__btn {
+            height: 74rem;
+            padding-left: 42rem;
+            padding-right: 42rem;
+            font-size: 15rem;
+          }
+
+          .header .header__lang-heading {
+            width: 76rem;
+            height: 74rem;
+            font-size: 15rem;
+          }
+        }
+
+        @media (max-width: 1440px) and (min-width: 1025px) {
+          .header .header__btn {
+            height: 68rem;
+            padding-left: 34rem;
+            padding-right: 34rem;
+            font-size: 14rem;
+          }
+
+          .header .header__lang-heading {
+            width: 70rem;
+            height: 68rem;
+            font-size: 14rem;
+          }
+        }
+
+        @media (max-width: 1200px) and (min-width: 1025px) {
+          .header .header__btn {
+            height: 62rem;
+            padding-left: 24rem;
+            padding-right: 24rem;
+            font-size: 13rem;
+          }
+
+          .header .header__lang-heading {
+            width: 64rem;
+            height: 62rem;
+            font-size: 13rem;
+          }
+
+          .header .header__lang-heading svg {
+            width: 10rem;
+            height: 10rem;
+          }
+        }
+
+        @media (max-width: 1024px) {
+          .header .header__btn {
+            display: none !important;
+          }
+
+          .header__scroll-shell {
+            width: 100%;
+          }
+
+          .header .header__hamburger-btn {
+            height: 60rem;
+          }
+
+          .header .header__lang-heading {
+            width: 60rem;
+            height: 60rem;
+          }
+
+          .header__lang-dropdown {
+            min-width: 60rem;
+            right: 0;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .header .header__hamburger-btn {
+            height: 52rem;
+            min-width: 68rem;
+            padding-left: 14rem;
+            padding-right: 14rem;
+            font-size: 12rem;
+          }
+
+          .header .header__lang-heading {
+            width: 52rem;
+            height: 52rem;
+            font-size: 13rem;
+          }
+
+          .header .header__lang-heading svg {
+            width: 9rem;
+            height: 9rem;
+          }
+
+          .header__lang-dropdown {
+            min-width: 52rem;
+          }
+
+          .header__lang-list {
+            padding-top: 14rem;
+            padding-bottom: 14rem;
+          }
+
+          .header__lang-item {
+            font-size: 13rem !important;
+          }
+        }
+
+        @media (max-width: 420px) {
+          .header .header__hamburger-btn {
+            height: 48rem;
+            min-width: 62rem;
+            padding-left: 10rem;
+            padding-right: 10rem;
+            font-size: 11rem;
+          }
+
+          .header .header__lang-heading {
+            width: 48rem;
+            height: 48rem;
+            font-size: 12rem;
+          }
+
+          .header__lang-dropdown {
+            min-width: 48rem;
+          }
         }
       `}</style>
     </>

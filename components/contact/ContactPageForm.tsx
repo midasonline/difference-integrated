@@ -9,7 +9,7 @@ const services = [
   "Sand Transportation",
   "Heavy Dumper Logistics",
   "Logistics Coordination",
-  "Container Transportation",
+  "Goods Transportation",
   "Fleet Solutions",
   "Aggregate Transportation",
   "Tanker Transportation",

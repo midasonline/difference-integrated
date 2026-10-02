@@ -52,6 +52,21 @@ export const differenceServices: DifferenceService[] = [
     image: "/assets/img/rest/3-D25tXdGP.png",
     imageAlt: "Bulk construction materials being transported by heavy vehicle",
   },
+  {
+    number: "04",
+    title: "Fleet & Machinery",
+    description:
+      "A high-performance heavy transport fleet built to support bulk material movement and construction logistics across Saudi Arabia.",
+    details:
+      "Vehicles are selected for demanding transport conditions, long operational hours and efficient loading and unloading.",
+    points: [
+      "Heavy-duty transport vehicles",
+      "Bulk-material dump trucks",
+      "Operational readiness for project support",
+    ],
+    image: "/assets/img/rest/6-Dax5vAlj.png",
+    imageAlt: "Heavy transport fleet and logistics equipment",
+  },
 
   {
     number: "04",
@@ -83,22 +98,6 @@ export const differenceServices: DifferenceService[] = [
   },
 
   {
-    number: "06",
-    title: "Fleet & Equipment",
-    description:
-      "A high-performance heavy transport fleet built to support bulk material movement and construction logistics across Saudi Arabia.",
-    details:
-      "Vehicles are selected for demanding transport conditions, long operational hours and efficient loading and unloading.",
-    points: [
-      "Heavy-duty transport vehicles",
-      "Bulk-material dump trucks",
-      "Operational readiness for project support",
-    ],
-    image: "/assets/img/rest/6-Dax5vAlj.png",
-    imageAlt: "Heavy transport fleet and logistics equipment",
-  },
-
-  {
     number: "07",
     title: "Aggregate & Construction Material Transportation",
     description:
@@ -116,7 +115,7 @@ export const differenceServices: DifferenceService[] = [
 
   {
     number: "08",
-    title: "Container Transportation",
+    title: "Goods Transportation",
     description:
       "Containerized cargo movement supported by route planning, scheduling and delivery coordination.",
     details:

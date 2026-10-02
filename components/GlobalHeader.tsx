@@ -1,16 +1,11 @@
 "use client";
 
 import { useEffect } from "react";
-import { BackToTop } from "@/components/ui/BackToTop";
 import { usePathname } from "next/navigation";
 
 import { Header, type HeaderVariant } from "@/components/Header";
+import { BackToTop } from "@/components/ui/BackToTop";
 
-/*
- * Dark hero pages:
- * white/orange DI-Logo-WO.svg
- * light navigation text
- */
 const DARK_HERO_ROUTES = [
   "/",
   "/about",
@@ -22,14 +17,9 @@ const DARK_HERO_ROUTES = [
   "/vision-2030",
 ];
 
-/*
- * Light hero pages:
- * DI-Logo-Color.svg
- * primary/navy navigation text
- */
 const LIGHT_HERO_ROUTES = ["/contact", "/contacts", "/blog"];
 
-function normalizePath(value: string) {
+function normalizePath(value: string): string {
   if (!value) return "/";
 
   const cleanPath = value.split("?")[0].split("#")[0];
@@ -41,9 +31,8 @@ function normalizePath(value: string) {
   return cleanPath.replace(/\/+$/, "");
 }
 
-function matchesRoute(pathname: string, route: string) {
+function matchesRoute(pathname: string, route: string): boolean {
   const currentPath = normalizePath(pathname);
-
   const targetPath = normalizePath(route);
 
   if (targetPath === "/") {
@@ -72,32 +61,25 @@ function getHeaderVariant(pathname: string): HeaderVariant {
     return "dark";
   }
 
-  /*
-   * Default:
-   * use dark hero version.
-   */
   return "dark";
 }
 
 export function GlobalHeader() {
   const pathname = usePathname();
 
-  const isHome = normalizePath(pathname) === "/";
-
-  const headerVariant = getHeaderVariant(pathname);
+  const currentPath = normalizePath(pathname);
+  const isHome = currentPath === "/";
+  const headerVariant = getHeaderVariant(currentPath);
 
   useEffect(() => {
     const links = document.querySelectorAll<HTMLAnchorElement>(
       ".global-site-header .header__menu-item[href]",
     );
 
-    const currentPath = normalizePath(pathname);
-
     links.forEach((link) => {
       const href = link.getAttribute("href");
 
       link.removeAttribute("data-active-route");
-
       link.removeAttribute("aria-current");
 
       if (!href) return;
@@ -132,11 +114,10 @@ export function GlobalHeader() {
 
       if (active) {
         link.setAttribute("data-active-route", "true");
-
         link.setAttribute("aria-current", "page");
       }
     });
-  }, [pathname]);
+  }, [currentPath]);
 
   return (
     <>
@@ -146,16 +127,12 @@ export function GlobalHeader() {
         } global-site-header--${headerVariant}`}
         data-header-variant={headerVariant}
       >
-        <Header variant={headerVariant} />
+        <Header variant={headerVariant} instantRevealOnScrollUp={isHome} />
       </div>
 
       <BackToTop />
 
       <style jsx global>{`
-        /*
-         * Hide any old Header component
-         * still present inside individual pages.
-         */
         .global-site-header ~ * .header {
           display: none !important;
         }
@@ -169,6 +146,13 @@ export function GlobalHeader() {
           .header__menu-item[data-active-route="true"]
           .text-hover-elem {
           color: var(--mvp-accent) !important;
+        }
+
+        .global-site-header {
+          position: relative;
+          z-index: 999;
+          width: 100%;
+          max-width: 100vw;
         }
       `}</style>
     </>
