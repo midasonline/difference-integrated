@@ -248,5 +248,5 @@ export const videoSources = {
   hero: "/assets/img/video-bg.mp4",
 
   footer:
-    "https://mvplogistics.eu/wp-content/themes/mvp/assets/img/home/videos/footer.mp4",
+    "/assets/img/footer.mp4",
 };

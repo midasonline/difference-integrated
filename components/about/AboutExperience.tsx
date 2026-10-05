@@ -131,9 +131,15 @@ function AboutHero() {
   return (
     <section
       id="hero"
-      className="hero-about flex h-screen min-h-[760px] flex-col justify-end bg-cover bg-center text-white max-[1024px]:min-h-[680px]"
-      style={{ backgroundImage: "url('/assets/img/about/about-hero.png')" }}
+      className="hero-about relative flex h-screen min-h-[760px] flex-col justify-end overflow-hidden bg-cover bg-center text-white max-[1024px]:min-h-[680px]"
+      style={{
+        backgroundImage: "url('/assets/img/about/about-hero.webp')",
+      }}
     >
+      {/* ONLY OVERLAY */}
+      <div className="pointer-events-none absolute inset-0 z-0 bg-[#19255b]/70" />
+
+      {/* Existing content — same as before */}
       <div className="hero-about__container mvp-container relative z-[2] pb-[110rem] max-[1024px]:pb-[40rem]">
         <div className="hero-about__head main-animated-text relative mb-[190rem] flex items-end justify-between pb-[10rem] max-[1024px]:mb-[40rem] max-[1024px]:flex-col max-[1024px]:items-stretch">
           <h1 className="hero-about__title text-[200rem] leading-[.8] uppercase max-[1024px]:mb-[90rem] max-[1024px]:text-[80rem]">
@@ -143,7 +149,6 @@ function AboutHero() {
           <div className="hero-about__abb flex w-[1100rem] items-center justify-between text-[40rem] leading-[.9] max-[1024px]:w-full max-[1024px]:text-[20rem]">
             <div className="hero-about__abb-wrapper flex gap-[160rem] max-[1024px]:gap-[20rem]">
               <span className="hero-about__abb-item">D.</span>
-
               <span className="hero-about__abb-item">I.</span>
             </div>
 
