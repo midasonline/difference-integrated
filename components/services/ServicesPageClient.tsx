@@ -2550,7 +2550,7 @@ export default function ServicesPageClient(): React.JSX.Element {
               className="relative flex h-[100svh] min-h-[650rem] w-full shrink-0 items-end overflow-hidden pb-[35rem] min-[1025px]:w-screen max-[1024px]:pb-[25rem]"
             >
               <Image
-                src="/assets/img/services-page/hero-bg.png"
+                src="/assets/img/services-page/hero-bg.webp"
                 alt="Difference Integrated logistics services"
                 fill
                 priority
