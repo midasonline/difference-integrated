@@ -9,7 +9,7 @@ import { SplitText } from "gsap/SplitText";
 
 import { PageTransition } from "@/components/ui/PageTransition";
 
-const AUTO_SNAP_DELAY_MS = 1000;
+const AUTO_SNAP_DELAY_MS = 500;
 
 type ServicePoint = {
   title: string;
