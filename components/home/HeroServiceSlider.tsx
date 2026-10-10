@@ -1,12 +1,52 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
+
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
+
 import { heroServices } from "@/data/site";
 
 const AUTOPLAY_DELAY = 5000;
 const SLIDE_SPEED = 0.8;
+
+const SERVICE_ICONS: Record<string, string> = {
+  "Construction Logistics":
+    "/assets/img/home/service-icons/Construction-Logistics-Services.svg",
+
+  "Sand Transportation":
+    "/assets/img/home/service-icons/Sand-Transportation.svg",
+
+  "Heavy Dumper Logistics":
+    "/assets/img/home/service-icons/Heavy-Dumper-Logistics.svg",
+
+  "Logistics Coordination":
+    "/assets/img/home/service-icons/customer-support.svg",
+
+  "Container Transportation":
+    "/assets/img/home/service-icons/Container-Transportation.svg",
+
+  "Bulk Construction Material Transport":
+    "/assets/img/home/service-icons/Bulk-Construction-Material-Transport.svg",
+
+  "Fleet & Equipment": "/assets/img/home/service-icons/Fleet-Equipment.svg",
+
+  "Fleet & Machinery": "/assets/img/home/service-icons/Fleet-Equipment.svg",
+
+  "Aggregate & Construction Material Transportation":
+    "/assets/img/home/service-icons/Aggregate-Construction-Material-Transportation.svg",
+};
+
+type IconMaskStyle = CSSProperties & {
+  WebkitMaskImage?: string;
+  maskImage?: string;
+  WebkitMaskRepeat?: string;
+  maskRepeat?: string;
+  WebkitMaskPosition?: string;
+  maskPosition?: string;
+  WebkitMaskSize?: string;
+  maskSize?: string;
+};
 
 export function HeroServiceSlider() {
   const [active, setActive] = useState(0);
@@ -14,9 +54,13 @@ export function HeroServiceSlider() {
   const [started, setStarted] = useState(false);
 
   const titleRef = useRef<HTMLSpanElement>(null);
+  const iconStageRef = useRef<HTMLDivElement>(null);
+  const iconRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
 
   const current = heroServices[active] ?? heroServices[0];
+
+  const currentIcon = current ? SERVICE_ICONS[current.title] : undefined;
 
   useEffect(() => {
     const startSlider = () => {
@@ -35,36 +79,79 @@ export function HeroServiceSlider() {
     gsap.registerPlugin(SplitText);
 
     const title = titleRef.current;
+    const iconStage = iconStageRef.current;
+    const icon = iconRef.current;
 
-    if (!title) return;
+    let split: SplitText | null = null;
 
-    const split = new SplitText(title, {
-      type: "chars,words",
-      charsClass: "char",
-      wordsClass: "word",
-    });
+    if (title) {
+      split = new SplitText(title, {
+        type: "chars,words",
+        charsClass: "char",
+        wordsClass: "word",
+      });
 
-    gsap.set(split.chars, {
-      opacity: 0,
-      scaleY: 0,
-      yPercent: 25,
-      transformOrigin: "50% 0%",
-      willChange: "transform, opacity",
-    });
+      gsap.set(split.chars, {
+        opacity: 0,
+        scaleY: 0,
+        yPercent: 25,
+        transformOrigin: "50% 0%",
+        willChange: "transform, opacity",
+      });
 
-    gsap.to(split.chars, {
-      opacity: 1,
-      scaleY: 1,
-      yPercent: 0,
-      duration: 0.5,
-      stagger: 0.015,
-      ease: "back.out(1.4)",
-    });
+      gsap.to(split.chars, {
+        opacity: 1,
+        scaleY: 1,
+        yPercent: 0,
+        duration: 0.5,
+        stagger: 0.015,
+        ease: "back.out(1.4)",
+      });
+    }
+
+    if (iconStage) {
+      gsap.fromTo(
+        iconStage,
+        {
+          opacity: 0,
+          y: 10,
+          scale: 0.92,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.5,
+          ease: "power3.out",
+          overwrite: true,
+        },
+      );
+    }
+
+    if (icon) {
+      gsap.fromTo(
+        icon,
+        {
+          opacity: 0,
+          scale: 0.72,
+          rotate: -5,
+        },
+        {
+          opacity: 1,
+          scale: 1,
+          rotate: 0,
+          duration: 0.65,
+          delay: 0.05,
+          ease: "back.out(1.5)",
+          overwrite: true,
+        },
+      );
+    }
 
     return () => {
-      split.revert();
+      split?.revert();
     };
-  }, [current.id]);
+  }, [current.id, currentIcon]);
 
   useEffect(() => {
     if (!progressRef.current) return;
@@ -92,6 +179,22 @@ export function HeroServiceSlider() {
     };
   }, [active, paused, started]);
 
+  const iconMaskStyle: IconMaskStyle | undefined = currentIcon
+    ? {
+        WebkitMaskImage: `url("${currentIcon}")`,
+        maskImage: `url("${currentIcon}")`,
+
+        WebkitMaskRepeat: "no-repeat",
+        maskRepeat: "no-repeat",
+
+        WebkitMaskPosition: "center",
+        maskPosition: "center",
+
+        WebkitMaskSize: "contain",
+        maskSize: "contain",
+      }
+    : undefined;
+
   return (
     <div
       className="hero-slider w-[545rem] overflow-hidden rounded-[10rem] bg-light text-primary max-[1024px]:hidden"
@@ -101,23 +204,36 @@ export function HeroServiceSlider() {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="hero-slider__head flex items-center justify-between px-[40rem] pt-[40rem]">
-        <div className="hero-slider__counter text-[20rem]">
-          <span className="hero-slider__counter-current inline-block min-w-[20rem] text-accent">
-            {String(active + 1).padStart(2, "0")}
-          </span>
+      {/* TOP: ICON LEFT + LABEL RIGHT */}
+      <div className="hero-slider__head flex min-h-[135rem] items-start justify-between px-[40rem] pt-[36rem]">
+        {currentIcon ? (
+          <div
+            key={`hero-icon-${current.id}-${active}`}
+            ref={iconStageRef}
+            className="relative flex h-[86rem] w-[86rem] shrink-0 items-center justify-center rounded-[10rem] border border-accent/20 bg-accent/[0.055]"
+          >
+            <div className="pointer-events-none absolute inset-[8rem] rounded-[7rem] border border-accent/10" />
 
-          <span className="hero-slider__counter-total text-primary/20">
-            /{String(heroServices.length).padStart(2, "0")}
-          </span>
-        </div>
+            <span className="pointer-events-none absolute right-[8rem] top-[8rem] h-[4rem] w-[4rem] rounded-full bg-accent" />
 
-        <h3 className="hero-slider__title text-[15rem] uppercase text-primary">
+            <div
+              ref={iconRef}
+              aria-hidden="true"
+              className="relative z-[2] h-[50rem] w-[50rem] bg-accent"
+              style={iconMaskStyle}
+            />
+          </div>
+        ) : (
+          <div className="h-[86rem] w-[86rem]" />
+        )}
+
+        <h3 className="hero-slider__title pt-[4rem] text-[15rem] uppercase text-primary">
           Our Services
         </h3>
       </div>
 
-      <div className="hero-slider__progressbar relative left-[40rem] mb-[20rem] mt-[130rem] h-[1rem] w-[calc(100%_-_80rem)] bg-gold/40">
+      {/* PROGRESS */}
+      <div className="hero-slider__progressbar relative left-[40rem] mb-[20rem] mt-[10rem] h-[1rem] w-[calc(100%_-_80rem)] bg-gold/40">
         <div
           ref={progressRef}
           className="absolute inset-y-0 left-0 w-full origin-left bg-accent"
@@ -127,14 +243,15 @@ export function HeroServiceSlider() {
         />
       </div>
 
+      {/* SERVICE TITLE */}
       <a
         href="/services"
-        className="hero-slider__item-inner group flex items-center justify-between px-[40rem] pb-[40rem] pt-[20rem]"
+        className="hero-slider__item-inner group flex min-h-[110rem] items-center justify-between px-[40rem] pb-[40rem] pt-[20rem]"
       >
         <span
           key={`hero-service-${current.id}-${active}`}
           ref={titleRef}
-          className="hero-slider__item-title max-w-[330rem] text-[30rem] leading-[.9] uppercase text-primary"
+          className="hero-slider__item-title max-w-[360rem] text-[30rem] leading-[.9] uppercase text-primary"
         >
           {current.title}
         </span>

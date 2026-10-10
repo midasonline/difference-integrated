@@ -38,7 +38,7 @@ export function Hero() {
           </h1>
 
           <AnimatedButton href="/services" className="hero__btn">
-            Our services
+            Our Services
           </AnimatedButton>
 
           <HeroServiceSlider />
