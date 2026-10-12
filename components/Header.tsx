@@ -14,6 +14,7 @@ export type HeaderVariant = "dark" | "light";
 
 type HeaderProps = {
   variant?: HeaderVariant;
+
   instantRevealOnScrollUp?: boolean;
 };
 
@@ -23,6 +24,7 @@ type HeaderStyle = CSSProperties & {
 
 export function Header({
   variant = "dark",
+
   instantRevealOnScrollUp = false,
 }: HeaderProps) {
   const [langOpen, setLangOpen] = useState(false);
@@ -141,12 +143,53 @@ export function Header({
   }, []);
 
   useEffect(() => {
-    lastScrollY.current = Math.max(window.scrollY, 0);
+    /*
+     * ScrollSmoother moves #smooth-content with transforms, so window.scrollY
+     * alone can briefly report an unreliable position around pinned/footer
+     * sections. Use both values and keep the largest real page position.
+     */
+    const getReliableScrollY = () => {
+      const nativeY = Math.max(
+        window.scrollY || 0,
+        document.documentElement.scrollTop || 0,
+      );
+
+      const smoothContent = document.getElementById("smooth-content");
+
+      if (!smoothContent) {
+        return nativeY;
+      }
+
+      const smoothY = Math.max(-smoothContent.getBoundingClientRect().top, 0);
+
+      return Math.max(nativeY, smoothY);
+    };
+
+    lastScrollY.current = getReliableScrollY();
 
     setScrolled(lastScrollY.current > 60);
 
+    let touchStartY = 0;
+
+    const revealHomeHeaderImmediately = () => {
+      if (!instantRevealOnScrollUp) return;
+
+      /*
+       * At the footer/pinned sections, force the sticky/header tone as well
+       * as visibility. This prevents white hero header content appearing
+       * over a light section while ScrollSmoother catches up.
+       */
+      const currentScrollY = getReliableScrollY();
+
+      if (currentScrollY > 40) {
+        setScrolled(true);
+      }
+
+      setHeaderVisible(true);
+    };
+
     const updateHeader = () => {
-      const currentScrollY = Math.max(window.scrollY, 0);
+      const currentScrollY = getReliableScrollY();
 
       const difference = currentScrollY - lastScrollY.current;
 
@@ -160,7 +203,6 @@ export function Header({
         setHeaderVisible(true);
 
         lastScrollY.current = currentScrollY;
-
         ticking.current = false;
 
         return;
@@ -170,7 +212,6 @@ export function Header({
         setHeaderVisible(true);
 
         lastScrollY.current = currentScrollY;
-
         ticking.current = false;
 
         return;
@@ -189,7 +230,6 @@ export function Header({
       }
 
       lastScrollY.current = currentScrollY;
-
       ticking.current = false;
     };
 
@@ -201,14 +241,75 @@ export function Header({
       window.requestAnimationFrame(updateHeader);
     };
 
+    /*
+     * HOME PAGE ONLY:
+     * Reveal on upward intent immediately — before ScrollSmoother/native
+     * scrolling finishes updating its position.
+     */
+    const handleWheel = (event: WheelEvent) => {
+      if (event.deltaY < -1) {
+        revealHomeHeaderImmediately();
+      }
+    };
+
+    const handleTouchStart = (event: TouchEvent) => {
+      touchStartY = event.touches[0]?.clientY ?? 0;
+    };
+
+    const handleTouchMove = (event: TouchEvent) => {
+      const currentY = event.touches[0]?.clientY ?? touchStartY;
+
+      if (currentY - touchStartY > 3) {
+        revealHomeHeaderImmediately();
+      }
+
+      touchStartY = currentY;
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (
+        event.key === "ArrowUp" ||
+        event.key === "PageUp" ||
+        event.key === "Home"
+      ) {
+        revealHomeHeaderImmediately();
+      }
+    };
+
     window.addEventListener("scroll", handleScroll, {
       passive: true,
     });
 
+    if (instantRevealOnScrollUp) {
+      window.addEventListener("wheel", handleWheel, {
+        passive: true,
+        capture: true,
+      });
+
+      window.addEventListener("touchstart", handleTouchStart, {
+        passive: true,
+        capture: true,
+      });
+
+      window.addEventListener("touchmove", handleTouchMove, {
+        passive: true,
+        capture: true,
+      });
+
+      window.addEventListener("keydown", handleKeyDown);
+    }
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
+
+      if (instantRevealOnScrollUp) {
+        window.removeEventListener("wheel", handleWheel, true);
+        window.removeEventListener("touchstart", handleTouchStart, true);
+        window.removeEventListener("touchmove", handleTouchMove, true);
+        window.removeEventListener("keydown", handleKeyDown);
+      }
     };
-  }, []);
+  }, [instantRevealOnScrollUp]);
 
   /*
 
@@ -274,7 +375,7 @@ export function Header({
               headerEntered &&
               headerVisible &&
               scrolled
-                ? "transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.35s ease, box-shadow 0.35s ease, backdrop-filter 0.35s ease"
+                ? "transform 0.06s linear, background-color 0.35s ease, box-shadow 0.35s ease, backdrop-filter 0.35s ease"
                 : "transform 1.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.35s ease, box-shadow 0.35s ease, backdrop-filter 0.35s ease",
 
             willChange: "transform",
@@ -283,7 +384,7 @@ export function Header({
           <div className="header__container mvp-container relative z-[2] flex items-center justify-between gap-[20rem] py-[20rem] max-[1600px]:gap-[16rem] max-[1440px]:py-[16rem] max-[1200px]:gap-[10rem] max-[1200px]:py-[14rem] max-[1024px]:py-[12rem] max-[640px]:gap-[6rem] max-[640px]:py-[10rem]">
             <a
               href="/"
-              className="header__logo flex h-[80rem] shrink-0 items-center justify-center rounded-[5rem] bg-transparent px-[30rem] max-[1600px]:px-[24rem] max-[1440px]:h-[72rem] max-[1440px]:px-[18rem] max-[1200px]:h-[66rem] max-[1200px]:px-[12rem] max-[1024px]:h-[60rem] max-[1024px]:px-[8rem] max-[640px]:h-[52rem] max-[640px]:px-[4rem]"
+              className="header__logo flex h-[80rem] shrink-0 items-center justify-center rounded-[5rem] bg-transparent  max-[1440px]:h-[72rem] max-[1200px]:h-[66rem] max-[1024px]:h-[60rem] max-[640px]:h-[52rem]"
             >
               <img
                 key={logoSrc}
@@ -418,6 +519,7 @@ export function Header({
       <style jsx global>{`
         .header .header__menu-item {
           color: var(--header-nav-color) !important;
+
           transition:
             color 0.3s ease,
             box-shadow 0.3s ease;
@@ -425,6 +527,7 @@ export function Header({
 
         .header .header__menu-item[data-active-route="true"] {
           color: var(--mvp-accent) !important;
+
           box-shadow: inset 0 -1.5px 0 var(--mvp-accent);
         }
 
@@ -434,21 +537,28 @@ export function Header({
 
         .header__logo-img {
           display: block;
+
           height: auto;
+
           max-width: 100%;
         }
 
         @media (max-width: 1600px) and (min-width: 1025px) {
           .header .header__btn {
             height: 74rem;
+
             padding-left: 42rem;
+
             padding-right: 42rem;
+
             font-size: 15rem;
           }
 
           .header .header__lang-heading {
             width: 76rem;
+
             height: 74rem;
+
             font-size: 15rem;
           }
         }
@@ -456,14 +566,19 @@ export function Header({
         @media (max-width: 1440px) and (min-width: 1025px) {
           .header .header__btn {
             height: 68rem;
+
             padding-left: 34rem;
+
             padding-right: 34rem;
+
             font-size: 14rem;
           }
 
           .header .header__lang-heading {
             width: 70rem;
+
             height: 68rem;
+
             font-size: 14rem;
           }
         }
@@ -471,19 +586,25 @@ export function Header({
         @media (max-width: 1200px) and (min-width: 1025px) {
           .header .header__btn {
             height: 62rem;
+
             padding-left: 24rem;
+
             padding-right: 24rem;
+
             font-size: 13rem;
           }
 
           .header .header__lang-heading {
             width: 64rem;
+
             height: 62rem;
+
             font-size: 13rem;
           }
 
           .header .header__lang-heading svg {
             width: 10rem;
+
             height: 10rem;
           }
         }
@@ -503,11 +624,13 @@ export function Header({
 
           .header .header__lang-heading {
             width: 60rem;
+
             height: 60rem;
           }
 
           .header__lang-dropdown {
             min-width: 60rem;
+
             right: 0;
           }
         }
@@ -515,20 +638,27 @@ export function Header({
         @media (max-width: 640px) {
           .header .header__hamburger-btn {
             height: 52rem;
+
             min-width: 68rem;
+
             padding-left: 14rem;
+
             padding-right: 14rem;
+
             font-size: 12rem;
           }
 
           .header .header__lang-heading {
             width: 52rem;
+
             height: 52rem;
+
             font-size: 13rem;
           }
 
           .header .header__lang-heading svg {
             width: 9rem;
+
             height: 9rem;
           }
 
@@ -538,6 +668,7 @@ export function Header({
 
           .header__lang-list {
             padding-top: 14rem;
+
             padding-bottom: 14rem;
           }
 
@@ -549,15 +680,21 @@ export function Header({
         @media (max-width: 420px) {
           .header .header__hamburger-btn {
             height: 48rem;
+
             min-width: 62rem;
+
             padding-left: 10rem;
+
             padding-right: 10rem;
+
             font-size: 11rem;
           }
 
           .header .header__lang-heading {
             width: 48rem;
+
             height: 48rem;
+
             font-size: 12rem;
           }
 

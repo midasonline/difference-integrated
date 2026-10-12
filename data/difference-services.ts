@@ -126,7 +126,7 @@ export const differenceServices: DifferenceService[] = [
       "Operational coordination",
     ],
     image: "/assets/img/rest/8-DugNLK6N.png",
-    imageAlt: "Container transportation and freight logistics operation",
+    imageAlt: "Goods transportation and freight logistics operation",
   },
 
   {

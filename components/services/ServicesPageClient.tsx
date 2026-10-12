@@ -201,7 +201,7 @@ const services: Service[] = [
     title: "Goods Transportation",
     tagline: "A clear plan from collection to handoff.",
     description:
-      "Difference Integrated coordinates container movement around pickup timing, route conditions, destination access, and receiving requirements for a controlled journey from collection to handoff.",
+      "Difference Integrated coordinates goods movement around pickup timing, route conditions, destination access, and receiving requirements for a controlled journey from collection to handoff.",
     points: [
       {
         title: "Collection Timing",
@@ -2655,19 +2655,19 @@ export default function ServicesPageClient(): React.JSX.Element {
 
                 <div className="services-hero-copy mb-[10rem] max-w-[650rem] text-white max-[1024px]:mb-0">
                   <h2 className="mb-[18rem] text-[60rem] font-bold uppercase leading-[54rem] max-[1024px]:text-[38rem] max-[1024px]:leading-[36rem]">
-                    Every movement has its own requirements.
+                    Transportation solutions built around the realities of every
+                    operation.
                   </h2>
 
                   <div className="space-y-[12rem] font-['Inter'] text-[20rem] font-normal leading-[27rem] max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
                     <p>
-                      Cargo type, volume, site access, delivery timing, and
-                      working conditions all influence how transportation should
-                      be handled.
+                      From construction logistics and heavy transport to
+                      livestock, agriculture, vehicles, containers, and general
+                      freight.
                     </p>
                     <p>
-                      Difference Integrated provides specialized transport and
-                      logistics services shaped around the operational
-                      requirements of each assignment across Saudi Arabia.
+                      Difference Integrated coordinates each movement according
+                      to the load, site, route, equipment, and timing required.
                     </p>
                   </div>
                 </div>
