@@ -180,6 +180,30 @@ export const services = [
     image: "/assets/img/home/services/general-freight.webp",
     accent: true,
   },
+  {
+    id: 11,
+    number: "11",
+    heading: "Cattle Transportation / Livestock Service",
+    text: "Specialised livestock movement with careful handling, suitable transport conditions and coordinated loading and unloading.",
+    image: "/assets/img/home/services/cattle-transportation.webp",
+    accent: false,
+  },
+  {
+    id: 12,
+    number: "12",
+    heading: "Agriculture Transportation",
+    text: "Reliable transportation for agricultural goods, farm supplies, equipment and related materials.",
+    image: "/assets/img/home/services/agriculture-transportation.webp",
+    accent: true,
+  },
+  {
+    id: 13,
+    number: "13",
+    heading: "Vehicle Transportation",
+    text: "Coordinated transportation of vehicles between collection points, facilities, project locations and delivery destinations.",
+    image: "/assets/img/home/services/vehicle-transportation.webp",
+    accent: false,
+  },
 ];
 
 export const clients = [
@@ -247,6 +271,5 @@ export const footerColumns = [
 export const videoSources = {
   hero: "/assets/img/video-bg.mp4",
 
-  footer:
-    "/assets/img/footer.mp4",
+  footer: "/assets/img/footer.mp4",
 };

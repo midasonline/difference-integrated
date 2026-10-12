@@ -16,10 +16,7 @@ export function Footer() {
       <div className="mvp-container">
         <div className="flex flex-col gap-[275rem] max-[1024px]:gap-[60rem]">
           <div className="flex items-start justify-between max-[1024px]:flex-col max-[1024px]:items-stretch">
-            <a
-              href="/"
-              className="flex max-[1024px]:hidden"
-            >
+            <a href="/" className="flex max-[1024px]:hidden">
               <img
                 src="/assets/img/DI-Logo-W.svg"
                 alt="MVP"
@@ -59,7 +56,7 @@ export function Footer() {
             <div className="flex items-center justify-between border-t border-[#f4f1ea]/20 py-[20rem] max-[1024px]:pb-[20rem] max-[1024px]:pt-[15rem]">
               <div className="flex w-[1100rem] items-center justify-between max-[1024px]:w-auto">
                 <div className="w-[360rem] text-[12rem] uppercase max-[1024px]:w-auto max-[1024px]:text-[10rem] max-[1024px]:text-[#f4f1ea]/50">
-                  M.V.P. Trans-logistics 2025 all rights reserved.
+                  Difference Integrated Logistics 2026 all rights reserved.
                 </div>
 
                 <a

@@ -336,6 +336,94 @@ const services: Service[] = [
       "There is no single transport formula for general freight. The operating requirement determines the approach.",
     image: "/assets/img/services-page/general-freight.webp",
   },
+
+  {
+    number: "11",
+    title: "Cattle Transportation / Livestock Service",
+    tagline:
+      "Specialised livestock movement with careful handling at every stage.",
+    description:
+      "We provide organised transportation for cattle and livestock, with planning focused on animal safety, suitable vehicles, controlled loading and unloading, and efficient movement between farms, markets, facilities, and designated destinations.",
+    points: [
+      {
+        title: "Animal Welfare",
+        text: "Movement planning is focused on animal safety and careful handling throughout the journey.",
+      },
+      {
+        title: "Suitable Transport Conditions",
+        text: "Suitable vehicles and transport conditions are considered according to livestock movement requirements.",
+      },
+      {
+        title: "Safe Loading & Unloading",
+        text: "Loading and unloading are coordinated carefully to support controlled handling at each stage.",
+      },
+      {
+        title: "Route & Delivery Coordination",
+        text: "Routes and delivery timing are planned between farms, markets, facilities, and designated destinations.",
+      },
+    ],
+    supportingCopy:
+      "Each livestock movement is organised around safe handling, suitable transport conditions, and coordinated delivery from origin to destination.",
+    image: "/assets/img/services-page/cattle-livestock-transportation.webp",
+  },
+  {
+    number: "12",
+    title: "Agriculture Transportation",
+    tagline:
+      "Reliable transportation built around agricultural operations and supply requirements.",
+    description:
+      "We support the movement of agricultural goods, materials, equipment, and farm-related supplies between farms, storage facilities, distribution points, and project locations. Every movement is coordinated around load requirements, timing, accessibility, and delivery conditions.",
+    points: [
+      {
+        title: "Agricultural Goods",
+        text: "Agricultural goods and materials are transported according to load requirements and destination needs.",
+      },
+      {
+        title: "Farm Supplies",
+        text: "Farm-related supplies are coordinated between farms, storage facilities, distribution points, and project locations.",
+      },
+      {
+        title: "Equipment Movement",
+        text: "Agricultural equipment movement is planned around suitable transport requirements and accessibility.",
+      },
+      {
+        title: "Route & Scheduled Deliveries",
+        text: "Routes and delivery schedules are coordinated around timing, access conditions, and receiving requirements.",
+      },
+    ],
+    supportingCopy:
+      "Agricultural transport is planned around the practical needs of the load, route, timing, access, and delivery location.",
+    image: "/assets/img/services-page/agriculture-transportation.webp",
+  },
+  {
+    number: "13",
+    title: "Vehicle Transportation",
+    tagline:
+      "Secure and coordinated transportation for vehicles across locations.",
+    description:
+      "We provide planned vehicle transportation for individual units, fleet movements, commercial vehicles, and project requirements. Each movement is organised around vehicle type, loading method, transport equipment, route conditions, and delivery schedule.",
+    points: [
+      {
+        title: "Cars & Commercial Vehicles",
+        text: "Transportation is planned for individual cars, commercial vehicles, and wider project requirements.",
+      },
+      {
+        title: "Fleet Movements",
+        text: "Multiple vehicle movements are coordinated around fleet size, route conditions, and delivery timing.",
+      },
+      {
+        title: "Safe Loading & Suitable Carriers",
+        text: "Loading methods and transport equipment are selected around vehicle type and movement requirements.",
+      },
+      {
+        title: "Delivery Coordination",
+        text: "Routes and delivery schedules are organised to support controlled handoff at the destination.",
+      },
+    ],
+    supportingCopy:
+      "Each vehicle movement is coordinated around the vehicle type, loading method, suitable carrier, route conditions, and delivery schedule.",
+    image: "/assets/img/services-page/vehicle-transportation.webp",
+  },
 ];
 
 function KeyPointsAccordion({
@@ -2612,7 +2700,7 @@ export default function ServicesPageClient(): React.JSX.Element {
                         {service.number}
                       </span>
                       <span className="mb-[8rem] font-['Inter'] text-[16rem] font-medium leading-none text-white/75 max-[1024px]:mb-[4rem]">
-                        / 10
+                        / {services.length}
                       </span>
                     </div>
 
