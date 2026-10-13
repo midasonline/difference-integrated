@@ -285,7 +285,7 @@ export default function ContactPageForm() {
               data-form-label
               className="mb-[35rem] block font-['Inter'] text-[13rem] font-medium uppercase tracking-[.15em] text-[var(--mvp-accent)]"
             >
-              {copy.label}
+              {/* {copy.label} */}
             </span>
 
             <h2 className="contact-form-title mb-[40rem] text-[clamp(70rem,6.5vw,125rem)] font-bold uppercase leading-[.82] tracking-[-.04em]">
