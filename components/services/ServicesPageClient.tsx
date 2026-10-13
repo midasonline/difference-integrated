@@ -364,7 +364,7 @@ const services: Service[] = [
     ],
     supportingCopy:
       "Each livestock movement is organised around safe handling, suitable transport conditions, and coordinated delivery from origin to destination.",
-    image: "/assets/img/services-page/cattle-livestock-transportation.webp",
+    image: "/assets/img/services-page/cattle-transportation.png",
   },
   {
     number: "12",
@@ -393,7 +393,7 @@ const services: Service[] = [
     ],
     supportingCopy:
       "Agricultural transport is planned around the practical needs of the load, route, timing, access, and delivery location.",
-    image: "/assets/img/services-page/agriculture-transportation.webp",
+    image: "/assets/img/services-page/agriculture-transportation.png",
   },
   {
     number: "13",
@@ -422,7 +422,7 @@ const services: Service[] = [
     ],
     supportingCopy:
       "Each vehicle movement is coordinated around the vehicle type, loading method, suitable carrier, route conditions, and delivery schedule.",
-    image: "/assets/img/services-page/vehicle-transportation.webp",
+    image: "/assets/img/services-page/vehicle-transportation.png",
   },
 ];
 

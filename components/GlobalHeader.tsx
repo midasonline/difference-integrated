@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 
 import { Header, type HeaderVariant } from "@/components/Header";
 import { BackToTop } from "@/components/ui/BackToTop";
+import { stripLocaleFromPathname } from "@/i18n/routing";
 
 const DARK_HERO_ROUTES = [
   "/",
@@ -32,7 +33,7 @@ function normalizePath(value: string): string {
 }
 
 function matchesRoute(pathname: string, route: string): boolean {
-  const currentPath = normalizePath(pathname);
+  const currentPath = normalizePath(stripLocaleFromPathname(pathname));
   const targetPath = normalizePath(route);
 
   if (targetPath === "/") {
@@ -67,7 +68,7 @@ function getHeaderVariant(pathname: string): HeaderVariant {
 export function GlobalHeader() {
   const pathname = usePathname();
 
-  const currentPath = normalizePath(pathname);
+  const currentPath = normalizePath(stripLocaleFromPathname(pathname));
   const isHome = currentPath === "/";
   const headerVariant = getHeaderVariant(currentPath);
 
@@ -101,9 +102,9 @@ export function GlobalHeader() {
           return;
         }
 
-        targetPath = normalizePath(url.pathname);
+        targetPath = normalizePath(stripLocaleFromPathname(url.pathname));
       } catch {
-        targetPath = normalizePath(href);
+        targetPath = normalizePath(stripLocaleFromPathname(href));
       }
 
       const active =

@@ -1,12 +1,18 @@
+"use client";
+
 import { clients } from "@/data/site";
+import { useI18n } from "@/components/i18n/I18nProvider";
 
 export function Clients() {
+  const { dictionary } = useI18n();
+  const copy = dictionary.home.clients;
+
   return (
     <section className="py-[120rem] pb-[90rem] max-[1024px]:py-[80rem] max-[1024px]:pb-[40rem]">
       <div className="mvp-container">
         <h2 className="animated-text mb-[65rem] max-w-[730rem] text-[200rem] leading-[.8] uppercase max-[1024px]:mb-[40rem] max-[1024px]:max-w-full max-[1024px]:text-[80rem]">
-          <span className="text-accent">Partners</span>{" "}
-          <span className="text-light">Clients</span>
+          <span className="text-accent">{copy.partners}</span>{" "}
+          <span className="text-light">{copy.clients}</span>
         </h2>
 
         <div className="flex flex-wrap gap-[10rem] max-[1024px]:gap-[15rem]">

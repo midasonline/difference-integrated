@@ -25,23 +25,26 @@ export function HoverText({ children, secondClassName = "" }: HoverTextProps) {
 
     if (!firstLine || !secondLine) return;
 
-    const firstSplit = new SplitText(firstLine, {
-      type: "chars,words",
-      charsClass: "char",
-      wordsClass: "word",
-    });
+    const isRtl = document.documentElement.dir === "rtl";
+    const splitConfig = isRtl
+      ? { type: "words" as const, wordsClass: "word" }
+      : {
+          type: "chars,words" as const,
+          charsClass: "char",
+          wordsClass: "word",
+        };
 
-    const secondSplit = new SplitText(secondLine, {
-      type: "chars,words",
-      charsClass: "char",
-      wordsClass: "word",
-    });
+    const firstSplit = new SplitText(firstLine, splitConfig);
+    const secondSplit = new SplitText(secondLine, splitConfig);
 
-    gsap.set(firstSplit.chars, {
+    const firstTargets = (isRtl ? firstSplit.words : firstSplit.chars) as HTMLElement[];
+    const secondTargets = (isRtl ? secondSplit.words : secondSplit.chars) as HTMLElement[];
+
+    gsap.set(firstTargets, {
       yPercent: 0,
     });
 
-    gsap.set(secondSplit.chars, {
+    gsap.set(secondTargets, {
       yPercent: 0,
     });
 
@@ -56,14 +59,14 @@ export function HoverText({ children, secondClassName = "" }: HoverTextProps) {
 
     timeline
       .to(
-        firstSplit.chars,
+        firstTargets,
         {
           yPercent: -120,
         },
         0,
       )
       .to(
-        secondSplit.chars,
+        secondTargets,
         {
           yPercent: -100,
         },

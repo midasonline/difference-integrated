@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { usePathname } from "next/navigation";
 
 import { navItems } from "@/data/site";
 
@@ -9,6 +10,14 @@ import { AnimatedButton } from "@/components/ui/AnimatedButton";
 import { HoverText } from "@/components/ui/HoverText";
 
 import { ContactModal } from "@/components/ui/ContactModal";
+import { useI18n } from "@/components/i18n/I18nProvider";
+import {
+  localeCookieName,
+  localeDetails,
+  locales,
+  type Locale,
+} from "@/i18n/config";
+import { localizePathname, stripLocaleFromPathname } from "@/i18n/routing";
 
 export type HeaderVariant = "dark" | "light";
 
@@ -27,6 +36,10 @@ export function Header({
 
   instantRevealOnScrollUp = false,
 }: HeaderProps) {
+  const pathname = usePathname();
+  const { locale, dictionary, localePath } = useI18n();
+  const common = dictionary.common;
+
   const [langOpen, setLangOpen] = useState(false);
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -46,6 +59,29 @@ export function Header({
   const overlayOpenRef = useRef(false);
 
   const revealTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const navigationLabels: Record<string, string> = {
+    Home: common.navigation.home,
+    "About Us": common.navigation.about,
+    Services: common.navigation.services,
+    Blog: common.navigation.blog,
+    Contacts: common.navigation.contact,
+  };
+
+  const getLocalizedHref = (href: string) =>
+    href.startsWith("/") ? localePath(href) : href;
+
+  const handleLanguageChange = (nextLocale: Locale) => {
+    if (nextLocale === locale) {
+      setLangOpen(false);
+      return;
+    }
+
+    document.cookie = `${localeCookieName}=${nextLocale}; path=/; max-age=31536000; samesite=lax`;
+
+    const basePath = stripLocaleFromPathname(pathname);
+    window.location.assign(localizePathname(basePath, nextLocale));
+  };
 
   useEffect(() => {
     overlayOpenRef.current = menuOpen || langOpen || contactOpen;
@@ -383,7 +419,7 @@ export function Header({
         >
           <div className="header__container mvp-container relative z-[2] flex items-center justify-between gap-[20rem] py-[20rem] max-[1600px]:gap-[16rem] max-[1440px]:py-[16rem] max-[1200px]:gap-[10rem] max-[1200px]:py-[14rem] max-[1024px]:py-[12rem] max-[640px]:gap-[6rem] max-[640px]:py-[10rem]">
             <a
-              href="/"
+              href={localePath("/")}
               className="header__logo flex h-[80rem] shrink-0 items-center justify-center rounded-[5rem] bg-transparent  max-[1440px]:h-[72rem] max-[1200px]:h-[66rem] max-[1024px]:h-[60rem] max-[640px]:h-[52rem]"
             >
               <img
@@ -398,11 +434,11 @@ export function Header({
               {navItems.map((item) => (
                 <a
                   key={item.label}
-                  href={item.href}
+                  href={getLocalizedHref(item.href)}
                   className="header__menu-item text-hover"
                 >
                   <HoverText secondClassName="text-accent">
-                    {item.label}
+                    {navigationLabels[item.label] ?? item.label}
                   </HoverText>
                 </a>
               ))}
@@ -414,14 +450,14 @@ export function Header({
                 onClick={() => setMenuOpen((value) => !value)}
                 className="header__hamburger-btn mvp-btn hidden max-[1024px]:inline-flex max-[640px]:min-w-[68rem] max-[640px]:px-[14rem] max-[640px]:text-[12rem] max-[420px]:min-w-[62rem] max-[420px]:px-[10rem]"
               >
-                {menuOpen ? "Close" : "Menu"}
+                {menuOpen ? common.header.close : common.header.menu}
               </button>
 
               <AnimatedButton
                 className="header__btn inline-flex max-[1024px]:hidden"
                 onClick={() => setContactOpen(true)}
               >
-                Contact Us
+                {common.header.contactUs}
               </AnimatedButton>
 
               <div className="header__lang relative uppercase">
@@ -433,7 +469,7 @@ export function Header({
                   }`}
                 >
                   <span className="mvp-btn-inner flex items-center justify-center gap-[5rem]">
-                    Eng
+                    {localeDetails[locale].code}
                     <svg
                       className="h-[12rem] w-[13rem] shrink-0"
                       viewBox="0 0 13 12"
@@ -456,19 +492,19 @@ export function Header({
                   }`}
                 >
                   <div className="header__lang-list flex flex-col items-start gap-[12rem] py-[20rem] max-[1024px]:gap-[7rem]">
-                    <a
-                      href="https://mvplogistics.eu/uk/main/"
-                      className="header__lang-item text-hover text-[16rem]"
-                    >
-                      <HoverText>Ukr</HoverText>
-                    </a>
-
-                    <a
-                      href="https://mvplogistics.eu/"
-                      className="header__lang-item text-hover text-[16rem]"
-                    >
-                      <HoverText>Pol</HoverText>
-                    </a>
+                    {locales.map((itemLocale) => (
+                      <button
+                        key={itemLocale}
+                        type="button"
+                        onClick={() => handleLanguageChange(itemLocale)}
+                        className={`header__lang-item text-hover text-[16rem] ${
+                          itemLocale === locale ? "text-accent" : ""
+                        }`}
+                        aria-label={`${common.header.language}: ${localeDetails[itemLocale].nativeLabel}`}
+                      >
+                        <HoverText>{localeDetails[itemLocale].code}</HoverText>
+                      </button>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -485,11 +521,11 @@ export function Header({
             {navItems.map((item) => (
               <a
                 key={item.label}
-                href={item.href}
+                href={getLocalizedHref(item.href)}
                 onClick={() => setMenuOpen(false)}
                 className="transition-colors duration-300 hover:text-accent"
               >
-                {item.label}
+                {navigationLabels[item.label] ?? item.label}
               </a>
             ))}
           </nav>
@@ -503,7 +539,7 @@ export function Header({
                 setContactOpen(true);
               }}
             >
-              Contact Us
+              {common.header.contactUs}
             </AnimatedButton>
           </div>
         </div>

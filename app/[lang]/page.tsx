@@ -1,5 +1,5 @@
 import { HomeExperience } from "@/components/HomeExperience";
 
-export default function HomePage() {
+export default function LocalizedHomePage() {
   return <HomeExperience />;
 }

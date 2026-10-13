@@ -2,8 +2,12 @@
 
 import { footerColumns } from "@/data/site";
 import { HoverText } from "@/components/ui/HoverText";
+import { useI18n } from "@/components/i18n/I18nProvider";
 
 export function Footer() {
+  const { dictionary, localePath } = useI18n();
+  const copy = dictionary.home.footer;
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -16,7 +20,7 @@ export function Footer() {
       <div className="mvp-container">
         <div className="flex flex-col gap-[275rem] max-[1024px]:gap-[60rem]">
           <div className="flex items-start justify-between max-[1024px]:flex-col max-[1024px]:items-stretch">
-            <a href="/" className="flex max-[1024px]:hidden">
+            <a href={localePath("/")} className="flex max-[1024px]:hidden">
               <img
                 src="/assets/img/DI-Logo-W.svg"
                 alt="MVP"
@@ -25,26 +29,34 @@ export function Footer() {
             </a>
 
             <nav className="flex w-[1100rem] justify-between gap-[170rem] max-[1024px]:w-full max-[1024px]:flex-col max-[1024px]:gap-[40rem]">
-              {footerColumns.map((column) => (
-                <div key={column.heading} className="flex flex-col">
-                  <a
-                    href={column.href}
-                    className="text-hover mb-[60rem] text-[30rem] uppercase max-[1024px]:mb-[20rem] max-[1024px]:text-[20rem]"
-                  >
-                    <HoverText>{column.heading}</HoverText>
-                  </a>
+              {footerColumns.map((column, columnIndex) => {
+                const translatedColumn = copy.columns[columnIndex];
 
-                  {column.items.map((item) => (
+                return (
+                  <div key={column.heading} className="flex flex-col">
                     <a
-                      key={item}
-                      href={column.href}
-                      className="text-hover mb-[10rem] text-[18rem] font-normal last:mb-0 max-[1024px]:text-[16rem] max-[1024px]:leading-[1.1]"
+                      href={localePath(column.href)}
+                      className="text-hover mb-[60rem] text-[30rem] uppercase max-[1024px]:mb-[20rem] max-[1024px]:text-[20rem]"
                     >
-                      <HoverText>{item}</HoverText>
+                      <HoverText>
+                        {translatedColumn?.heading ?? column.heading}
+                      </HoverText>
                     </a>
-                  ))}
-                </div>
-              ))}
+
+                    {column.items.map((item, itemIndex) => (
+                      <a
+                        key={item}
+                        href={localePath(column.href)}
+                        className="text-hover mb-[10rem] text-[18rem] font-normal last:mb-0 max-[1024px]:text-[16rem] max-[1024px]:leading-[1.1]"
+                      >
+                        <HoverText>
+                          {translatedColumn?.items[itemIndex] ?? item}
+                        </HoverText>
+                      </a>
+                    ))}
+                  </div>
+                );
+              })}
             </nav>
           </div>
 
@@ -56,14 +68,14 @@ export function Footer() {
             <div className="flex items-center justify-between border-t border-[#f4f1ea]/20 py-[20rem] max-[1024px]:pb-[20rem] max-[1024px]:pt-[15rem]">
               <div className="flex w-[1100rem] items-center justify-between max-[1024px]:w-auto">
                 <div className="w-[360rem] text-[12rem] uppercase max-[1024px]:w-auto max-[1024px]:text-[10rem] max-[1024px]:text-[#f4f1ea]/50">
-                  Difference Integrated Logistics 2026 all rights reserved.
+                  {copy.rights}
                 </div>
 
                 <a
-                  href="/privacy-policy"
+                  href={localePath("/privacy-policy")}
                   className="text-hover text-[12rem] uppercase max-[1024px]:hidden"
                 >
-                  <HoverText>Privacy Policy</HoverText>
+                  <HoverText>{copy.privacy}</HoverText>
                 </a>
               </div>
 
@@ -73,7 +85,7 @@ export function Footer() {
                 className="group flex items-center gap-[15rem] text-[12rem] uppercase text-[#f4f1ea] max-[1024px]:gap-[10rem] max-[1024px]:text-[10rem]"
               >
                 <span className="transition-colors duration-300 group-hover:text-[#e9511d]">
-                  Up
+                  {copy.up}
                 </span>
 
                 <span className="flex h-[30rem] w-[30rem] items-center justify-center rounded-[2rem] border border-[#f4f1ea]/20 bg-[#f4f1ea]/10 text-[#f4f1ea] transition-all duration-300 group-hover:border-[#e9511d] group-hover:bg-[#e9511d] group-hover:text-[#f4f1ea]">

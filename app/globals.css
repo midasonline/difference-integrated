@@ -921,3 +921,100 @@ footer {
     display: none;
   }
 }
+
+/* =========================================================
+   ARABIC / RTL TYPOGRAPHY
+   Keep Arabic letters connected and use a native Arabic-capable
+   font stack without changing the English brand typography.
+   ========================================================= */
+html[lang="ar"] body {
+  font-family: Tahoma, "Geeza Pro", "Segoe UI", Arial, sans-serif;
+  font-weight: 700;
+  text-rendering: optimizeLegibility;
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures contextual;
+}
+
+html[lang="ar"] body * {
+  font-family: inherit !important;
+  letter-spacing: normal !important;
+}
+
+html[lang="ar"] .word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+html[lang="ar"] .hero__title {
+  line-height: 1.12;
+  text-transform: none;
+}
+
+html[lang="ar"] .hero__abb,
+html[lang="ar"] .hero__abb-text {
+  line-height: 1.25;
+  text-transform: none;
+}
+
+html[lang="ar"] .hero-slider__title,
+html[lang="ar"] .hero-slider__item-title {
+  line-height: 1.35;
+  text-transform: none;
+}
+
+html[lang="ar"] .hero-slider__item-title {
+  max-width: 380rem;
+}
+
+html[lang="ar"] .animated-text,
+html[lang="ar"] .main-animated-text {
+  text-transform: none;
+}
+
+html[lang="ar"] .advantages__scrollbox-item h3,
+html[lang="ar"] .services__item-heading {
+  line-height: 1.18;
+  text-transform: none;
+}
+
+html[lang="ar"] .advantages__scrollbox-item p,
+html[lang="ar"] .services__item-text {
+  line-height: 1.55;
+}
+
+html[lang="ar"] .mvp-btn,
+html[lang="ar"] .header__menu,
+html[lang="ar"] .header__hamburger,
+html[lang="ar"] .header__lang {
+  text-transform: none;
+}
+
+@media (min-width: 1025px) {
+  html[lang="ar"] .hero__title {
+    max-width: 1120rem;
+    font-size: 88rem;
+  }
+
+  html[lang="ar"] .advantages .animated-text,
+  html[lang="ar"] .services__title {
+    font-size: 150rem;
+    line-height: 1.04;
+  }
+
+  html[lang="ar"] .services__item-heading {
+    font-size: 52rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  html[lang="ar"] .hero__title {
+    font-size: 38rem;
+    line-height: 1.2;
+  }
+
+  html[lang="ar"] .advantages .animated-text,
+  html[lang="ar"] .services__title {
+    font-size: 64rem;
+    line-height: 1.08;
+  }
+}

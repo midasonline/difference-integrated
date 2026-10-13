@@ -185,7 +185,7 @@ export const services = [
     number: "11",
     heading: "Cattle Transportation / Livestock Service",
     text: "Specialised livestock movement with careful handling, suitable transport conditions and coordinated loading and unloading.",
-    image: "/assets/img/home/services/cattle-transportation.webp",
+    image: "/assets/img/home/services/cattle-transportation.png",
     accent: false,
   },
   {
@@ -193,7 +193,7 @@ export const services = [
     number: "12",
     heading: "Agriculture Transportation",
     text: "Reliable transportation for agricultural goods, farm supplies, equipment and related materials.",
-    image: "/assets/img/home/services/agriculture-transportation.webp",
+    image: "/assets/img/home/services/agriculture-transportation.png",
     accent: true,
   },
   {
@@ -201,7 +201,7 @@ export const services = [
     number: "13",
     heading: "Vehicle Transportation",
     text: "Coordinated transportation of vehicles between collection points, facilities, project locations and delivery destinations.",
-    image: "/assets/img/home/services/vehicle-transportation.webp",
+    image: "/assets/img/home/services/vehicle-transportation.png",
     accent: false,
   },
 ];

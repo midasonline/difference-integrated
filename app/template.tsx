@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 
 import { Footer } from "@/components/Footer";
+import { stripLocaleFromPathname } from "@/i18n/routing";
 
 export default function Template({
   children,
@@ -10,9 +11,10 @@ export default function Template({
   children: React.ReactNode;
 }): React.JSX.Element {
   const pathname = usePathname();
+  const currentPath = stripLocaleFromPathname(pathname);
 
-  const isHomePage = pathname === "/";
-  const isAboutPage = pathname === "/about";
+  const isHomePage = currentPath === "/";
+  const isAboutPage = currentPath === "/about";
 
   return (
     <>

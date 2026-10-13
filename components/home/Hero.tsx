@@ -1,7 +1,13 @@
+"use client";
+
 import { AnimatedButton } from "@/components/ui/AnimatedButton";
 import { HeroServiceSlider } from "@/components/home/HeroServiceSlider";
+import { useI18n } from "@/components/i18n/I18nProvider";
 
 export function Hero() {
+  const { dictionary, localePath } = useI18n();
+  const copy = dictionary.home.hero;
+
   return (
     <section
       id="hero"
@@ -10,7 +16,10 @@ export function Hero() {
       <div className="hero__container mvp-container relative z-[2] pb-[80rem] max-[1024px]:pb-[40rem]">
         <div className="hero__head main-animated-text relative mb-[100rem] flex items-center justify-between pb-[15rem] text-light max-[1024px]:mb-[80rem] max-[1024px]:pb-[10rem]">
           <div className="hero__abb flex w-full items-center justify-between text-[40rem] leading-[.9] max-[1024px]:text-[20rem]">
-            <div className="hero__abb-wrapper flex gap-[10rem] max-[1024px]:gap-[20rem]">
+            <div
+              dir="ltr"
+              className="hero__abb-wrapper flex gap-[10rem] max-[1024px]:gap-[20rem]"
+            >
               <span className="hero__abb-item inline-block w-[360rem] max-[1024px]:w-auto">
                 D.
               </span>
@@ -18,14 +27,10 @@ export function Hero() {
               <span className="hero__abb-item inline-block w-[360rem] max-[1024px]:w-auto">
                 I.
               </span>
-
-              {/* <span className="hero__abb-item inline-block w-[360rem] max-[1024px]:w-auto">
-                P.
-              </span> */}
             </div>
 
             <span className="hero__abb-text text-[40rem] uppercase max-[1024px]:text-[20rem]">
-              TRANSPORT & LOGISTICS
+              {copy.eyebrow}
             </span>
           </div>
 
@@ -34,11 +39,11 @@ export function Hero() {
 
         <div className="hero__container-inner flex items-center justify-between max-[1024px]:flex-col max-[1024px]:items-stretch">
           <h1 className="hero__title main-animated-text max-w-[1100rem] text-[100rem] leading-[.9] uppercase text-light max-[1024px]:mb-[40rem] max-[1024px]:text-[40rem]">
-            WE MOVE MORE THAN CARGO WE KEEP OPERATIONS MOVING.
+            {copy.title}
           </h1>
 
-          <AnimatedButton href="/services" className="hero__btn">
-            Our Services
+          <AnimatedButton href={localePath("/services")} className="hero__btn">
+            {copy.servicesButton}
           </AnimatedButton>
 
           <HeroServiceSlider />

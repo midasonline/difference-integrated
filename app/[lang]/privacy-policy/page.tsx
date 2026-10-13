@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import PrivacyPolicyClient from "./PrivacyPolicyClient";
+
+import PrivacyPolicyClient from "@/app/privacy-policy/PrivacyPolicyClient";
 
 export const metadata: Metadata = {
   title: "Privacy Policy | Difference Integrated",
@@ -7,6 +8,6 @@ export const metadata: Metadata = {
     "Learn how Difference Integrated collects, uses, stores, and protects personal information.",
 };
 
-export default function PrivacyPolicyPage() {
+export default function LocalizedPrivacyPolicyPage() {
   return <PrivacyPolicyClient />;
 }

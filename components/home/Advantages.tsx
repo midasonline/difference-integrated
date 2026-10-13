@@ -1,7 +1,7 @@
 "use client";
 
 import { UIEvent, useState } from "react";
-import { advantages } from "@/data/site";
+import { useI18n } from "@/components/i18n/I18nProvider";
 
 function AdvantageCard({
   heading,
@@ -27,19 +27,14 @@ function AdvantageCard({
 
 export function Advantages() {
   const [progress, setProgress] = useState(0);
+  const { dictionary } = useI18n();
+  const copy = dictionary.home.advantages;
 
-  const onScroll = (
-    event: UIEvent<HTMLDivElement>
-  ) => {
+  const onScroll = (event: UIEvent<HTMLDivElement>) => {
     const node = event.currentTarget;
-    const max =
-      node.scrollWidth - node.clientWidth;
+    const max = node.scrollWidth - node.clientWidth;
 
-    setProgress(
-      max > 0
-        ? node.scrollLeft / max
-        : 0
-    );
+    setProgress(max > 0 ? node.scrollLeft / max : 0);
   };
 
   return (
@@ -48,8 +43,7 @@ export function Advantages() {
         <div className="flex items-start justify-between max-[1024px]:flex-col max-[1024px]:items-stretch">
           <div className="flex h-[760rem] flex-col justify-between max-[1024px]:h-auto">
             <h2 className="animated-text max-w-[730rem] text-[200rem] leading-[.8] tracking-[-.03em] uppercase text-accent max-[1024px]:mb-[40rem] max-[1024px]:max-w-full max-[1024px]:text-[80rem] max-[1024px]:tracking-normal">
-              BUILT FOR THE 
-REALITIES OF TRANSPORT.
+              {copy.title}
             </h2>
 
             <div className="relative h-[2rem] w-[730rem] bg-gold/30 max-[1024px]:hidden">
@@ -62,11 +56,8 @@ REALITIES OF TRANSPORT.
             onScroll={onScroll}
           >
             <div className="flex flex-col gap-[10rem] max-[1024px]:w-max max-[1024px]:flex-row">
-              {advantages.map((item) => (
-                <AdvantageCard
-                  key={item.heading}
-                  {...item}
-                />
+              {copy.items.map((item) => (
+                <AdvantageCard key={item.heading} {...item} />
               ))}
             </div>
           </div>

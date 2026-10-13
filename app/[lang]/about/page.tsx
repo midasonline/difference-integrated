@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+
 import AboutExperience from "@/components/about/AboutExperience";
 
 export const metadata: Metadata = {
@@ -7,6 +8,6 @@ export const metadata: Metadata = {
     "Learn how Difference Integrated approaches transportation and logistics operations across Saudi Arabia.",
 };
 
-export default function AboutPage() {
+export default function LocalizedAboutPage() {
   return <AboutExperience />;
 }

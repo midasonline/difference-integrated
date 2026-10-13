@@ -24,6 +24,24 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
 
     const listeners: Array<() => void> = [];
 
+    // Arabic must stay shaped as complete words. Splitting Arabic into individual
+    // characters breaks the joining forms and makes the text look corrupted.
+    const isRtl = document.documentElement.dir === "rtl";
+    const revealUnitClass = isRtl ? ".word" : ".char";
+
+    const splitForMotion = (element: HTMLElement) => {
+      const split = new SplitText(element, {
+        type: isRtl ? "words" : "chars,words",
+        ...(isRtl
+          ? { wordsClass: "word" }
+          : { charsClass: "char", wordsClass: "word" }),
+      });
+
+      splits.push(split);
+
+      return (isRtl ? split.words : split.chars) as HTMLElement[];
+    };
+
     const mm = gsap.matchMedia();
 
     let smoother: ReturnType<typeof ScrollSmoother.create> | null = null;
@@ -34,17 +52,9 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
         .toArray<HTMLElement>(".main-animated-text")
 
         .forEach((element) => {
-          const split = new SplitText(element, {
-            type: "chars,words",
+          const revealTargets = splitForMotion(element);
 
-            charsClass: "char",
-
-            wordsClass: "word",
-          });
-
-          splits.push(split);
-
-          gsap.set(split.chars, {
+          gsap.set(revealTargets, {
             willChange: "transform",
 
             transformOrigin: "50% 0%",
@@ -56,17 +66,9 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
         });
 
       gsap.utils.toArray<HTMLElement>(".animated-text").forEach((element) => {
-        const split = new SplitText(element, {
-          type: "chars,words",
+        const revealTargets = splitForMotion(element);
 
-          charsClass: "char",
-
-          wordsClass: "word",
-        });
-
-        splits.push(split);
-
-        gsap.set(split.chars, {
+        gsap.set(revealTargets, {
           willChange: "transform",
 
           transformOrigin: "50% 0%",
@@ -76,7 +78,7 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
           opacity: 0,
         });
 
-        gsap.to(split.chars, {
+        gsap.to(revealTargets, {
           ease: "back",
 
           opacity: 1,
@@ -85,7 +87,7 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
 
           yPercent: 0,
 
-          stagger: 0.03,
+          stagger: isRtl ? 0.06 : 0.03,
 
           scrollTrigger: {
             trigger: element,
@@ -101,23 +103,15 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
         if (!lines.length) return;
 
         lines.forEach((line) => {
-          const split = new SplitText(line, {
-            type: "chars,words",
-
-            charsClass: "char",
-
-            wordsClass: "word",
-          });
-
-          splits.push(split);
+          splitForMotion(line);
         });
 
         const first = element.querySelectorAll<HTMLElement>(
-          ".text-hover-elem-1 .char",
+          `.text-hover-elem-1 ${revealUnitClass}`,
         );
 
         const second = element.querySelectorAll<HTMLElement>(
-          ".text-hover-elem-2 .char",
+          `.text-hover-elem-2 ${revealUnitClass}`,
         );
 
         const timeline = gsap.timeline({
@@ -567,11 +561,11 @@ export function useMvpAnimations(rootRef: RefObject<HTMLDivElement | null>) {
       };
 
       const heroChars = document.querySelectorAll(
-        ".hero .main-animated-text .char",
+        `.hero .main-animated-text ${revealUnitClass}`,
       );
 
       const preloaderChars = document.querySelectorAll(
-        ".preloader .main-animated-text .char",
+        `.preloader .main-animated-text ${revealUnitClass}`,
       );
 
       const timeline = gsap.timeline({

@@ -1,19 +1,13 @@
+"use client";
+
 import Image from "next/image";
 
 import { services } from "@/data/site";
 import { AnimatedButton } from "@/components/ui/AnimatedButton";
+import { useI18n } from "@/components/i18n/I18nProvider";
 
 type ServiceImageFit = "cover" | "contain" | "fill";
 
-/*
- * IMAGE FIT OPTION
- *
- * "cover"   = box completely fill hoga, thori cropping ho sakti hai
- * "contain" = poori image nazar aayegi, empty space aa sakti hai
- * "fill"    = poora box fill hoga, image stretch ho sakti hai
- *
- * Recommended: "cover"
- */
 const SERVICE_IMAGE_FIT: ServiceImageFit = "cover";
 
 const serviceImageFitClass: Record<ServiceImageFit, string> = {
@@ -25,9 +19,15 @@ const serviceImageFitClass: Record<ServiceImageFit, string> = {
 function ServiceCard({
   item,
   index,
+  heading,
+  text,
+  href,
 }: {
   item: (typeof services)[number];
   index: number;
+  heading: string;
+  text: string;
+  href: string;
 }) {
   const accentCard = item.accent;
 
@@ -56,7 +56,7 @@ function ServiceCard({
               accentCard ? "text-light" : "text-primary"
             }`}
           >
-            {item.heading}
+            {heading}
           </h3>
 
           <p
@@ -64,14 +64,14 @@ function ServiceCard({
               accentCard ? "text-light" : "text-primary"
             }`}
           >
-            {item.text}
+            {text}
           </p>
         </div>
       </div>
 
       <a
-        href="/services"
-        aria-label={item.heading}
+        href={href}
+        aria-label={heading}
         className={`service-card__action group absolute bottom-[55rem] left-1/2 z-[20] flex h-[85rem] min-h-[85rem] w-[85rem] min-w-[85rem] -translate-x-1/2 items-center justify-center overflow-hidden rounded-[5rem] border-0 p-0 transition-colors duration-300 ease-out ${
           accentCard
             ? "bg-light hover:bg-primary"
@@ -97,43 +97,48 @@ function ServiceCard({
 }
 
 export function Services() {
+  const { dictionary, localePath } = useI18n();
+  const copy = dictionary.home.services;
+  const servicesHref = localePath("/services");
+
   return (
     <section className="services bg-white py-[180rem] max-[1024px]:pb-[80rem] max-[1024px]:pt-[40rem]">
       <div className="mvp-container">
         <div className="services__container flex h-[920rem] gap-[10rem] max-[1024px]:h-auto max-[1024px]:gap-0">
           <div className="services__container-inner relative isolate flex w-[915rem] flex-col justify-between overflow-hidden rounded-[20rem] bg-primary px-[60rem] pb-[55rem] pt-[120rem] text-light max-[1024px]:w-full max-[1024px]:rounded-[10rem] max-[1024px]:px-[20rem] max-[1024px]:pb-[20rem] max-[1024px]:pt-[50rem]">
             <div className="services__visuals absolute inset-0 z-0 overflow-hidden bg-primary">
-              {services.map((service, index) => (
-                <div
-                  key={service.id}
-                  className={`services__visual services__visual-${index + 1} absolute inset-0`}
-                  style={{
-                    willChange: "transform",
-                  }}
-                >
-                  <Image
-                    src={service.image}
-                    alt={service.heading}
-                    fill
-                    priority={index === 0}
-                    sizes="(min-width: 1025px) 50vw, 100vw"
-                    className={`${serviceImageFitClass[SERVICE_IMAGE_FIT]} object-center`}
-                  />
-                </div>
-              ))}
+              {services.map((service, index) => {
+                const translated = copy.items[index];
+
+                return (
+                  <div
+                    key={service.id}
+                    className={`services__visual services__visual-${index + 1} absolute inset-0`}
+                    style={{
+                      willChange: "transform",
+                    }}
+                  >
+                    <Image
+                      src={service.image}
+                      alt={translated?.heading ?? service.heading}
+                      fill
+                      priority={index === 0}
+                      sizes="(min-width: 1025px) 50vw, 100vw"
+                      className={`${serviceImageFitClass[SERVICE_IMAGE_FIT]} object-center`}
+                    />
+                  </div>
+                );
+              })}
             </div>
 
             <div className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(180deg,rgba(25,37,91,0.58)_0%,rgba(25,37,91,0.70)_48%,rgba(25,37,91,0.62)_100%)]" />
 
             <h2 className="services__title animated-text relative z-[3] max-w-[730rem] text-[200rem] leading-[.8] tracking-[-.03em] uppercase text-light max-[1024px]:mb-[60rem] max-[1024px]:max-w-full max-[1024px]:text-[80rem]">
-              Our Services
+              {copy.title}
             </h2>
 
-            <AnimatedButton
-              href="/services"
-              className="services__btn relative z-[3]"
-            >
-              All our services
+            <AnimatedButton href={servicesHref} className="services__btn relative z-[3]">
+              {copy.allServices}
             </AnimatedButton>
 
             <div className="services__progressbar relative z-[3] h-[2rem] w-full bg-light/10">
@@ -147,9 +152,20 @@ export function Services() {
           </div>
 
           <div className="services__items relative w-[915rem]">
-            {services.map((item, index) => (
-              <ServiceCard key={item.number} item={item} index={index} />
-            ))}
+            {services.map((item, index) => {
+              const translated = copy.items[index];
+
+              return (
+                <ServiceCard
+                  key={item.number}
+                  item={item}
+                  index={index}
+                  heading={translated?.heading ?? item.heading}
+                  text={translated?.text ?? item.text}
+                  href={servicesHref}
+                />
+              );
+            })}
           </div>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+
 import ContactPageClient from "@/components/contact/ContactPageClient";
 
 export const metadata: Metadata = {
@@ -7,6 +8,6 @@ export const metadata: Metadata = {
     "Contact Difference Integrated for transportation, project logistics, fleet operations and logistics coordination across Saudi Arabia.",
 };
 
-export default function ContactPage() {
+export default function LocalizedContactPage() {
   return <ContactPageClient />;
 }

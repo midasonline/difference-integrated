@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 
 import { heroServices } from "@/data/site";
+import { useI18n } from "@/components/i18n/I18nProvider";
 
 const AUTOPLAY_DELAY = 5000;
 const SLIDE_SPEED = 0.8;
@@ -49,6 +50,8 @@ type IconMaskStyle = CSSProperties & {
 };
 
 export function HeroServiceSlider() {
+  const { dictionary, localePath } = useI18n();
+  const copy = dictionary.home.hero;
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [started, setStarted] = useState(false);
@@ -61,6 +64,7 @@ export function HeroServiceSlider() {
   const current = heroServices[active] ?? heroServices[0];
 
   const currentIcon = current ? SERVICE_ICONS[current.title] : undefined;
+  const currentTitle = copy.serviceTitles[active] ?? current.title;
 
   useEffect(() => {
     const startSlider = () => {
@@ -85,13 +89,18 @@ export function HeroServiceSlider() {
     let split: SplitText | null = null;
 
     if (title) {
+      const isRtl = document.documentElement.dir === "rtl";
+
       split = new SplitText(title, {
-        type: "chars,words",
-        charsClass: "char",
-        wordsClass: "word",
+        type: isRtl ? "words" : "chars,words",
+        ...(isRtl
+          ? { wordsClass: "word" }
+          : { charsClass: "char", wordsClass: "word" }),
       });
 
-      gsap.set(split.chars, {
+      const titleTargets = (isRtl ? split.words : split.chars) as HTMLElement[];
+
+      gsap.set(titleTargets, {
         opacity: 0,
         scaleY: 0,
         yPercent: 25,
@@ -99,12 +108,12 @@ export function HeroServiceSlider() {
         willChange: "transform, opacity",
       });
 
-      gsap.to(split.chars, {
+      gsap.to(titleTargets, {
         opacity: 1,
         scaleY: 1,
         yPercent: 0,
         duration: 0.5,
-        stagger: 0.015,
+        stagger: isRtl ? 0.05 : 0.015,
         ease: "back.out(1.4)",
       });
     }
@@ -228,7 +237,7 @@ export function HeroServiceSlider() {
         )}
 
         <h3 className="hero-slider__title pt-[4rem] text-[15rem] uppercase text-primary">
-          Our Services
+          {copy.sliderLabel}
         </h3>
       </div>
 
@@ -245,7 +254,7 @@ export function HeroServiceSlider() {
 
       {/* SERVICE TITLE */}
       <a
-        href="/services"
+        href={localePath("/services")}
         className="hero-slider__item-inner group flex min-h-[110rem] items-center justify-between px-[40rem] pb-[40rem] pt-[20rem]"
       >
         <span
@@ -253,7 +262,7 @@ export function HeroServiceSlider() {
           ref={titleRef}
           className="hero-slider__item-title max-w-[360rem] text-[30rem] leading-[.9] uppercase text-primary"
         >
-          {current.title}
+          {currentTitle}
         </span>
 
         <span className="hero-slider__item-box hero-slider__arrow-box flex h-[40rem] w-[40rem] shrink-0 items-center justify-center overflow-hidden rounded-[5rem]">
