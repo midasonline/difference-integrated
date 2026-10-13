@@ -1018,3 +1018,289 @@ html[lang="ar"] .header__lang {
     line-height: 1.08;
   }
 }
+
+/* =========================================================
+   ABOUT PAGE — ARABIC / RTL
+   Preserve the existing DI layout while giving Arabic headings
+   enough line-height and mirroring the two-column story divider.
+   ========================================================= */
+html[lang="ar"] .about-page .uppercase {
+  text-transform: none !important;
+}
+
+html[lang="ar"] .about-page .hero-about__title {
+  font-size: 150rem;
+  line-height: 1.08;
+}
+
+html[lang="ar"] .about-page .hero-about__abb-text,
+html[lang="ar"] .about-page .about-hero__statement {
+  line-height: 1.4;
+}
+
+html[lang="ar"] .about-page .about-brand-statement__title,
+html[lang="ar"] .about-page .about-story__title,
+html[lang="ar"] .about-page .about-goals__title,
+html[lang="ar"] .about-page .about-operation__title,
+html[lang="ar"] .about-page .about-mission__title,
+html[lang="ar"] .about-page .about-statement__title,
+html[lang="ar"] .about-page .about-facts__title,
+html[lang="ar"] .about-page .about-card__title,
+html[lang="ar"] .about-page .about-mission__statement {
+  line-height: 1.22;
+}
+
+html[lang="ar"] .about-page .about-brand-statement__pillars {
+  line-height: 1.35;
+}
+
+html[lang="ar"] .about-page .about-story__primary {
+  border-right: 0;
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  padding-right: 0;
+  padding-left: 90rem;
+}
+
+html[lang="ar"] .about-page .about-story__secondary {
+  padding-left: 0;
+  padding-right: 90rem;
+}
+
+html[lang="ar"] .about-page .about-fact__eyebrow {
+  line-height: 1.1;
+}
+
+@media (min-width: 1025px) {
+  html[lang="ar"] .about-page .about-brand-statement__title {
+    font-size: 105rem;
+  }
+
+  html[lang="ar"] .about-page .about-goals__title {
+    font-size: 130rem;
+  }
+
+  html[lang="ar"] .about-page .about-operation__title {
+    font-size: 112rem;
+  }
+
+  html[lang="ar"] .about-page .about-mission__title {
+    font-size: 125rem;
+  }
+
+  html[lang="ar"] .about-page .about-statement__title {
+    font-size: 118rem;
+  }
+
+  html[lang="ar"] .about-page .about-facts__title {
+    font-size: 125rem;
+  }
+
+  html[lang="ar"] .about-page .about-mission__statement,
+  html[lang="ar"] .about-page .about-card__title {
+    font-size: 50rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  html[lang="ar"] .about-page .hero-about__title {
+    font-size: 68rem;
+    line-height: 1.14;
+  }
+
+  html[lang="ar"] .about-page .about-brand-statement__title,
+  html[lang="ar"] .about-page .about-goals__title,
+  html[lang="ar"] .about-page .about-operation__title,
+  html[lang="ar"] .about-page .about-mission__title,
+  html[lang="ar"] .about-page .about-statement__title,
+  html[lang="ar"] .about-page .about-facts__title {
+    font-size: 58rem;
+    line-height: 1.2;
+  }
+
+  html[lang="ar"] .about-page .about-story__primary {
+    border-left: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    padding-left: 0;
+  }
+
+  html[lang="ar"] .about-page .about-story__secondary {
+    padding-right: 0;
+  }
+
+  html[lang="ar"] .about-page .about-mission__statement,
+  html[lang="ar"] .about-page .about-card__title {
+    font-size: 36rem;
+    line-height: 1.35;
+  }
+}
+
+/* =========================================================
+   SERVICES PAGE — ARABIC / RTL
+   Keep the horizontal desktop motion in its original direction while
+   mirroring the content inside each service panel for Arabic.
+   ========================================================= */
+html[lang="ar"] .services-page .uppercase {
+  text-transform: none !important;
+}
+
+html[lang="ar"] .services-page .services-main-animated-text {
+  font-size: 145rem;
+  line-height: 1.08;
+}
+
+html[lang="ar"] .services-page .services-hero-heading {
+  font-size: 48rem;
+  line-height: 1.3;
+}
+
+html[lang="ar"] .services-page .service-image-title {
+  font-size: 48rem;
+  line-height: 1.25;
+}
+
+html[lang="ar"] .services-page .service-tagline {
+  font-size: 44rem;
+  line-height: 1.3;
+}
+
+html[lang="ar"] .services-page .service-description,
+html[lang="ar"] .services-page .service-supporting,
+html[lang="ar"] .services-page .service-keypoint-row p,
+html[lang="ar"] .services-page .services-hero-copy p {
+  line-height: 1.7;
+}
+
+html[lang="ar"] .services-page .service-keypoints-label,
+html[lang="ar"] .services-page .service-form-label,
+html[lang="ar"] .services-page .services-inquiry-title,
+html[lang="ar"] .services-page .services-quick-nav {
+  text-transform: none !important;
+}
+
+html[lang="ar"] .services-page .service-number-wrap {
+  direction: ltr;
+}
+
+html[lang="ar"] .services-page .service-content-sweep {
+  left: auto;
+  right: 0;
+}
+
+html[lang="ar"] .services-page .service-form-line-accent {
+  left: auto;
+  right: 0;
+  transform-origin: right center;
+}
+
+html[lang="ar"] .services-page input,
+html[lang="ar"] .services-page textarea,
+html[lang="ar"] .services-page select {
+  text-align: right;
+}
+
+@media (max-width: 1024px) {
+  html[lang="ar"] .services-page .services-main-animated-text {
+    font-size: 68rem;
+    line-height: 1.14;
+  }
+
+  html[lang="ar"] .services-page .services-hero-heading {
+    font-size: 34rem;
+    line-height: 1.35;
+  }
+
+  html[lang="ar"] .services-page .service-image-title {
+    max-width: 430rem;
+    font-size: 36rem;
+    line-height: 1.3;
+  }
+
+  html[lang="ar"] .services-page .service-tagline {
+    font-size: 34rem;
+    line-height: 1.35;
+  }
+
+  html[lang="ar"] .services-page .service-content-sweep {
+    left: 0;
+    right: 0;
+  }
+
+  html[lang="ar"] .services-page .services-inquiry-title {
+    font-size: 54rem;
+    line-height: 1.2;
+  }
+}
+
+@media (max-width: 640px) {
+  html[lang="ar"] .services-page .services-main-animated-text {
+    font-size: 58rem;
+  }
+
+  html[lang="ar"] .services-page .services-hero-heading {
+    font-size: 30rem;
+  }
+
+  html[lang="ar"] .services-page .service-image-title,
+  html[lang="ar"] .services-page .service-tagline {
+    font-size: 31rem;
+  }
+
+  html[lang="ar"] .services-page .services-inquiry-title {
+    font-size: 42rem;
+  }
+}
+
+/* =========================================================
+   CONTACT PAGE — ARABIC / RTL
+   Keep the existing DI contact layout and animation system while
+   giving Arabic headings, labels, and form fields the correct flow.
+   ========================================================= */
+html[lang="ar"] .contact-page .uppercase {
+  text-transform: none !important;
+}
+
+html[lang="ar"] .contact-page .contact-page__title {
+  font-size: 112rem;
+  line-height: 1.12;
+}
+
+html[lang="ar"] .contact-page .contact-page__contact-value {
+  line-height: 1.35;
+}
+
+html[lang="ar"] .contact-page .contact-person-role {
+  line-height: 1.4;
+}
+
+html[lang="ar"] .contact-page .contact-form-title {
+  font-size: 96rem;
+  line-height: 1.16;
+}
+
+html[lang="ar"] .contact-page input,
+html[lang="ar"] .contact-page textarea,
+html[lang="ar"] .contact-page select {
+  text-align: right;
+}
+
+@media (max-width: 1024px) {
+  html[lang="ar"] .contact-page .contact-page__title {
+    font-size: 72rem;
+    line-height: 1.16;
+  }
+
+  html[lang="ar"] .contact-page .contact-form-title {
+    font-size: 62rem;
+    line-height: 1.2;
+  }
+}
+
+@media (max-width: 700px) {
+  html[lang="ar"] .contact-page .contact-page__title {
+    font-size: 58rem;
+  }
+
+  html[lang="ar"] .contact-page .contact-form-title {
+    font-size: 48rem;
+  }
+}

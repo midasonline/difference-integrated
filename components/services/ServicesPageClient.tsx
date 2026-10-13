@@ -7,7 +7,9 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 
+import { useI18n } from "@/components/i18n/I18nProvider";
 import { PageTransition } from "@/components/ui/PageTransition";
+import type { Dictionary } from "@/i18n/dictionaries";
 
 const AUTO_SNAP_DELAY_MS = 500;
 
@@ -26,405 +28,53 @@ type Service = {
   image: string;
 };
 
-const services: Service[] = [
+const serviceMedia = [
   {
     number: "01",
-    title: "Construction Logistics",
-    tagline: "Transport that works with the project schedule.",
-    description:
-      "Difference Integrated coordinates transport around construction schedules, site access, delivery sequences, and changing material requirements to keep incoming loads aligned with work on site.",
-    points: [
-      {
-        title: "Project Timing",
-        text: "Transport activity aligned with construction schedules and delivery priorities.",
-      },
-      {
-        title: "Site Access",
-        text: "Entry routes, unloading areas, and active working conditions considered before movement.",
-      },
-      {
-        title: "Delivery Sequence",
-        text: "Loads organized according to where and when materials are required.",
-      },
-      {
-        title: "Site Coordination",
-        text: "Transport activity kept connected with relevant projects and receiving teams.",
-      },
-    ],
-    supportingCopy:
-      "The objective is not simply to reach the site. It is to make each delivery fit the way the site is actually operating.",
     image: "/assets/img/services-page/construction-logistics.webp",
   },
-  {
-    number: "02",
-    title: "Sand Transportation",
-    tagline: "Consistency matters when the volume keeps moving.",
-    description:
-      "DI coordinates repeated sand movements around source locations, loading cycles, turnaround times, site access, and project demand to maintain a consistent flow from source to site.",
-    points: [
-      {
-        title: "Source-to-Site Movement",
-        text: "Transport organized between approved supply points and project locations.",
-      },
-      {
-        title: "Load Cycles",
-        text: "Loading, transit, unloading, and return activity considered as one continuous operation.",
-      },
-      {
-        title: "Project Demand",
-        text: "Delivery frequency adjusted around the volume required on site.",
-      },
-      {
-        title: "Access Conditions",
-        text: "Vehicle movement planned around conditions at both loading and receiving points.",
-      },
-    ],
-    supportingCopy:
-      "When multiple loads are moving through the same cycle, control over timing and turnaround becomes critical to the operation.",
-    image: "/assets/img/services-page/sand-transportation.webp",
-  },
+  { number: "02", image: "/assets/img/services-page/sand-transportation.webp" },
   {
     number: "03",
-    title: "Fuel & Tanker Transportation",
-    tagline: "Controlled movement from dispatch to delivery.",
-    description:
-      "DI coordinates tanker movements around scheduling, route conditions, receiving requirements, operating procedures, and applicable regulations to maintain control throughout the journey.",
-    points: [
-      {
-        title: "Planned Dispatch",
-        text: "Tanker activity organized around defined movement and delivery requirements.",
-      },
-      {
-        title: "Route Control",
-        text: "Routes considered against the nature of the load and operating conditions.",
-      },
-      {
-        title: "Receiving Coordination",
-        text: "Arrival aligned with the destination and agreed delivery process.",
-      },
-      {
-        title: "Safety & Compliance",
-        text: "Movement handled with attention to applicable transport procedures and regulatory requirements.",
-      },
-    ],
-    supportingCopy:
-      "For tanker transportation, how the movement is carried out is as important as where it is going.",
     image: "/assets/img/services-page/fuel-tanker-transportation.webp",
   },
-
-  {
-    number: "04",
-    title: "Fleet & Machinery",
-    tagline: "The job should determine the vehicle.",
-    description:
-      "Difference Integrated assigns fleet resources according to cargo type, route conditions, loading requirements, site access, and the operating demands of each assignment.",
-    points: [
-      {
-        title: "Cargo Requirements",
-        text: "Fleet selection is considered against the characteristics of the load.",
-      },
-      {
-        title: "Route Conditions",
-        text: "Vehicle suitability reviewed against the movement environment.",
-      },
-      {
-        title: "Site Requirements",
-        text: "Access, loading, and unloading conditions considered before deployment.",
-      },
-      {
-        title: "Fleet Readiness",
-        text: "Transport resources prepared around the sequence and demands of the assignment.",
-      },
-    ],
-    supportingCopy:
-      "The right fleet decision starts with understanding the job, not simply identifying what is available.",
-    image: "/assets/img/services-page/fleet-equipment.webp",
-  },
+  { number: "04", image: "/assets/img/services-page/fleet-equipment.webp" },
   {
     number: "05",
-    title: "Heavy Dumper Logistics",
-    tagline: "Made for high-volume, repeated movement.",
-    description:
-      "Difference Integrated coordinates heavy dumper operations around material volume, repeated haul cycles, site conditions, and fleet readiness for demanding construction environments.",
-    points: [
-      {
-        title: "Heavy-Duty Capability",
-        text: "Dumper resources suited to demanding bulk material requirements.",
-      },
-      {
-        title: "Repeated Cycles",
-        text: "Operations structured around continuous movement over active project schedules.",
-      },
-      {
-        title: "Turnaround Control",
-        text: "Loading and unloading conditions are considered to support efficient vehicle cycles.",
-      },
-      {
-        title: "Site Conditions",
-        text: "Fleet activity planned around the physical and operational requirements of the project.",
-      },
-    ],
-    supportingCopy:
-      "In repeated haulage operations, the efficiency of the cycle matters just as much as the capacity of the vehicle.",
     image: "/assets/img/services-page/heavy-dumper-logistics.webp",
   },
   {
     number: "06",
-    title: "Logistics Coordination",
-    tagline: "Keeping every part of the movement connected.",
-    description:
-      "DI connects vehicles, routes, schedules, drivers, and delivery requirements within one operating plan to keep transport activity aligned from dispatch through arrival.",
-    points: [
-      {
-        title: "Movement Scheduling",
-        text: "Transport timing is organized around operational and project priorities.",
-      },
-      {
-        title: "Route Coordination",
-        text: "Routes considered against destination, timing, access, and movement requirements.",
-      },
-      {
-        title: "Fleet Activity",
-        text: "Vehicles and transport resources coordinated around the sequence of the operation.",
-      },
-      {
-        title: "Site Communication",
-        text: "Relevant teams kept aligned as movement progressed from dispatch to delivery.",
-      },
-    ],
-    supportingCopy:
-      "Coordination is what keeps separate transport activities working as one operation.",
     image: "/assets/img/services-page/logistics-coordination.webp",
   },
   {
     number: "07",
-    title: "Goods Transportation",
-    tagline: "A clear plan from collection to handoff.",
-    description:
-      "Difference Integrated coordinates goods movement around pickup timing, route conditions, destination access, and receiving requirements for a controlled journey from collection to handoff.",
-    points: [
-      {
-        title: "Collection Timing",
-        text: "Vehicle scheduling aligned with container availability and pickup requirements.",
-      },
-      {
-        title: "Route Planning",
-        text: "Movement considered against destination, timing, and operating conditions.",
-      },
-      {
-        title: "Receiving Access",
-        text: "Arrival planned around access and handling conditions at the destination.",
-      },
-      {
-        title: "Delivery Handoff",
-        text: "Final movement coordinated around the agreed receiving window.",
-      },
-    ],
-    supportingCopy:
-      "The smoother the handoff between pickup, transport, and receiving, the more controlled the overall movement becomes.",
     image: "/assets/img/services-page/container-transportation.webp",
   },
-  // {
-  //   number: "06",
-  //   title: "Fuel & Tanker Transportation",
-  //   tagline: "Controlled movement from dispatch to delivery.",
-  //   description:
-  //     "DI coordinates tanker movements around scheduling, route conditions, receiving requirements, operating procedures, and applicable regulations to maintain control throughout the journey.",
-  //   points: [
-  //     {
-  //       title: "Planned Dispatch",
-  //       text: "Tanker activity organized around defined movement and delivery requirements.",
-  //     },
-  //     {
-  //       title: "Route Control",
-  //       text: "Routes considered against the nature of the load and operating conditions.",
-  //     },
-  //     {
-  //       title: "Receiving Coordination",
-  //       text: "Arrival aligned with the destination and agreed delivery process.",
-  //     },
-  //     {
-  //       title: "Safety & Compliance",
-  //       text: "Movement handled with attention to applicable transport procedures and regulatory requirements.",
-  //     },
-  //   ],
-  //   supportingCopy:
-  //     "For tanker transportation, how the movement is carried out is as important as where it is going.",
-  //   image: "/assets/img/services-page/fuel-tanker-transportation.webp",
-  // },
   {
     number: "08",
-    title: "Bulk Construction Material Transport",
-    tagline: "When the volume increases, the operation changes.",
-    description:
-      "DI manages high-volume material movement around required quantities, vehicle capacity, delivery cycles, and site consumption to keep supply aligned with project demand.",
-    points: [
-      {
-        title: "High-Volume Requirements",
-        text: "Transport structured for materials required in significant quantities.",
-      },
-      {
-        title: "Movement Cycles",
-        text: "Loading, transit, unloading, and return activity are treated as a connected process.",
-      },
-      {
-        title: "Site Consumption",
-        text: "Delivery frequency is considered against how quickly materials are being used.",
-      },
-      {
-        title: "Fleet Allocation",
-        text: "Transport resources assigned according to volume and operating demand.",
-      },
-    ],
-    supportingCopy:
-      "Bulk transport works best when the movement rate stays aligned with the rate at which the project requires material.",
     image: "/assets/img/services-page/bulk-construction-material.webp",
   },
   {
     number: "09",
-    title: "Aggregate & Construction Material Transportation",
-    tagline: "Material supply should follow the pace of the project.",
-    description:
-      "DI coordinates aggregate and construction material movement around source locations, required quantities, delivery timing, and site conditions to support ongoing project activity.",
-    points: [
-      {
-        title: "Material Movement",
-        text: "Transport for aggregates, fill, and related construction materials.",
-      },
-      {
-        title: "Source Coordination",
-        text: "Movement organized between loading locations and project sites.",
-      },
-      {
-        title: "Delivery Timing",
-        text: "Transport activity aligned with when materials are required.",
-      },
-      {
-        title: "Site Handling",
-        text: "Access and unloading conditions considered before arrival.",
-      },
-    ],
-    supportingCopy:
-      "The value of a delivery is not only in the quantity moved, but in whether that material reaches the project when it can actually be used.",
     image: "/assets/img/services-page/aggregate-transportation.webp",
   },
-  {
-    number: "10",
-    title: "General Freight & Logistics Solutions",
-    tagline: "When the load changes, the plan changes with it.",
-    description:
-      "Difference Integrated structures general freight movement around cargo type, origin, destination, delivery timing, and handling requirements rather than applying one standard transport approach.",
-    points: [
-      {
-        title: "Cargo Profile",
-        text: "Transport requirements assessed according to the nature of the freight.",
-      },
-      {
-        title: "Origin & Destination",
-        text: "Collection and receiving conditions considered as part of the movement.",
-      },
-      {
-        title: "Delivery Timing",
-        text: "Transport scheduled around the required arrival window.",
-      },
-      {
-        title: "Flexible Support",
-        text: "Movement structured for individual, recurring, or ongoing freight requirements.",
-      },
-    ],
-    supportingCopy:
-      "There is no single transport formula for general freight. The operating requirement determines the approach.",
-    image: "/assets/img/services-page/general-freight.webp",
-  },
-
+  { number: "10", image: "/assets/img/services-page/general-freight.webp" },
   {
     number: "11",
-    title: "Cattle Transportation / Livestock Service",
-    tagline:
-      "Specialised livestock movement with careful handling at every stage.",
-    description:
-      "We provide organised transportation for cattle and livestock, with planning focused on animal safety, suitable vehicles, controlled loading and unloading, and efficient movement between farms, markets, facilities, and designated destinations.",
-    points: [
-      {
-        title: "Animal Welfare",
-        text: "Movement planning is focused on animal safety and careful handling throughout the journey.",
-      },
-      {
-        title: "Suitable Transport Conditions",
-        text: "Suitable vehicles and transport conditions are considered according to livestock movement requirements.",
-      },
-      {
-        title: "Safe Loading & Unloading",
-        text: "Loading and unloading are coordinated carefully to support controlled handling at each stage.",
-      },
-      {
-        title: "Route & Delivery Coordination",
-        text: "Routes and delivery timing are planned between farms, markets, facilities, and designated destinations.",
-      },
-    ],
-    supportingCopy:
-      "Each livestock movement is organised around safe handling, suitable transport conditions, and coordinated delivery from origin to destination.",
     image: "/assets/img/services-page/cattle-transportation.png",
   },
   {
     number: "12",
-    title: "Agriculture Transportation",
-    tagline:
-      "Reliable transportation built around agricultural operations and supply requirements.",
-    description:
-      "We support the movement of agricultural goods, materials, equipment, and farm-related supplies between farms, storage facilities, distribution points, and project locations. Every movement is coordinated around load requirements, timing, accessibility, and delivery conditions.",
-    points: [
-      {
-        title: "Agricultural Goods",
-        text: "Agricultural goods and materials are transported according to load requirements and destination needs.",
-      },
-      {
-        title: "Farm Supplies",
-        text: "Farm-related supplies are coordinated between farms, storage facilities, distribution points, and project locations.",
-      },
-      {
-        title: "Equipment Movement",
-        text: "Agricultural equipment movement is planned around suitable transport requirements and accessibility.",
-      },
-      {
-        title: "Route & Scheduled Deliveries",
-        text: "Routes and delivery schedules are coordinated around timing, access conditions, and receiving requirements.",
-      },
-    ],
-    supportingCopy:
-      "Agricultural transport is planned around the practical needs of the load, route, timing, access, and delivery location.",
     image: "/assets/img/services-page/agriculture-transportation.png",
   },
   {
     number: "13",
-    title: "Vehicle Transportation",
-    tagline:
-      "Secure and coordinated transportation for vehicles across locations.",
-    description:
-      "We provide planned vehicle transportation for individual units, fleet movements, commercial vehicles, and project requirements. Each movement is organised around vehicle type, loading method, transport equipment, route conditions, and delivery schedule.",
-    points: [
-      {
-        title: "Cars & Commercial Vehicles",
-        text: "Transportation is planned for individual cars, commercial vehicles, and wider project requirements.",
-      },
-      {
-        title: "Fleet Movements",
-        text: "Multiple vehicle movements are coordinated around fleet size, route conditions, and delivery timing.",
-      },
-      {
-        title: "Safe Loading & Suitable Carriers",
-        text: "Loading methods and transport equipment are selected around vehicle type and movement requirements.",
-      },
-      {
-        title: "Delivery Coordination",
-        text: "Routes and delivery schedules are organised to support controlled handoff at the destination.",
-      },
-    ],
-    supportingCopy:
-      "Each vehicle movement is coordinated around the vehicle type, loading method, suitable carrier, route conditions, and delivery schedule.",
     image: "/assets/img/services-page/vehicle-transportation.png",
   },
-];
+] as const;
+
+type ServicesPageCopy = Dictionary["servicesPage"];
 
 function KeyPointsAccordion({
   points,
@@ -447,7 +97,7 @@ function KeyPointsAccordion({
               type="button"
               aria-expanded={isOpen}
               onClick={() => setOpenIndex(isOpen ? null : index)}
-              className="group flex min-h-[64rem] w-full items-center justify-between gap-[24rem] py-[12rem] text-left"
+              className="group flex min-h-[64rem] w-full items-center justify-between gap-[24rem] py-[12rem] text-start"
             >
               <span className="text-[20rem] font-bold uppercase leading-[20rem] transition-colors duration-300 group-hover:text-[var(--mvp-accent)] max-[1024px]:text-[18rem] max-[1024px]:leading-[18rem]">
                 {point.title}
@@ -483,7 +133,7 @@ function KeyPointsAccordion({
               }`}
             >
               <div className="overflow-hidden">
-                <p className="max-w-[650rem] pb-[18rem] pr-[70rem] font-['Inter'] text-[15rem] font-normal leading-[21rem] text-[var(--mvp-primary)]/78 max-[1024px]:pr-[45rem] max-[1024px]:text-[14rem] max-[1024px]:leading-[20rem]">
+                <p className="max-w-[650rem] pb-[18rem] pe-[70rem] font-['Inter'] text-[15rem] font-normal leading-[21rem] text-[var(--mvp-primary)]/78 max-[1024px]:pe-[45rem] max-[1024px]:text-[14rem] max-[1024px]:leading-[20rem]">
                   {point.text}
                 </p>
               </div>
@@ -498,11 +148,17 @@ function KeyPointsAccordion({
 type ServiceNavigatorProps = {
   activeIndex: number;
   onSelect: (index: number) => void;
+  services: Service[];
+  copy: ServicesPageCopy["navigator"];
+  isRtl: boolean;
 };
 
 function ServiceNavigator({
   activeIndex,
   onSelect,
+  services,
+  copy,
+  isRtl,
 }: ServiceNavigatorProps): React.JSX.Element {
   const isVisible = activeIndex >= 0;
   const [menuOpen, setMenuOpen] = useState(false);
@@ -537,6 +193,7 @@ function ServiceNavigator({
 
   return (
     <div
+      dir={isRtl ? "rtl" : "ltr"}
       className={`services-quick-nav pointer-events-auto absolute left-[40rem] top-[145rem] z-[60] hidden transition-[opacity,transform] duration-700 ease-[cubic-bezier(.22,1,.36,1)] min-[1025px]:block max-[1500px]:left-[26rem] max-[1500px]:top-[130rem] ${
         isVisible
           ? "translate-x-0 opacity-100"
@@ -565,12 +222,12 @@ function ServiceNavigator({
           clearCloseTimer();
           setMenuOpen((current) => !current);
         }}
-        className={`relative flex h-[60rem] min-w-[220rem] items-center justify-between gap-[22rem] overflow-hidden rounded-[11rem] border px-[18rem] text-left shadow-[0_14px_42px_rgba(0,0,0,.20)] backdrop-blur-[14px] transition-[background-color,border-color,box-shadow,transform] duration-300 focus-visible:outline-none focus-visible:ring-[2rem] focus-visible:ring-[var(--mvp-accent)] ${
+        className={`relative flex h-[60rem] min-w-[220rem] items-center justify-between gap-[22rem] overflow-hidden rounded-[11rem] border px-[18rem] text-start shadow-[0_14px_42px_rgba(0,0,0,.20)] backdrop-blur-[14px] transition-[background-color,border-color,box-shadow,transform] duration-300 focus-visible:outline-none focus-visible:ring-[2rem] focus-visible:ring-[var(--mvp-accent)] ${
           menuOpen
             ? "border-white/70 bg-[rgba(244,241,234,.98)] shadow-[0_20px_55px_rgba(0,0,0,.28)]"
             : "border-white/55 bg-[rgba(244,241,234,.92)] hover:-translate-y-[2rem] hover:border-white/75 hover:bg-[rgba(244,241,234,.98)] hover:shadow-[0_20px_55px_rgba(0,0,0,.28)]"
         }`}
-        aria-label="Show services navigation"
+        aria-label={copy.buttonAria}
         aria-expanded={menuOpen}
         aria-haspopup="menu"
       >
@@ -580,7 +237,7 @@ function ServiceNavigator({
         />
 
         <span className="text-[23rem] font-bold uppercase leading-none text-[var(--mvp-primary)]">
-          Services
+          {copy.button}
         </span>
 
         <span
@@ -617,7 +274,7 @@ function ServiceNavigator({
       >
         <div
           role="menu"
-          aria-label="Services"
+          aria-label={copy.menuAria}
           className="overflow-hidden rounded-[15rem] border border-white/65 bg-[rgba(244,241,234,.96)] p-[8rem] shadow-[0_24px_70px_rgba(0,0,0,.30)] backdrop-blur-[18px]"
         >
           {services.map((service, index) => {
@@ -629,12 +286,12 @@ function ServiceNavigator({
                 type="button"
                 role="menuitem"
                 onClick={() => handleSelect(index)}
-                className={`group/item relative flex min-h-[52rem] w-full items-center gap-[13rem] rounded-[9rem] px-[14rem] py-[9rem] text-left transition-[background-color,color,transform] duration-250 ${
+                className={`group/item relative flex min-h-[52rem] w-full items-center gap-[13rem] rounded-[9rem] px-[14rem] py-[9rem] text-start transition-[background-color,color,transform] duration-250 ${
                   isActive
                     ? "bg-[var(--mvp-primary)] text-white"
                     : "text-[var(--mvp-primary)] hover:bg-white/85"
                 }`}
-                aria-label={`Go to ${service.title}`}
+                aria-label={`${copy.goToPrefix} ${service.title}`}
                 aria-current={isActive ? "page" : undefined}
               >
                 <span
@@ -703,31 +360,44 @@ function ServiceNavigator({
   );
 }
 
-function ServiceButton(): React.JSX.Element {
+function ServiceButton({
+  href,
+  label,
+}: {
+  href: string;
+  label: string;
+}): React.JSX.Element {
   return (
     <Link
-      href="/contact"
+      href={href}
       className="mvp-btn text-hover w-[545rem] max-w-full max-[1024px]:w-full"
     >
       <span className="mvp-btn-inner text-hover-inner">
-        <span className="text-hover-elem text-hover-elem-1">
-          Order a service
-        </span>
-        <span className="text-hover-elem text-hover-elem-2">
-          Order a service
-        </span>
+        <span className="text-hover-elem text-hover-elem-1">{label}</span>
+        <span className="text-hover-elem text-hover-elem-2">{label}</span>
       </span>
     </Link>
   );
 }
 
-function ServicesInquiryForm(): React.JSX.Element {
+function ServicesInquiryForm({
+  services,
+  copy,
+  isRtl,
+}: {
+  services: Service[];
+  copy: ServicesPageCopy["inquiry"];
+  isRtl: boolean;
+}): React.JSX.Element {
   return (
-    <section className="services-inquiry-section relative overflow-hidden bg-white px-[20rem] py-[90rem] text-[var(--mvp-primary)] min-[1025px]:px-[40rem] min-[1025px]:py-[120rem]">
+    <section
+      dir={isRtl ? "rtl" : "ltr"}
+      className="services-inquiry-section relative overflow-hidden bg-white px-[20rem] py-[90rem] text-[var(--mvp-primary)] min-[1025px]:px-[40rem] min-[1025px]:py-[120rem]"
+    >
       <div className="services-inquiry-frame mx-auto max-w-[1500rem] overflow-hidden rounded-[28rem] bg-[var(--mvp-light)] px-[30rem] pb-[55rem] pt-[30rem] max-[1024px]:rounded-[18rem] max-[1024px]:px-[20rem] max-[1024px]:pb-[40rem] max-[1024px]:pt-[22rem]">
         <div className="services-inquiry-top flex items-center justify-between border-b border-[var(--mvp-primary)]/20 pb-[22rem]">
           <span className="text-[20rem] font-bold uppercase leading-none">
-            Form
+            {copy.label}
           </span>
 
           <span
@@ -738,7 +408,7 @@ function ServicesInquiryForm(): React.JSX.Element {
 
         <div className="services-inquiry-title-wrap overflow-hidden">
           <h2 className="services-inquiry-title mt-[42rem] max-w-[1100rem] text-[96rem] font-bold uppercase leading-[0.86] tracking-[-0.025em] max-[1024px]:mt-[32rem] max-[1024px]:text-[62rem] max-[640px]:text-[46rem]">
-            Send Your Request
+            {copy.title}
           </h2>
         </div>
 
@@ -748,14 +418,15 @@ function ServicesInquiryForm(): React.JSX.Element {
         >
           <label className="service-form-field group relative flex flex-col gap-[10rem] overflow-hidden pb-[4rem]">
             <span className="service-form-label font-['Inter'] text-[14rem] font-semibold uppercase tracking-[.08em] text-[var(--mvp-primary)]/65">
-              Full Name <span className="text-[var(--mvp-accent)]">*</span>
+              {copy.fullName}{" "}
+              <span className="text-[var(--mvp-accent)]">*</span>
             </span>
             <input
               type="text"
               name="fullName"
               required
               className="service-form-control h-[58rem] border-0 bg-transparent px-0 font-['Inter'] text-[20rem] font-normal text-[var(--mvp-primary)] outline-none placeholder:text-[var(--mvp-primary)]/30"
-              placeholder="Enter your full name"
+              placeholder={copy.fullNamePlaceholder}
             />
             <span
               className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--mvp-primary)]/25"
@@ -769,13 +440,13 @@ function ServicesInquiryForm(): React.JSX.Element {
 
           <label className="service-form-field group relative flex flex-col gap-[10rem] overflow-hidden pb-[4rem]">
             <span className="service-form-label font-['Inter'] text-[14rem] font-semibold uppercase tracking-[.08em] text-[var(--mvp-primary)]/65">
-              Company Name
+              {copy.companyName}
             </span>
             <input
               type="text"
               name="companyName"
               className="service-form-control h-[58rem] border-0 bg-transparent px-0 font-['Inter'] text-[20rem] font-normal text-[var(--mvp-primary)] outline-none placeholder:text-[var(--mvp-primary)]/30"
-              placeholder="Enter company name"
+              placeholder={copy.companyNamePlaceholder}
             />
             <span
               className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--mvp-primary)]/25"
@@ -789,14 +460,14 @@ function ServicesInquiryForm(): React.JSX.Element {
 
           <label className="service-form-field group relative flex flex-col gap-[10rem] overflow-hidden pb-[4rem]">
             <span className="service-form-label font-['Inter'] text-[14rem] font-semibold uppercase tracking-[.08em] text-[var(--mvp-primary)]/65">
-              Phone Number <span className="text-[var(--mvp-accent)]">*</span>
+              {copy.phone} <span className="text-[var(--mvp-accent)]">*</span>
             </span>
             <input
               type="tel"
               name="phone"
               required
               className="service-form-control h-[58rem] border-0 bg-transparent px-0 font-['Inter'] text-[20rem] font-normal text-[var(--mvp-primary)] outline-none placeholder:text-[var(--mvp-primary)]/30"
-              placeholder="Enter phone number"
+              placeholder={copy.phonePlaceholder}
             />
             <span
               className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--mvp-primary)]/25"
@@ -810,14 +481,14 @@ function ServicesInquiryForm(): React.JSX.Element {
 
           <label className="service-form-field group relative flex flex-col gap-[10rem] overflow-hidden pb-[4rem]">
             <span className="service-form-label font-['Inter'] text-[14rem] font-semibold uppercase tracking-[.08em] text-[var(--mvp-primary)]/65">
-              Email Address <span className="text-[var(--mvp-accent)]">*</span>
+              {copy.email} <span className="text-[var(--mvp-accent)]">*</span>
             </span>
             <input
               type="email"
               name="email"
               required
               className="service-form-control h-[58rem] border-0 bg-transparent px-0 font-['Inter'] text-[20rem] font-normal text-[var(--mvp-primary)] outline-none placeholder:text-[var(--mvp-primary)]/30"
-              placeholder="Enter email address"
+              placeholder={copy.emailPlaceholder}
             />
             <span
               className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--mvp-primary)]/25"
@@ -831,7 +502,7 @@ function ServicesInquiryForm(): React.JSX.Element {
 
           <label className="service-form-field group relative col-span-2 flex flex-col gap-[10rem] overflow-hidden pb-[4rem] max-[760px]:col-span-1">
             <span className="service-form-label font-['Inter'] text-[14rem] font-semibold uppercase tracking-[.08em] text-[var(--mvp-primary)]/65">
-              Service Required
+              {copy.serviceRequired}
             </span>
             <select
               name="service"
@@ -839,7 +510,7 @@ function ServicesInquiryForm(): React.JSX.Element {
               className="service-form-control h-[58rem] cursor-pointer border-0 bg-transparent px-0 font-['Inter'] text-[20rem] font-normal text-[var(--mvp-primary)] outline-none"
             >
               <option value="" disabled>
-                Select a service
+                {copy.selectService}
               </option>
               {services.map((service) => (
                 <option key={service.number} value={service.title}>
@@ -859,13 +530,13 @@ function ServicesInquiryForm(): React.JSX.Element {
 
           <label className="service-form-field group relative col-span-2 flex flex-col gap-[10rem] overflow-hidden pb-[4rem] max-[760px]:col-span-1">
             <span className="service-form-label font-['Inter'] text-[14rem] font-semibold uppercase tracking-[.08em] text-[var(--mvp-primary)]/65">
-              Tell Us About Your Requirement
+              {copy.requirement}
             </span>
             <textarea
               name="requirement"
               rows={5}
               className="service-form-control min-h-[145rem] resize-y border-0 bg-transparent px-0 py-[16rem] font-['Inter'] text-[20rem] font-normal leading-[1.45] text-[var(--mvp-primary)] outline-none placeholder:text-[var(--mvp-primary)]/30"
-              placeholder="Tell us what you need"
+              placeholder={copy.requirementPlaceholder}
             />
             <span
               className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--mvp-primary)]/25"
@@ -884,10 +555,10 @@ function ServicesInquiryForm(): React.JSX.Element {
             >
               <span className="mvp-btn-inner text-hover-inner">
                 <span className="text-hover-elem text-hover-elem-1">
-                  Send Your Request
+                  {copy.submit}
                 </span>
                 <span className="text-hover-elem text-hover-elem-2">
-                  Send Your Request
+                  {copy.submit}
                 </span>
               </span>
             </button>
@@ -899,6 +570,14 @@ function ServicesInquiryForm(): React.JSX.Element {
 }
 
 export default function ServicesPageClient(): React.JSX.Element {
+  const { dictionary, locale, localePath } = useI18n();
+  const copy = dictionary.servicesPage;
+  const isRtl = locale === "ar";
+  const services: Service[] = serviceMedia.map((media, index) => ({
+    ...media,
+    ...copy.services[index],
+  }));
+
   const rootRef = useRef<HTMLDivElement>(null);
   const servicesRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -1008,19 +687,22 @@ export default function ServicesPageClient(): React.JSX.Element {
       const heroCopy = servicesSection.querySelector<HTMLElement>(
         ".services-hero-copy",
       );
-      let heroChars: HTMLElement[] = [];
+      let heroRevealTargets: HTMLElement[] = [];
 
       if (heroTitle) {
         const heroSplit = new SplitText(heroTitle, {
-          type: "chars,words",
-          charsClass: "char",
-          wordsClass: "word",
+          type: isRtl ? "words" : "chars,words",
+          ...(isRtl
+            ? { wordsClass: "word" }
+            : { charsClass: "char", wordsClass: "word" }),
         });
 
         splits.push(heroSplit);
-        heroChars = heroSplit.chars as HTMLElement[];
+        heroRevealTargets = (
+          isRtl ? heroSplit.words : heroSplit.chars
+        ) as HTMLElement[];
 
-        gsap.set(heroChars, {
+        gsap.set(heroRevealTargets, {
           willChange: "transform",
           transformOrigin: "50% 0%",
           scaleY: 0,
@@ -1074,15 +756,15 @@ export default function ServicesPageClient(): React.JSX.Element {
         entrance.to(transitionPlug, { yPercent: 105 }, 0.05);
       }
 
-      if (heroChars.length) {
+      if (heroRevealTargets.length) {
         entrance.to(
-          heroChars,
+          heroRevealTargets,
           {
             ease: "back.out(1.7)",
             opacity: 1,
             scaleY: 1,
             yPercent: 0,
-            stagger: 0.03,
+            stagger: isRtl ? 0.06 : 0.03,
             duration: 1,
           },
           ">",
@@ -1098,7 +780,7 @@ export default function ServicesPageClient(): React.JSX.Element {
             duration: 0.9,
             ease: "power3.out",
           },
-          heroChars.length ? "<+=0.3" : ">",
+          heroRevealTargets.length ? "<+=0.3" : ">",
         );
       }
 
@@ -1120,19 +802,21 @@ export default function ServicesPageClient(): React.JSX.Element {
 
         lines.forEach((line) => {
           const split = new SplitText(line, {
-            type: "chars,words",
-            charsClass: "char",
-            wordsClass: "word",
+            type: isRtl ? "words" : "chars,words",
+            ...(isRtl
+              ? { wordsClass: "word" }
+              : { charsClass: "char", wordsClass: "word" }),
           });
 
           splits.push(split);
         });
 
+        const motionUnit = isRtl ? ".word" : ".char";
         const first = element.querySelectorAll<HTMLElement>(
-          ".text-hover-elem-1 .char",
+          `.text-hover-elem-1 ${motionUnit}`,
         );
         const second = element.querySelectorAll<HTMLElement>(
-          ".text-hover-elem-2 .char",
+          `.text-hover-elem-2 ${motionUnit}`,
         );
 
         const timeline = gsap.timeline({
@@ -1250,6 +934,14 @@ export default function ServicesPageClient(): React.JSX.Element {
           servicesSection,
         );
 
+        /*
+         * Keep the horizontal motion system physically LTR for every locale.
+         * The track itself is `dir="ltr"`, while Arabic text/panels remain
+         * `dir="rtl"`. This isolates GSAP x-transforms and ScrollTrigger snap
+         * math from the document writing direction, so Arabic can use the same
+         * pinned horizontal experience as English without reversing coordinates
+         * or producing oversized pin spacers.
+         */
         const reducedMotion = window.matchMedia(
           "(prefers-reduced-motion: reduce)",
         ).matches;
@@ -1265,7 +957,7 @@ export default function ServicesPageClient(): React.JSX.Element {
         gsap.set(progress, {
           width: "100%",
           scaleX: 0,
-          transformOrigin: "left center",
+          transformOrigin: isRtl ? "right center" : "left center",
         });
 
         gsap.set(progressWrap, {
@@ -2034,6 +1726,16 @@ export default function ServicesPageClient(): React.JSX.Element {
           "[data-service-panel]",
           servicesSection,
         );
+
+        // Keep Arabic service content in its natural visible state on mobile.
+        // This avoids SplitText/ScrollTrigger leaving translated copy hidden
+        // after route changes while preserving the English animation exactly.
+        if (isRtl) {
+          gsap.set(track, { clearProps: "transform" });
+          gsap.set(progressWrap, { display: "none" });
+          return;
+        }
+
         const reducedMotion = window.matchMedia(
           "(prefers-reduced-motion: reduce)",
         ).matches;
@@ -2575,6 +2277,12 @@ export default function ServicesPageClient(): React.JSX.Element {
       }
 
       requestAnimationFrame(() => ScrollTrigger.refresh());
+
+      if (document.fonts?.ready) {
+        document.fonts.ready.then(() => {
+          requestAnimationFrame(() => ScrollTrigger.refresh());
+        });
+      }
     }, root);
 
     let resizeTimer: ReturnType<typeof setTimeout> | null = null;
@@ -2613,33 +2321,39 @@ export default function ServicesPageClient(): React.JSX.Element {
       mm.revert();
       ctx.revert();
     };
-  }, []);
+  }, [locale]);
 
   return (
-    <div ref={rootRef}>
+    <div ref={rootRef} className="services-page">
       <PageTransition initialCovered />
 
       <main className="overflow-x-clip bg-white text-[var(--mvp-primary)]">
         <section
           ref={servicesRef}
+          dir="ltr"
           className="hero-services relative min-[1025px]:h-[100svh]"
         >
           <ServiceNavigator
             activeIndex={activeServiceIndex}
             onSelect={jumpToService}
+            services={services}
+            copy={copy.navigator}
+            isRtl={isRtl}
           />
 
           <div
             ref={trackRef}
-            className="hero-services__x-scroll flex w-full flex-col min-[1025px]:h-full min-[1025px]:w-max min-[1025px]:flex-row"
+            dir="ltr"
+            className="hero-services__x-scroll relative left-0 flex w-full flex-col min-[1025px]:h-full min-[1025px]:w-max min-[1025px]:flex-row"
           >
             <section
+              dir={isRtl ? "rtl" : "ltr"}
               data-services-panel
-              className="relative flex h-[100svh] min-h-[650rem] w-full shrink-0 items-end overflow-hidden pb-[35rem] min-[1025px]:w-screen max-[1024px]:pb-[25rem]"
+              className="relative flex h-[100svh] min-h-[650rem] w-full shrink-0 items-end overflow-hidden pb-[35rem] max-[1024px]:pb-[25rem] min-[1025px]:w-screen"
             >
               <Image
                 src="/assets/img/services-page/hero-bg.webp"
-                alt="Difference Integrated logistics services"
+                alt={copy.hero.imageAlt}
                 fill
                 priority
                 quality={82}
@@ -2650,25 +2364,18 @@ export default function ServicesPageClient(): React.JSX.Element {
 
               <div className="mvp-container relative z-[2] flex w-full items-end justify-between gap-[70rem] max-[1024px]:flex-col max-[1024px]:items-start max-[1024px]:gap-[30rem]">
                 <h1 className="services-main-animated-text shrink-0 text-[200rem] uppercase leading-[0.8] tracking-[-0.025em] text-white max-[1024px]:text-[80rem]">
-                  Our Services
+                  {copy.hero.title}
                 </h1>
 
                 <div className="services-hero-copy mb-[10rem] max-w-[650rem] text-white max-[1024px]:mb-0">
-                  <h2 className="mb-[18rem] text-[60rem] font-bold uppercase leading-[54rem] max-[1024px]:text-[38rem] max-[1024px]:leading-[36rem]">
-                    Transportation solutions built around the realities of every
-                    operation.
+                  <h2 className="services-hero-heading mb-[18rem] text-[60rem] font-bold uppercase leading-[54rem] max-[1024px]:text-[38rem] max-[1024px]:leading-[36rem]">
+                    {copy.hero.heading}
                   </h2>
 
                   <div className="space-y-[12rem] font-['Inter'] text-[20rem] font-normal leading-[27rem] max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
-                    <p>
-                      From construction logistics and heavy transport to
-                      livestock, agriculture, vehicles, containers, and general
-                      freight.
-                    </p>
-                    <p>
-                      Difference Integrated coordinates each movement according
-                      to the load, site, route, equipment, and timing required.
-                    </p>
+                    {copy.hero.paragraphs.map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -2677,6 +2384,7 @@ export default function ServicesPageClient(): React.JSX.Element {
             {services.map((service) => (
               <section
                 key={service.number}
+                dir={isRtl ? "rtl" : "ltr"}
                 id={`service-${service.number}`}
                 data-services-panel
                 data-service-panel
@@ -2726,7 +2434,7 @@ export default function ServicesPageClient(): React.JSX.Element {
 
                     <div className="mt-[26rem]">
                       <p className="service-keypoints-label mb-[10rem] text-[18rem] font-bold uppercase tracking-[0.04em]">
-                        Key Points
+                        {copy.labels.keyPoints}
                       </p>
 
                       <KeyPointsAccordion points={service.points} />
@@ -2738,7 +2446,10 @@ export default function ServicesPageClient(): React.JSX.Element {
                   </div>
 
                   <div className="service-cta mt-[26rem] max-w-[545rem]">
-                    <ServiceButton />
+                    <ServiceButton
+                      href={localePath("/contact")}
+                      label={copy.labels.orderService}
+                    />
                   </div>
                 </div>
               </section>
@@ -2756,7 +2467,11 @@ export default function ServicesPageClient(): React.JSX.Element {
           </div>
         </section>
 
-        <ServicesInquiryForm />
+        <ServicesInquiryForm
+          services={services}
+          copy={copy.inquiry}
+          isRtl={isRtl}
+        />
       </main>
     </div>
   );

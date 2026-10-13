@@ -80,7 +80,23 @@ export function Header({
     document.cookie = `${localeCookieName}=${nextLocale}; path=/; max-age=31536000; samesite=lax`;
 
     const basePath = stripLocaleFromPathname(pathname);
-    window.location.assign(localizePathname(basePath, nextLocale));
+    const nextPath = localizePathname(basePath, nextLocale);
+
+    // Locale switches should always open the translated page from the top.
+    // This is especially important on the Services page because its desktop
+    // experience uses a pinned ScrollTrigger section. Restoring the previous
+    // scroll position can mount the translated page halfway through that
+    // animation and leave its content in a pre-reveal state.
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    setLangOpen(false);
+
+    window.requestAnimationFrame(() => {
+      window.location.assign(nextPath);
+    });
   };
 
   useEffect(() => {

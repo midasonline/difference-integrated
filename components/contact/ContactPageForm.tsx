@@ -4,7 +4,12 @@ import { FormEvent, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-const services = [
+import { useI18n } from "@/components/i18n/I18nProvider";
+import type { Dictionary } from "@/i18n/dictionaries";
+
+type ContactFormCopy = Dictionary["contactPage"]["form"];
+
+const serviceValues = [
   "Construction Logistics",
   "Sand Transportation",
   "Heavy Dumper Logistics",
@@ -15,7 +20,7 @@ const services = [
   "Tanker Transportation",
   "General Freight",
   "Other Requirement",
-];
+] as const;
 
 type FieldProps = {
   label: string;
@@ -23,6 +28,7 @@ type FieldProps = {
   type?: string;
   required?: boolean;
   autoComplete?: string;
+  isRtl: boolean;
 };
 
 function Field({
@@ -31,6 +37,7 @@ function Field({
   type = "text",
   required = false,
   autoComplete,
+  isRtl,
 }: FieldProps) {
   const [focused, setFocused] = useState(false);
   const [value, setValue] = useState("");
@@ -40,7 +47,9 @@ function Field({
   return (
     <label className="group relative block border-b border-[var(--mvp-primary)]/20 pt-[25rem] transition-colors duration-300 focus-within:border-[var(--mvp-accent)]">
       <span
-        className={`pointer-events-none absolute left-0 font-['Inter'] font-medium uppercase tracking-[.08em] transition-all duration-300 ${
+        className={`pointer-events-none absolute font-['Inter'] font-medium uppercase tracking-[.08em] transition-all duration-300 ${
+          isRtl ? "right-0" : "left-0"
+        } ${
           raised
             ? "top-[5rem] text-[10rem] text-[var(--mvp-accent)]"
             : "top-[28rem] text-[15rem] text-[var(--mvp-primary)]/55"
@@ -49,7 +58,13 @@ function Field({
         {label}
 
         {required && (
-          <span className="ml-[4rem] text-[var(--mvp-accent)]">*</span>
+          <span
+            className={`${
+              isRtl ? "mr-[4rem]" : "ml-[4rem]"
+            } text-[var(--mvp-accent)]`}
+          >
+            *
+          </span>
         )}
       </span>
 
@@ -62,13 +77,23 @@ function Field({
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         onChange={(event) => setValue(event.target.value)}
-        className="h-[72rem] w-full bg-transparent pt-[16rem] font-['Inter'] text-[18rem] text-[var(--mvp-primary)] outline-none max-[700px]:h-[64rem] max-[700px]:text-[16rem]"
+        className={`h-[72rem] w-full bg-transparent pt-[16rem] font-['Inter'] text-[18rem] text-[var(--mvp-primary)] outline-none max-[700px]:h-[64rem] max-[700px]:text-[16rem] ${
+          isRtl ? "text-right" : "text-left"
+        }`}
       />
     </label>
   );
 }
 
-function SelectField() {
+function SelectField({
+  label,
+  serviceLabels,
+  isRtl,
+}: {
+  label: string;
+  serviceLabels: ContactFormCopy["services"];
+  isRtl: boolean;
+}) {
   const [focused, setFocused] = useState(false);
   const [value, setValue] = useState("");
 
@@ -77,14 +102,22 @@ function SelectField() {
   return (
     <label className="group relative block border-b border-[var(--mvp-primary)]/20 pt-[25rem] transition-colors duration-300 focus-within:border-[var(--mvp-accent)]">
       <span
-        className={`pointer-events-none absolute left-0 font-['Inter'] font-medium uppercase tracking-[.08em] transition-all duration-300 ${
+        className={`pointer-events-none absolute font-['Inter'] font-medium uppercase tracking-[.08em] transition-all duration-300 ${
+          isRtl ? "right-0" : "left-0"
+        } ${
           raised
             ? "top-[5rem] text-[10rem] text-[var(--mvp-accent)]"
             : "top-[28rem] text-[15rem] text-[var(--mvp-primary)]/55"
         }`}
       >
-        Service Required
-        <span className="ml-[4rem] text-[var(--mvp-accent)]">*</span>
+        {label}
+        <span
+          className={`${
+            isRtl ? "mr-[4rem]" : "ml-[4rem]"
+          } text-[var(--mvp-accent)]`}
+        >
+          *
+        </span>
       </span>
 
       <select
@@ -94,12 +127,14 @@ function SelectField() {
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         onChange={(event) => setValue(event.target.value)}
-        className="h-[72rem] w-full appearance-none bg-transparent pt-[16rem] font-['Inter'] text-[18rem] text-[var(--mvp-primary)] outline-none max-[700px]:h-[64rem] max-[700px]:text-[16rem]"
+        className={`h-[72rem] w-full appearance-none bg-transparent pt-[16rem] font-['Inter'] text-[18rem] text-[var(--mvp-primary)] outline-none max-[700px]:h-[64rem] max-[700px]:text-[16rem] ${
+          isRtl ? "text-right" : "text-left"
+        }`}
       >
         <option value="" disabled />
 
-        {services.map((service) => (
-          <option key={service} value={service}>
+        {serviceLabels.map((service, index) => (
+          <option key={serviceValues[index]} value={serviceValues[index]}>
             {service}
           </option>
         ))}
@@ -108,7 +143,9 @@ function SelectField() {
       <svg
         viewBox="0 0 12 8"
         fill="none"
-        className="pointer-events-none absolute bottom-[28rem] right-0 h-[8rem] w-[12rem] text-[var(--mvp-primary)]"
+        className={`pointer-events-none absolute bottom-[28rem] h-[8rem] w-[12rem] text-[var(--mvp-primary)] ${
+          isRtl ? "left-0" : "right-0"
+        }`}
         aria-hidden="true"
       >
         <path
@@ -123,12 +160,12 @@ function SelectField() {
   );
 }
 
-function ArrowIcon() {
+function ArrowIcon({ isRtl = false }: { isRtl?: boolean }) {
   return (
     <svg
       viewBox="0 0 20 20"
       fill="none"
-      className="h-[17rem] w-[17rem]"
+      className={`h-[17rem] w-[17rem] ${isRtl ? "scale-x-[-1]" : ""}`}
       aria-hidden="true"
     >
       <path
@@ -144,6 +181,9 @@ function ArrowIcon() {
 
 export default function ContactPageForm() {
   const sectionRef = useRef<HTMLElement>(null);
+  const { dictionary, locale } = useI18n();
+  const copy = dictionary.contactPage.form;
+  const isRtl = locale === "ar";
 
   const [status, setStatus] = useState<"idle" | "success">("idle");
 
@@ -211,7 +251,7 @@ export default function ContactPageForm() {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [locale]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -245,41 +285,33 @@ export default function ContactPageForm() {
               data-form-label
               className="mb-[35rem] block font-['Inter'] text-[13rem] font-medium uppercase tracking-[.15em] text-[var(--mvp-accent)]"
             >
-              Project Enquiry
+              {copy.label}
             </span>
 
-            <h2 className="mb-[40rem] text-[clamp(70rem,6.5vw,125rem)] font-bold uppercase leading-[.82] tracking-[-.04em]">
-              <span className="block overflow-hidden">
-                <span data-form-title-line className="block">
-                  Start With
+            <h2 className="contact-form-title mb-[40rem] text-[clamp(70rem,6.5vw,125rem)] font-bold uppercase leading-[.82] tracking-[-.04em]">
+              {copy.title.map((line) => (
+                <span key={line} className="block overflow-hidden pb-[6rem]">
+                  <span data-form-title-line className="block">
+                    {line}
+                  </span>
                 </span>
-              </span>
-
-              <span className="block overflow-hidden">
-                <span data-form-title-line className="block">
-                  The Details.
-                </span>
-              </span>
+              ))}
             </h2>
 
             <div
               data-form-copy
               className="max-w-[520rem] font-['Inter'] text-[18rem] font-normal leading-[1.5] text-white/70 max-[700px]:text-[16rem]"
             >
-              <p>
-                Tell us what needs to move, where the movement begins and ends,
-                and what conditions need to be considered.
-              </p>
-
-              <p className="mt-[18rem]">
-                Our team can then review the requirement and structure the
-                transport approach around the actual operation.
-              </p>
+              {copy.paragraphs.map((paragraph, index) => (
+                <p key={paragraph} className={index > 0 ? "mt-[18rem]" : ""}>
+                  {paragraph}
+                </p>
+              ))}
             </div>
 
             <div className="mt-[65rem] border-t border-white/15 pt-[22rem] max-[1024px]:mt-[40rem]">
               <p className="font-['Inter'] text-[12rem] font-medium uppercase tracking-[.12em] text-white/45">
-                Difference Integrated · Saudi Arabia
+                {copy.location}
               </p>
             </div>
           </div>
@@ -290,83 +322,116 @@ export default function ContactPageForm() {
           >
             <div className="mb-[45rem] flex items-center justify-between gap-[20rem] border-b border-[var(--mvp-primary)]/15 pb-[18rem] max-[700px]:mb-[30rem]">
               <span className="font-['Inter'] text-[12rem] font-semibold uppercase tracking-[.12em]">
-                Send Your Requirement
+                {copy.panelTitle}
               </span>
 
               <span className="font-['Inter'] text-[11rem] font-medium uppercase tracking-[.1em] text-[var(--mvp-primary)]/40">
-                * Required
+                {copy.required}
               </span>
             </div>
 
             <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-2 gap-x-[38rem] gap-y-[5rem] max-[700px]:grid-cols-1">
                 <Field
-                  label="Full Name"
+                  label={copy.fields.fullName}
                   name="full_name"
                   required
                   autoComplete="name"
+                  isRtl={isRtl}
                 />
 
                 <Field
-                  label="Company Name"
+                  label={copy.fields.companyName}
                   name="company"
                   autoComplete="organization"
+                  isRtl={isRtl}
                 />
 
                 <Field
-                  label="Phone Number"
+                  label={copy.fields.phone}
                   name="phone"
                   type="tel"
                   required
                   autoComplete="tel"
+                  isRtl={isRtl}
                 />
 
                 <Field
-                  label="Email Address"
+                  label={copy.fields.email}
                   name="email"
                   type="email"
                   required
                   autoComplete="email"
+                  isRtl={isRtl}
                 />
 
-                <SelectField />
+                <SelectField
+                  label={copy.fields.serviceRequired}
+                  serviceLabels={copy.services}
+                  isRtl={isRtl}
+                />
 
-                <Field label="Project Location" name="project_location" />
+                <Field
+                  label={copy.fields.projectLocation}
+                  name="project_location"
+                  isRtl={isRtl}
+                />
 
-                <Field label="Material / Cargo Type" name="material" />
+                <Field
+                  label={copy.fields.material}
+                  name="material"
+                  isRtl={isRtl}
+                />
 
-                <Field label="Required Timeline" name="timeline" />
+                <Field
+                  label={copy.fields.timeline}
+                  name="timeline"
+                  isRtl={isRtl}
+                />
               </div>
 
               <label className="mt-[35rem] block">
                 <span className="mb-[14rem] block font-['Inter'] text-[12rem] font-semibold uppercase tracking-[.1em]">
-                  Tell Us About Your Requirement
-                  <span className="ml-[4rem] text-[var(--mvp-accent)]">*</span>
+                  {copy.requirementLabel}
+                  <span
+                    className={`${
+                      isRtl ? "mr-[4rem]" : "ml-[4rem]"
+                    } text-[var(--mvp-accent)]`}
+                  >
+                    *
+                  </span>
                 </span>
 
                 <textarea
                   name="message"
                   required
                   rows={5}
-                  placeholder="Share the load, route, timing, quantity, site access or any other operational details."
-                  className="min-h-[150rem] w-full resize-none rounded-[5rem] border border-[var(--mvp-primary)]/15 bg-[#f5f5f7] px-[20rem] py-[18rem] font-['Inter'] text-[16rem] leading-[1.5] text-[var(--mvp-primary)] outline-none transition-colors duration-300 placeholder:text-[var(--mvp-primary)]/35 focus:border-[var(--mvp-accent)]"
+                  placeholder={copy.requirementPlaceholder}
+                  className={`min-h-[150rem] w-full resize-none rounded-[5rem] border border-[var(--mvp-primary)]/15 bg-[#f5f5f7] px-[20rem] py-[18rem] font-['Inter'] text-[16rem] leading-[1.5] text-[var(--mvp-primary)] outline-none transition-colors duration-300 placeholder:text-[var(--mvp-primary)]/35 focus:border-[var(--mvp-accent)] ${
+                    isRtl ? "text-right" : "text-left"
+                  }`}
                 />
               </label>
 
               <div className="mt-[35rem] flex items-center justify-between gap-[30rem] max-[700px]:flex-col max-[700px]:items-stretch">
                 <p className="max-w-[440rem] font-['Inter'] text-[12rem] leading-[1.5] text-[var(--mvp-primary)]/45">
-                  By submitting this form, you are sharing these details so our
-                  team can respond to your transport or logistics enquiry.
+                  {copy.consent}
                 </p>
 
                 <button
                   type="submit"
                   className="group flex h-[64rem] min-w-[220rem] items-center justify-between gap-[30rem] rounded-[5rem] bg-[var(--mvp-accent)] px-[24rem] text-[14rem] font-bold uppercase tracking-[.06em] text-white transition-colors duration-500 hover:bg-[var(--mvp-primary)] max-[700px]:w-full"
                 >
-                  <span>Start The Conversation</span>
+                  <span>{copy.submit}</span>
 
-                  <span className="transition-transform duration-500 group-hover:translate-x-[5rem]">
-                    <ArrowIcon />
+                  <span
+                    className={`transition-transform duration-500 ${
+                      isRtl
+                        ? "group-hover:-translate-x-[5rem]"
+                        : "group-hover:translate-x-[5rem]"
+                    }`}
+                  >
+                    <ArrowIcon isRtl={isRtl} />
                   </span>
                 </button>
               </div>
@@ -381,7 +446,7 @@ export default function ContactPageForm() {
               >
                 <div className="overflow-hidden">
                   <div className="rounded-[5rem] bg-[var(--mvp-primary)] px-[18rem] py-[14rem] font-['Inter'] text-[13rem] text-white">
-                    Thank you. Your requirement has been captured.
+                    {copy.success}
                   </div>
                 </div>
               </div>

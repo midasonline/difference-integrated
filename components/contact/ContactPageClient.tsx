@@ -6,39 +6,32 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import ContactPageForm from "@/components/contact/ContactPageForm";
+import { useI18n } from "@/components/i18n/I18nProvider";
 import { PageTransition } from "@/components/ui/PageTransition";
+import type { Dictionary } from "@/i18n/dictionaries";
 
-type Person = {
-  role: string;
-  name: string;
+type ContactPageCopy = Dictionary["contactPage"];
+type PersonCopy = ContactPageCopy["people"][number];
+
+type PersonMedia = {
   image: string;
-  email: string;
-  phone: string;
 };
 
-const people: Person[] = [
+const peopleMedia: PersonMedia[] = [
   {
-    role: "Chief Executive Officer",
-    name: "Asad Inam",
-    image: "/assets/img/contact/Asad-Inam.webp",       
-    email: "ADD EMAIL HERE",
-    phone: "ADD PHONE HERE",
+    image: "/assets/img/contact/Asad-Inam.webp",
   },
   {
-    role: "General Manager Operations",
-    name: "Fazle Qadir Mirza",
     image: "/assets/img/contact/Fazle.webp",
-    email: "ADD EMAIL HERE",
-    phone: "ADD PHONE HERE",
   },
 ];
 
-function ArrowIcon() {
+function ArrowIcon({ isRtl = false }: { isRtl?: boolean }) {
   return (
     <svg
       viewBox="0 0 20 20"
       fill="none"
-      className="h-[16rem] w-[16rem]"
+      className={`h-[16rem] w-[16rem] ${isRtl ? "scale-x-[-1]" : ""}`}
       aria-hidden="true"
     >
       <path
@@ -56,10 +49,12 @@ function ContactRow({
   label,
   value,
   href,
+  isRtl,
 }: {
   label: string;
   value: string;
   href: string;
+  isRtl: boolean;
 }) {
   return (
     <a
@@ -71,30 +66,59 @@ function ContactRow({
         {label}:
       </span>
 
-      <span className="min-w-0 break-words text-[30rem] font-bold leading-none tracking-[-.025em] text-[var(--mvp-primary)] transition-transform duration-500 group-hover:translate-x-[6rem] max-[1400px]:text-[27rem] max-[1200px]:text-[24rem] max-[1024px]:text-[22rem] max-[600px]:text-[19rem]">
+      <span
+        className={`contact-page__contact-value min-w-0 break-words text-[30rem] font-bold leading-none tracking-[-.025em] text-[var(--mvp-primary)] transition-transform duration-500 max-[1400px]:text-[27rem] max-[1200px]:text-[24rem] max-[1024px]:text-[22rem] max-[600px]:text-[19rem] ${
+          isRtl
+            ? "group-hover:-translate-x-[6rem]"
+            : "group-hover:translate-x-[6rem]"
+        }`}
+      >
         {value}
       </span>
 
       <span className="flex h-[40rem] w-[40rem] shrink-0 items-center justify-center rounded-[4rem] bg-[var(--mvp-primary)] text-white transition-all duration-500 group-hover:bg-[var(--mvp-accent)]">
-        <ArrowIcon />
+        <ArrowIcon isRtl={isRtl} />
       </span>
     </a>
   );
 }
 
-function PersonCard({ person, index }: { person: Person; index: number }) {
+function PersonCard({
+  person,
+  media,
+  index,
+  labels,
+  isRtl,
+}: {
+  person: PersonCopy;
+  media: PersonMedia;
+  index: number;
+  labels: ContactPageCopy["labels"];
+  isRtl: boolean;
+}) {
   const hasRealEmail = person.email.includes("@");
-  const hasRealPhone = !person.phone.includes("ADD");
+  const hasRealPhone = /\d/.test(person.phone);
 
   return (
     <article data-person-card className="min-w-0">
       <div className="relative h-[600rem] overflow-hidden rounded-[12rem] bg-[#f2f2f5] max-[1500px]:h-[560rem] max-[1200px]:h-[500rem] max-[1024px]:h-[540rem] max-[700px]:h-[430rem]">
-        <div className="absolute left-[20rem] top-[18rem] z-[3] min-w-[170rem] rounded-[4rem] bg-white px-[20rem] py-[16rem] shadow-[0_10px_30px_rgba(22,37,91,.04)] max-[700px]:left-[14rem] max-[700px]:top-[14rem] max-[700px]:min-w-[150rem] max-[700px]:px-[16rem] max-[700px]:py-[13rem]">
-          <span className="mb-[5rem] block font-['Inter'] text-[10rem] font-semibold uppercase leading-none tracking-[.03em] text-[var(--mvp-primary)]">
+        <div
+          className={`absolute top-[18rem] z-[3] min-w-[170rem] rounded-[4rem] bg-white px-[20rem] py-[16rem] shadow-[0_10px_30px_rgba(22,37,91,.04)] max-[700px]:top-[14rem] max-[700px]:min-w-[150rem] max-[700px]:px-[16rem] max-[700px]:py-[13rem] ${
+            isRtl
+              ? "right-[20rem] max-[700px]:right-[14rem]"
+              : "left-[20rem] max-[700px]:left-[14rem]"
+          }`}
+        >
+          <span className="contact-person-role mb-[5rem] block font-['Inter'] text-[10rem] font-semibold uppercase leading-none tracking-[.03em] text-[var(--mvp-primary)]">
             {person.role}
           </span>
 
-          <span className="block max-w-[180rem] text-[17rem] font-bold uppercase leading-[1.05] text-[var(--mvp-primary)] max-[700px]:text-[15rem]">
+          <span
+            dir="ltr"
+            className={`contact-person-name block max-w-[180rem] text-[17rem] font-bold uppercase leading-[1.05] text-[var(--mvp-primary)] max-[700px]:text-[15rem] ${
+              isRtl ? "text-right" : "text-left"
+            }`}
+          >
             {person.name}
           </span>
         </div>
@@ -104,7 +128,7 @@ function PersonCard({ person, index }: { person: Person; index: number }) {
           className="absolute inset-0 overflow-hidden"
         >
           <Image
-            src={person.image}
+            src={media.image}
             alt={`${person.name} — ${person.role}`}
             fill
             priority={index === 0}
@@ -119,13 +143,16 @@ function PersonCard({ person, index }: { person: Person; index: number }) {
       <div className="grid min-h-[88rem] grid-cols-2 items-end gap-[26rem] border-b border-[var(--mvp-primary)]/15 py-[22rem] max-[1320px]:grid-cols-1 max-[1320px]:gap-[15rem] max-[1024px]:py-[18rem]">
         <div>
           <span className="mb-[4rem] block font-['Inter'] text-[10rem] font-semibold uppercase tracking-[.03em] text-[var(--mvp-primary)]">
-            E-mail:
+            {labels.email}:
           </span>
 
           {hasRealEmail ? (
             <a
               href={`mailto:${person.email}`}
-              className="block break-words text-[15rem] font-bold uppercase leading-[1.15] text-[var(--mvp-primary)] transition-colors duration-300 hover:text-[var(--mvp-accent)] max-[700px]:text-[13rem]"
+              dir="ltr"
+              className={`block break-words text-[15rem] font-bold uppercase leading-[1.15] text-[var(--mvp-primary)] transition-colors duration-300 hover:text-[var(--mvp-accent)] max-[700px]:text-[13rem] ${
+                isRtl ? "text-right" : "text-left"
+              }`}
             >
               {person.email}
             </a>
@@ -136,14 +163,21 @@ function PersonCard({ person, index }: { person: Person; index: number }) {
           )}
         </div>
 
-        <div className="text-right max-[1320px]:text-left">
+        <div
+          className={`${
+            isRtl
+              ? "text-left max-[1320px]:text-right"
+              : "text-right max-[1320px]:text-left"
+          }`}
+        >
           <span className="mb-[4rem] block font-['Inter'] text-[10rem] font-semibold uppercase tracking-[.03em] text-[var(--mvp-primary)]">
-            Phone Number:
+            {labels.phoneNumber}:
           </span>
 
           {hasRealPhone ? (
             <a
               href={`tel:${person.phone.replace(/\s/g, "")}`}
+              dir="ltr"
               className="text-[15rem] font-bold uppercase leading-[1.15] text-[var(--mvp-primary)] transition-colors duration-300 hover:text-[var(--mvp-accent)] max-[700px]:text-[13rem]"
             >
               {person.phone}
@@ -161,6 +195,9 @@ function PersonCard({ person, index }: { person: Person; index: number }) {
 
 export default function ContactPageClient() {
   const rootRef = useRef<HTMLElement>(null);
+  const { dictionary, locale } = useI18n();
+  const copy = dictionary.contactPage;
+  const isRtl = locale === "ar";
 
   useLayoutEffect(() => {
     if (!rootRef.current) return;
@@ -266,7 +303,7 @@ export default function ContactPageClient() {
     return () => {
       ctx.revert();
     };
-  }, []);
+  }, [locale]);
 
   return (
     <>
@@ -274,52 +311,65 @@ export default function ContactPageClient() {
 
       <main
         ref={rootRef}
-        className="overflow-x-clip bg-white text-[var(--mvp-primary)]"
+        className="contact-page overflow-x-clip bg-white text-[var(--mvp-primary)]"
       >
         <section className="bg-white pb-[110rem] pt-[190rem] max-[1280px]:pt-[180rem] max-[1024px]:pb-[75rem] max-[1024px]:pt-[150rem] max-[700px]:pt-[135rem]">
           <div className="mvp-container">
             <div className="grid grid-cols-[.9fr_1fr_1fr] gap-[14rem] max-[1024px]:grid-cols-2 max-[1024px]:gap-[20rem] max-[700px]:grid-cols-1">
-              <div className="flex min-h-[690rem] flex-col justify-between pr-[105rem] max-[1500px]:pr-[65rem] max-[1280px]:pr-[30rem] max-[1024px]:col-span-2 max-[1024px]:min-h-0 max-[1024px]:pr-0 max-[700px]:col-span-1">
+              <div
+                className={`flex min-h-[690rem] flex-col justify-between max-[1024px]:col-span-2 max-[1024px]:min-h-0 max-[1024px]:px-0 max-[700px]:col-span-1 ${
+                  isRtl
+                    ? "pl-[105rem] max-[1500px]:pl-[65rem] max-[1280px]:pl-[30rem]"
+                    : "pr-[105rem] max-[1500px]:pr-[65rem] max-[1280px]:pr-[30rem]"
+                }`}
+              >
                 <div className="max-w-[560rem] max-[1024px]:mb-[70rem] max-[700px]:mb-[50rem]">
-                  <div className="overflow-hidden pb-[4rem]">
-                    <span
-                      data-title-line
-                      className="block text-[clamp(90rem,7.2vw,145rem)] font-bold uppercase leading-[.82] tracking-[-.05em] text-[var(--mvp-primary)] max-[700px]:text-[70rem]"
-                    >
-                      Our
-                    </span>
-                  </div>
-
-                  <div className="overflow-hidden pb-[10rem]">
-                    <span
-                      data-title-line
-                      className="block text-[clamp(90rem,7.2vw,145rem)] font-bold uppercase leading-[.82] tracking-[-.05em] text-[var(--mvp-primary)] max-[700px]:text-[70rem]"
-                    >
-                      Contacts
-                    </span>
-                  </div>
+                  {copy.hero.title.map((line) => (
+                    <div key={line} className="overflow-hidden pb-[10rem]">
+                      <span
+                        data-title-line
+                        className="contact-page__title block text-[clamp(90rem,7.2vw,145rem)] font-bold uppercase leading-[.82] tracking-[-.05em] text-[var(--mvp-primary)] max-[700px]:text-[70rem]"
+                      >
+                        {line}
+                      </span>
+                    </div>
+                  ))}
                 </div>
 
                 <div className="max-w-[510rem]">
                   <ContactRow
-                    label="Phone"
-                    value="ADD PHONE"
+                    label={copy.hero.phoneLabel}
+                    value={copy.hero.phoneValue}
                     href="#contact-form"
+                    isRtl={isRtl}
                   />
 
                   <ContactRow
-                    label="WhatsApp"
-                    value="ADD WHATSAPP"
+                    label={copy.hero.whatsappLabel}
+                    value={copy.hero.whatsappValue}
                     href="#contact-form"
+                    isRtl={isRtl}
                   />
 
                   <div className="h-px w-full bg-[var(--mvp-primary)]/15" />
                 </div>
               </div>
 
-              <PersonCard person={people[0]} index={0} />
+              <PersonCard
+                person={copy.people[0]}
+                media={peopleMedia[0]}
+                index={0}
+                labels={copy.labels}
+                isRtl={isRtl}
+              />
 
-              <PersonCard person={people[1]} index={1} />
+              <PersonCard
+                person={copy.people[1]}
+                media={peopleMedia[1]}
+                index={1}
+                labels={copy.labels}
+                isRtl={isRtl}
+              />
             </div>
           </div>
         </section>
