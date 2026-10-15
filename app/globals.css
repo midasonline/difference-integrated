@@ -1958,8 +1958,26 @@ html[lang="ar"] .di-footer__link {
 }
 .service-copy-panel {
   min-width: 0;
-  overflow-y: auto;
-  overscroll-behavior: contain;
+}
+
+/* =========================================================
+   SERVICES PAGE — DESKTOP HORIZONTAL PANEL SCROLL FIX
+   Keep the copy panel locked to the viewport so wheel/trackpad
+   scrolling over the content continues to drive the main
+   horizontal ScrollTrigger instead of creating an inner scroll.
+   ========================================================= */
+@media (min-width: 1025px) {
+  .services-page .service-copy-panel {
+    height: 100svh;
+    overflow: hidden !important;
+    overflow-y: hidden !important;
+    overscroll-behavior: auto !important;
+  }
+
+  .services-page .service-copy-inner {
+    max-height: none !important;
+    overflow: visible !important;
+  }
 }
 .service-visual-shell {
   padding-inline: 5vw;

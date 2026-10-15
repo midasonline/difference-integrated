@@ -17,7 +17,7 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import { AnimatedButton } from "@/components/ui/AnimatedButton";
 import { PageTransition } from "@/components/ui/PageTransition";
 
-const SERVICES_SNAP_DELAY = 1;
+const SERVICES_SNAP_DELAY = 0.5;
 
 const goalMedia = [
   "/assets/img/about/goals/prepare.webp",
