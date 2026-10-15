@@ -270,7 +270,7 @@ function PrivacyHero() {
         bg-cover
         bg-center
         text-white
-        max-[1024px]:min-h-[680px]
+        max-[1025px]:min-h-[680px]
       "
       style={{
         backgroundImage: "url('/assets/img/about/about-hero.png')",
@@ -278,7 +278,7 @@ function PrivacyHero() {
     >
       <div className="pointer-events-none absolute inset-0 bg-[#19255b]/25" />
 
-      <div className="hero-about__container mvp-container relative z-[2] pb-[110rem] max-[1024px]:pb-[40rem]">
+      <div className="hero-about__container di-container relative z-[2] pb-[110rem] max-[1025px]:pb-[40rem]">
         <div
           className="
             hero-about__head
@@ -290,9 +290,9 @@ function PrivacyHero() {
             justify-between
             pb-[10rem]
 
-            max-[1024px]:mb-[40rem]
-            max-[1024px]:flex-col
-            max-[1024px]:items-stretch
+            max-[1025px]:mb-[40rem]
+            max-[1025px]:flex-col
+            max-[1025px]:items-stretch
           "
         >
           <h1
@@ -301,8 +301,8 @@ function PrivacyHero() {
               text-[170rem]
               leading-[.8]
               uppercase
-              max-[1024px]:mb-[75rem]
-              max-[1024px]:text-[70rem]
+              max-[1025px]:mb-[75rem]
+              max-[1025px]:text-[70rem]
             "
           >
             Privacy Policy
@@ -317,16 +317,16 @@ function PrivacyHero() {
               justify-between
               text-[40rem]
               leading-[.9]
-              max-[1024px]:w-full
-              max-[1024px]:text-[20rem]
+              max-[1025px]:w-full
+              max-[1025px]:text-[max(16px,20rem)]
             "
           >
-            <div className="hero-about__abb-wrapper flex gap-[160rem] max-[1024px]:gap-[20rem]">
+            <div className="hero-about__abb-wrapper flex gap-[160rem] max-[1025px]:gap-[20rem]">
               <span className="hero-about__abb-item">D.</span>
               <span className="hero-about__abb-item">I.</span>
             </div>
 
-            <span className="hero-about__abb-text text-[40rem] leading-[.9] uppercase max-[1024px]:text-[20rem]">
+            <span className="hero-about__abb-text text-[40rem] leading-[.9] uppercase max-[1025px]:text-[max(16px,20rem)]">
               Logistics
             </span>
           </div>
@@ -338,22 +338,22 @@ function PrivacyHero() {
           className="
             hero-about__container-inner
             main-opacity-block
-            ml-[740rem]
+            ms-[740rem]
             flex
             max-w-[720rem]
             flex-col
             gap-[20rem]
 
-            max-[1024px]:ml-0
-            max-[1024px]:max-w-none
-            max-[1024px]:gap-[10rem]
+            max-[1025px]:ms-0
+            max-[1025px]:max-w-none
+            max-[1025px]:gap-[10rem]
           "
         >
-          <h2 className="text-[30rem] font-bold leading-[.9] uppercase max-[1024px]:mb-[10rem] max-[1024px]:text-[20rem]">
+          <h2 className="text-[30rem] font-bold leading-[.9] uppercase max-[1025px]:mb-[10rem] max-[1025px]:text-[max(16px,20rem)]">
             YOUR INFORMATION. HANDLED RESPONSIBLY.
           </h2>
 
-          <p className="font-['Inter'] text-[20rem] font-normal leading-[27rem] max-[1024px]:text-[14rem] max-[1024px]:leading-[20rem]">
+          <p className="font-['Inter'] text-[max(16px,20rem)] font-normal leading-[max(1.35em,27rem)] max-[1025px]:text-[max(14px,14rem)] max-[1025px]:leading-[max(1.35em,20rem)]">
             Difference Integrated respects your privacy and is committed to
             handling personal information responsibly. This Privacy Policy
             explains how we collect, use, store, and protect information when
@@ -361,7 +361,7 @@ function PrivacyHero() {
             or logistics inquiry.
           </p>
 
-          <p className="font-['Inter'] text-[20rem] font-normal leading-[27rem] max-[1024px]:text-[14rem] max-[1024px]:leading-[20rem]">
+          <p className="font-['Inter'] text-[max(16px,20rem)] font-normal leading-[max(1.35em,27rem)] max-[1025px]:text-[max(14px,14rem)] max-[1025px]:leading-[max(1.35em,20rem)]">
             By using this website or providing information to Difference
             Integrated, you acknowledge the practices described in this Privacy
             Policy.
@@ -378,19 +378,19 @@ function PrivacyHero() {
 
 function PolicyDirectory() {
   return (
-    <section className="relative overflow-hidden bg-white py-[130rem] max-[1024px]:py-[75rem]">
-      <div className="mvp-container">
-        <div className="grid grid-cols-[.72fr_1.28fr] gap-[120rem] max-[1024px]:grid-cols-1 max-[1024px]:gap-[55rem]">
+    <section className="relative overflow-hidden bg-white py-[130rem] max-[1025px]:py-[75rem]">
+      <div className="di-container">
+        <div className="grid grid-cols-[.72fr_1.28fr] gap-[120rem] max-[1025px]:grid-cols-1 max-[1025px]:gap-[55rem]">
           <div className="privacy-reveal privacy-reveal-left" data-reveal>
             <div className="mb-[28rem] flex items-center gap-[18rem]">
-              <PrivacyIcon className="privacy-icon-reveal h-[30rem] w-[30rem] text-[var(--mvp-accent)] max-[1024px]:h-[24rem] max-[1024px]:w-[24rem]" />
+              <PrivacyIcon className="privacy-icon-reveal h-[30rem] w-[30rem] text-[var(--di-accent)] max-[1025px]:h-[24rem] max-[1025px]:w-[24rem]" />
 
-              <span className="text-[13rem] font-medium uppercase tracking-[.12em] text-[var(--mvp-accent)] max-[1024px]:text-[11rem]">
+              <span className="text-[max(13px,13rem)] font-medium uppercase tracking-[.12em] text-[var(--di-accent)] max-[1025px]:text-[max(12px,11rem)]">
                 Privacy Policy
               </span>
             </div>
 
-            <h2 className="max-w-[650rem] text-[82rem] font-bold leading-[.86] uppercase text-[var(--mvp-primary)] max-[1024px]:text-[48rem]">
+            <h2 className="max-w-[650rem] text-[82rem] font-bold leading-[.86] uppercase text-[var(--di-primary)] max-[1025px]:text-[48rem]">
               HOW WE
               <br />
               HANDLE YOUR
@@ -398,7 +398,7 @@ function PolicyDirectory() {
               INFORMATION.
             </h2>
 
-            <p className="mt-[38rem] max-w-[580rem] font-['Inter'] text-[19rem] leading-[29rem] text-black/60 max-[1024px]:text-[16rem] max-[1024px]:leading-[24rem]">
+            <p className="mt-[38rem] max-w-[580rem] font-['Inter'] text-[max(16px,19rem)] leading-[max(1.35em,29rem)] text-black/60 max-[1025px]:text-[max(16px,16rem)] max-[1025px]:leading-[max(1.35em,24rem)]">
               A clear overview of how personal information is collected, used,
               protected, retained, and managed across our website and business
               interactions.
@@ -422,24 +422,24 @@ function PolicyDirectory() {
                   justify-between
                   gap-[25rem]
                   border-b
-                  border-[var(--mvp-primary)]/15
+                  border-[var(--di-primary)]/15
                   py-[18rem]
 
                   font-['Inter']
-                  text-[16rem]
+                  text-[max(16px,16rem)]
                   font-medium
-                  leading-[21rem]
-                  text-[var(--mvp-primary)]
+                  leading-[max(1.35em,21rem)]
+                  text-[var(--di-primary)]
 
                   transition-colors
                   duration-300
 
-                  hover:border-[var(--mvp-accent)]
-                  hover:text-[var(--mvp-accent)]
+                  hover:border-[var(--di-accent)]
+                  hover:text-[var(--di-accent)]
 
-                  max-[1024px]:min-h-[62rem]
-                  max-[1024px]:py-[14rem]
-                  max-[1024px]:text-[14rem]
+                  max-[1025px]:min-h-[62rem]
+                  max-[1025px]:py-[14rem]
+                  max-[1025px]:text-[max(14px,14rem)]
                 "
                 style={{
                   transitionDelay: `${index * 35}ms`,
@@ -479,23 +479,23 @@ function PolicyBlock({
         scroll-mt-[110rem]
         overflow-hidden
         py-[95rem]
-        max-[1024px]:py-[64rem]
+        max-[1025px]:py-[64rem]
 
         ${
           dark
-            ? "bg-[var(--mvp-primary)] text-white"
-            : "bg-[var(--mvp-light)] text-[var(--mvp-primary)]"
+            ? "bg-[var(--di-primary)] text-white"
+            : "bg-[var(--di-light)] text-[var(--di-primary)]"
         }
       `}
     >
-      <div className="mvp-container">
+      <div className="di-container">
         <div
           className="
             grid
             grid-cols-[.74fr_1.26fr]
             gap-[120rem]
-            max-[1024px]:grid-cols-1
-            max-[1024px]:gap-[38rem]
+            max-[1025px]:grid-cols-1
+            max-[1025px]:gap-[38rem]
           "
         >
           {/* TITLE */}
@@ -508,7 +508,7 @@ function PolicyBlock({
                 leading-[.9]
                 uppercase
 
-                max-[1024px]:text-[39rem]
+                max-[1025px]:text-[39rem]
                 max-[600px]:text-[34rem]
               "
             >
@@ -524,13 +524,13 @@ function PolicyBlock({
             <div
               className={`
                 space-y-[22rem]
-                text-[18rem]
+                text-[max(16px,18rem)]
                 font-normal
-                leading-[29rem]
+                leading-[max(1.35em,29rem)]
 
-                max-[1024px]:space-y-[17rem]
-                max-[1024px]:text-[16rem]
-                max-[1024px]:leading-[24rem]
+                max-[1025px]:space-y-[17rem]
+                max-[1025px]:text-[max(16px,16rem)]
+                max-[1025px]:leading-[max(1.35em,24rem)]
 
                 ${dark ? "text-white/72" : "text-black/68"}
               `}
@@ -559,10 +559,10 @@ function PolicyBlock({
                     ${
                       dark
                         ? "border-white/15 bg-white/[0.035]"
-                        : "border-[var(--mvp-primary)]/10 bg-white/45"
+                        : "border-[var(--di-primary)]/10 bg-white/45"
                     }
 
-                    max-[1024px]:rounded-[7rem]
+                    max-[1025px]:rounded-[7rem]
                   `}
                 >
                   {section.bullets.map((item, bulletIndex) => (
@@ -584,20 +584,20 @@ function PolicyBlock({
                           bulletIndex !== section.bullets!.length - 1
                             ? dark
                               ? "border-b border-white/10"
-                              : "border-b border-[var(--mvp-primary)]/10"
+                              : "border-b border-[var(--di-primary)]/10"
                             : ""
                         }
 
                         ${dark ? "hover:bg-white/[0.04]" : "hover:bg-white/80"}
 
-                        max-[1024px]:px-[18rem]
-                        max-[1024px]:py-[14rem]
+                        max-[1025px]:px-[18rem]
+                        max-[1025px]:py-[14rem]
                       `}
                       style={{
                         transitionDelay: `${bulletIndex * 45}ms`,
                       }}
                     >
-                      <CheckIcon className="privacy-check-icon mt-[2rem] h-[20rem] w-[20rem] shrink-0 text-[var(--mvp-accent)]" />
+                      <CheckIcon className="privacy-check-icon mt-[2rem] h-[20rem] w-[20rem] shrink-0 text-[var(--di-accent)]" />
 
                       <span>{item}</span>
                     </div>
@@ -624,8 +624,8 @@ function PolicyBlock({
 
 function PrivacyStatement() {
   return (
-    <section className="relative overflow-hidden bg-white py-[140rem] max-[1024px]:py-[85rem]">
-      <div className="mvp-container">
+    <section className="relative overflow-hidden bg-white py-[140rem] max-[1025px]:py-[85rem]">
+      <div className="di-container">
         <div className="mx-auto max-w-[1540rem]">
           <div className="privacy-statement-title" data-reveal>
             <h2
@@ -635,9 +635,9 @@ function PrivacyStatement() {
                 font-bold
                 leading-[.84]
                 uppercase
-                text-[var(--mvp-primary)]
+                text-[var(--di-primary)]
 
-                max-[1024px]:text-[58rem]
+                max-[1025px]:text-[58rem]
                 max-[600px]:text-[45rem]
               "
             >
@@ -645,13 +645,13 @@ function PrivacyStatement() {
               <br />
               RESPONSIBILITY.
               <br />
-              <span className="text-[var(--mvp-accent)]">CLEAR HANDLING.</span>
+              <span className="text-[var(--di-accent)]">CLEAR HANDLING.</span>
             </h2>
           </div>
 
-          <div className="mt-[65rem] grid grid-cols-[1fr_.9fr] gap-[120rem] max-[1024px]:mt-[45rem] max-[1024px]:grid-cols-1 max-[1024px]:gap-[45rem]">
+          <div className="mt-[65rem] grid grid-cols-[1fr_.9fr] gap-[120rem] max-[1025px]:mt-[45rem] max-[1025px]:grid-cols-1 max-[1025px]:gap-[45rem]">
             <div
-              className="privacy-reveal privacy-reveal-left max-w-[680rem] font-['Inter'] text-[20rem] leading-[29rem] text-black/65 max-[1024px]:text-[16rem] max-[1024px]:leading-[24rem]"
+              className="privacy-reveal privacy-reveal-left max-w-[680rem] font-['Inter'] text-[max(16px,20rem)] leading-[max(1.35em,29rem)] text-black/65 max-[1025px]:text-[max(16px,16rem)] max-[1025px]:leading-[max(1.35em,24rem)]"
               data-reveal
             >
               <p>
@@ -669,12 +669,12 @@ function PrivacyStatement() {
               ].map((item, index) => (
                 <div
                   key={item}
-                  className="privacy-principle flex items-center gap-[20rem] font-['Inter'] text-[24rem] font-semibold uppercase leading-[1.1] text-[var(--mvp-primary)] max-[1024px]:text-[20rem]"
+                  className="privacy-principle flex items-center gap-[20rem] font-['Inter'] text-[max(16px,24rem)] font-semibold uppercase leading-[1.1] text-[var(--di-primary)] max-[1025px]:text-[max(16px,20rem)]"
                   style={{
                     transitionDelay: `${index * 100}ms`,
                   }}
                 >
-                  <PrivacyIcon className="privacy-icon-reveal h-[28rem] w-[28rem] shrink-0 text-[var(--mvp-accent)]" />
+                  <PrivacyIcon className="privacy-icon-reveal h-[28rem] w-[28rem] shrink-0 text-[var(--di-accent)]" />
 
                   <span>{item}</span>
                 </div>
@@ -738,7 +738,7 @@ export default function PrivacyPolicyClient() {
 
   return (
     <>
-      <main className="overflow-hidden">
+      <main className="privacy-page overflow-hidden">
         <PrivacyHero />
 
         <PolicyDirectory />

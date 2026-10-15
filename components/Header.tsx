@@ -5,7 +5,6 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { usePathname } from "next/navigation";
 
 import { navItems } from "@/data/site";
-
 import { AnimatedButton } from "@/components/ui/AnimatedButton";
 import { HoverText } from "@/components/ui/HoverText";
 import { ContactModal } from "@/components/ui/ContactModal";
@@ -42,21 +41,15 @@ export function Header({
   const common = dictionary.common;
 
   const [langOpen, setLangOpen] = useState(false);
-
   const [menuOpen, setMenuOpen] = useState(false);
-
   const [contactOpen, setContactOpen] = useState(false);
 
   const [headerEntered, setHeaderEntered] = useState(false);
-
   const [headerVisible, setHeaderVisible] = useState(true);
-
   const [scrolled, setScrolled] = useState(false);
 
   const lastScrollY = useRef(0);
-
   const ticking = useRef(false);
-
   const overlayOpenRef = useRef(false);
 
   const revealTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -134,7 +127,7 @@ export function Header({
       revealHeader();
     };
 
-    window.addEventListener("mvp:hero-slider-start", handleHeroReady, {
+    window.addEventListener("mvp:hero-ready", handleHeroReady, {
       once: true,
     });
 
@@ -177,12 +170,16 @@ export function Header({
       frame = window.requestAnimationFrame(checkPageTransition);
     }
 
-    fallbackTimer = setTimeout(() => {
+    if (!hasHomePreloader) {
+      fallbackTimer = setTimeout(revealHeader, 6500);
+    } else if (
+      document.querySelector('.home-page[data-intro-state="complete"]')
+    ) {
       revealHeader();
-    }, 6500);
+    }
 
     return () => {
-      window.removeEventListener("mvp:hero-slider-start", handleHeroReady);
+      window.removeEventListener("mvp:hero-ready", handleHeroReady);
 
       window.cancelAnimationFrame(frame);
 
@@ -363,9 +360,11 @@ export function Header({
     : "/assets/img/DI-Logo-Color.svg";
 
   const headerStyle: HeaderStyle = {
+    visibility: headerEntered ? "visible" : "hidden",
+
     "--header-nav-color": useLightContent
-      ? "var(--mvp-light)"
-      : "var(--mvp-primary)",
+      ? "var(--di-light)"
+      : "var(--di-primary)",
   };
 
   return (
@@ -404,7 +403,7 @@ export function Header({
             willChange: "transform",
           }}
         >
-          <div className="header__container">
+          <div className="header__container di-container">
             <a href={localePath("/")} className="header__logo">
               <img
                 key={logoSrc}
@@ -432,6 +431,7 @@ export function Header({
               <button
                 type="button"
                 onClick={() => setMenuOpen((value) => !value)}
+                aria-expanded={menuOpen}
                 className="header__hamburger-btn"
               >
                 {menuOpen ? common.header.close : common.header.menu}
@@ -448,6 +448,8 @@ export function Header({
                 <button
                   type="button"
                   onClick={() => setLangOpen((value) => !value)}
+                  aria-expanded={langOpen}
+                  aria-label={common.header.language}
                   className={`header__lang-heading ${langOpen ? "active" : ""}`}
                 >
                   <span className="header__lang-inner">
@@ -486,6 +488,7 @@ export function Header({
         </div>
 
         <div
+          inert={!menuOpen}
           className={`header__mobile-menu ${
             menuOpen
               ? "header__mobile-menu--open"
@@ -510,7 +513,6 @@ export function Header({
             className="header__mobile-contact-btn"
             onClick={() => {
               setMenuOpen(false);
-
               setContactOpen(true);
             }}
           >
@@ -528,9 +530,12 @@ export function Header({
 
       <style jsx global>{`
         /* =========================================
-           MAIN HEADER WIDTH
-           THIS CONTROLS THE 90% WIDTH
+           HEADER BASE / 90% WIDTH
         ========================================= */
+
+        .header {
+          background: transparent !important;
+        }
 
         .header__scroll-shell {
           width: 100%;
@@ -538,20 +543,44 @@ export function Header({
 
         .header__container {
           width: 90% !important;
-
           max-width: none !important;
-
           margin-inline: auto !important;
 
           display: flex;
-
           align-items: center;
-
           justify-content: space-between;
 
           gap: 24px;
 
-          padding: 18px 0;
+          padding: 18px 0 !important;
+
+          background: transparent;
+        }
+
+        /* =========================================
+           TOP OF PAGE = FULLY TRANSPARENT
+        ========================================= */
+
+        .header[data-header-scrolled="false"] {
+          background: transparent !important;
+          background-color: transparent !important;
+          box-shadow: none !important;
+        }
+
+        .header[data-header-scrolled="false"] .header__scroll-shell {
+          background: transparent !important;
+          background-color: transparent !important;
+          background-image: none !important;
+
+          box-shadow: none !important;
+
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+        }
+
+        .header[data-header-scrolled="false"] .header__container {
+          background: transparent !important;
+          background-color: transparent !important;
         }
 
         /* =========================================
@@ -560,7 +589,6 @@ export function Header({
 
         .header__logo {
           display: flex;
-
           align-items: center;
 
           flex: 0 0 auto;
@@ -570,8 +598,9 @@ export function Header({
           display: block;
 
           width: 154px;
-
           height: auto;
+
+          max-width: 100%;
         }
 
         /* =========================================
@@ -582,22 +611,19 @@ export function Header({
           flex: 1;
 
           display: flex;
-
           align-items: center;
-
           justify-content: center;
 
-          gap: 38px;
-
           min-width: 0;
+
+          gap: 38px;
 
           white-space: nowrap;
 
           color: var(--header-nav-color);
 
-          font-size: 24px;
-
-          line-height: 1;
+          font-size: 20px;
+          line-height: 2;
 
           text-transform: uppercase;
         }
@@ -609,7 +635,7 @@ export function Header({
         }
 
         .header__menu-item:hover {
-          color: var(--mvp-accent) !important;
+          color: var(--di-accent) !important;
         }
 
         /* =========================================
@@ -617,13 +643,12 @@ export function Header({
         ========================================= */
 
         .header__actions {
-          display: flex;
+          flex: 0 0 auto;
 
+          display: flex;
           align-items: center;
 
           gap: 9px;
-
-          flex: 0 0 auto;
         }
 
         /* =========================================
@@ -639,9 +664,8 @@ export function Header({
 
           border-radius: 5px !important;
 
-          font-size: 20px !important;
-
-          line-height: 1 !important;
+          font-size: 18px !important;
+          line-height: 2 !important;
 
           white-space: nowrap;
         }
@@ -654,11 +678,9 @@ export function Header({
           display: none;
 
           align-items: center;
-
           justify-content: center;
 
           min-width: 76px;
-
           height: 48px;
 
           padding: 0 15px;
@@ -667,23 +689,32 @@ export function Header({
 
           border-radius: 5px;
 
-          background: var(--mvp-light);
+          background: var(--di-light);
 
-          color: var(--mvp-primary);
+          color: var(--di-primary);
 
-          font-size: 20px;
-
+          font-size: 14px;
           line-height: 1;
 
           text-transform: uppercase;
-
           white-space: nowrap;
 
           cursor: pointer;
+
+          transition:
+            background-color 0.25s ease,
+            color 0.25s ease,
+            border-color 0.25s ease;
+        }
+
+        .header__hamburger-btn:hover {
+          background: var(--di-light);
+
+          color: var(--di-primary);
         }
 
         /* =========================================
-           LANGUAGE
+           LANGUAGE BUTTON
         ========================================= */
 
         .header__lang {
@@ -694,13 +725,10 @@ export function Header({
 
         .header__lang-heading {
           display: inline-flex;
-
           align-items: center;
-
           justify-content: center;
 
           width: 58px;
-
           height: 58px;
 
           padding: 0;
@@ -709,31 +737,73 @@ export function Header({
 
           border-radius: 5px;
 
-          background: var(--mvp-light);
+          background: var(--di-light);
 
-          color: var(--mvp-primary);
+          color: var(--di-primary);
 
           cursor: pointer;
+
+          transition:
+            background-color 0.25s ease,
+            color 0.25s ease,
+            border-color 0.25s ease;
+        }
+
+        /*
+         * IMPORTANT:
+         * Keeps EN / AR dark on hover.
+         *
+         * This intentionally overrides any global
+         * button hover rule on the site.
+         */
+
+        .header__lang-heading:hover,
+        .header__lang-heading:focus,
+        .header__lang-heading:focus-visible,
+        .header__lang-heading.active {
+          background: var(--di-light) !important;
+
+          color: var(--di-primary) !important;
+
+          border-color: var(--di-primary) !important;
+        }
+
+        .header__lang-heading:hover .header__lang-inner,
+        .header__lang-heading:focus .header__lang-inner,
+        .header__lang-heading:focus-visible .header__lang-inner,
+        .header__lang-heading.active .header__lang-inner {
+          color: var(--di-primary) !important;
+        }
+
+        .header__lang-heading:hover svg,
+        .header__lang-heading:focus svg,
+        .header__lang-heading:focus-visible svg,
+        .header__lang-heading.active svg {
+          color: var(--di-primary) !important;
+
+          fill: currentColor;
         }
 
         .header__lang-inner {
           display: flex;
-
           align-items: center;
-
           justify-content: center;
 
           gap: 5px;
 
-          font-size: 20px;
+          color: var(--di-primary);
 
+          font-size: 16px;
           line-height: 1;
         }
 
         .header__lang-inner svg {
           width: 9px;
-
           height: 9px;
+
+          flex-shrink: 0;
+
+          color: var(--di-primary);
         }
 
         /* =========================================
@@ -744,23 +814,20 @@ export function Header({
           position: absolute;
 
           top: calc(100% + 6px);
-
           right: 0;
 
           width: 58px;
 
           display: flex;
-
           flex-direction: column;
 
           padding: 7px 0;
 
           border-radius: 5px;
 
-          background: var(--mvp-light);
+          background: var(--di-light);
 
           opacity: 0;
-
           visibility: hidden;
 
           pointer-events: none;
@@ -775,13 +842,11 @@ export function Header({
 
         [dir="rtl"] .header__lang-dropdown {
           right: auto;
-
           left: 0;
         }
 
         .header__lang-dropdown--open {
           opacity: 1;
-
           visibility: visible;
 
           pointer-events: auto;
@@ -794,20 +859,39 @@ export function Header({
 
           padding: 7px 3px;
 
-          color: var(--mvp-primary);
+          border: 0;
 
-          font-size: 12px;
+          background: transparent;
 
+          color: var(--di-primary) !important;
+
+          font-size: 14px;
           line-height: 1;
 
           text-align: center;
-
           text-transform: uppercase;
+
+          cursor: pointer;
+
+          transition: color 0.2s ease;
         }
 
+        /*
+         * Dropdown hover must stay readable.
+         */
+
         .header__lang-item:hover,
+        .header__lang-item:focus,
+        .header__lang-item:focus-visible {
+          background: transparent !important;
+
+          color: var(--di-accent) !important;
+        }
+
         .header__lang-item--active {
-          color: var(--mvp-accent);
+          background: transparent !important;
+
+          color: var(--di-accent) !important;
         }
 
         /* =========================================
@@ -827,15 +911,19 @@ export function Header({
 
           width: 100%;
 
-          min-height: 100dvh;
+          height: 100vh;
+          height: 100dvh;
+
+          overflow-y: auto;
+
+          overscroll-behavior: contain;
 
           flex-direction: column;
-
           justify-content: space-between;
 
           padding: 90px 5% max(18px, env(safe-area-inset-bottom));
 
-          background: var(--mvp-primary);
+          background: var(--di-primary);
 
           transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -853,34 +941,30 @@ export function Header({
         }
 
         .header__mobile-nav {
-          flex: 1;
+          flex: 1 0 auto;
 
           display: flex;
-
           flex-direction: column;
-
           align-items: center;
-
           justify-content: center;
 
           gap: 20px;
 
-          color: var(--mvp-light);
+          padding-block: 20px;
+
+          color: var(--di-light);
 
           font-size: 28px;
-
           line-height: 1.1;
 
           text-align: center;
-
           text-transform: uppercase;
         }
 
         [dir="rtl"] .header__mobile-nav {
-          font-family: Tahoma, Arial, "Segoe UI", sans-serif;
+          font-family: Mazaj, sans-serif;
 
           font-size: 26px;
-
           line-height: 1.5;
 
           letter-spacing: 0;
@@ -889,6 +973,8 @@ export function Header({
         }
 
         .header__mobile-contact-btn {
+          flex-shrink: 0;
+
           width: min(100%, 340px) !important;
 
           min-height: 48px !important;
@@ -897,19 +983,18 @@ export function Header({
 
           padding-inline: 20px !important;
 
-          font-size: 14px !important;
+          font-size: 16px !important;
         }
 
         /* =========================================
-           LAPTOP
-           1366 AND BELOW
+           LAPTOP — 1366
         ========================================= */
 
         @media (max-width: 1366px) {
           .header__container {
             gap: 18px;
 
-            padding: 14px 0;
+            padding: 14px 0 !important;
           }
 
           .header__logo-img {
@@ -919,7 +1004,7 @@ export function Header({
           .header__menu {
             gap: 25px;
 
-            font-size: 13px;
+            font-size: 16px;
           }
 
           .header__contact-btn {
@@ -932,17 +1017,20 @@ export function Header({
 
           .header__lang-heading {
             width: 50px;
-
             height: 50px;
           }
 
           .header__lang-inner {
-            font-size: 11px;
+            font-size: 14px;
+          }
+
+          .header__lang-dropdown {
+            width: 50px;
           }
         }
 
         /* =========================================
-           SMALL LAPTOP / TABLET
+           SMALL LAPTOP / TABLET — 1100
         ========================================= */
 
         @media (max-width: 1100px) {
@@ -951,7 +1039,7 @@ export function Header({
 
             gap: 10px;
 
-            padding: 9px 0;
+            padding: 9px 0 !important;
           }
 
           .header__menu,
@@ -962,33 +1050,34 @@ export function Header({
           .header__hamburger-btn {
             display: inline-flex;
 
-            min-width: 70px;
-
+            min-width: 66px;
+            min-height: 44px;
             height: 44px;
 
-            padding-inline: 12px;
+            padding-inline: 11px;
 
-            font-size: 11px;
+            font-size: 12px;
           }
 
           .header__lang-heading {
-            width: 45px;
+            width: 48px;
+            min-width: 48px;
 
             height: 44px;
+            min-height: 44px;
           }
 
           .header__lang-inner {
-            font-size: 10.5px;
+            font-size: 12px;
           }
 
           .header__lang-inner svg {
             width: 8px;
-
             height: 8px;
           }
 
           .header__lang-dropdown {
-            width: 45px;
+            width: 48px;
           }
 
           .header__logo-img {
@@ -1001,7 +1090,7 @@ export function Header({
         }
 
         /* =========================================
-           TABLET
+           TABLET — 768
         ========================================= */
 
         @media (max-width: 768px) {
@@ -1010,7 +1099,7 @@ export function Header({
 
             gap: 7px;
 
-            padding: 7px 0;
+            padding: 7px 0 !important;
           }
 
           .header__logo-img {
@@ -1022,21 +1111,24 @@ export function Header({
           }
 
           .header__hamburger-btn {
-            min-width: 64px;
+            min-width: 62px;
 
             height: 40px;
+            min-height: 40px;
 
             padding-inline: 9px;
 
-            font-size: 10px;
-
             border-radius: 4px;
+
+            font-size: 11px;
           }
 
           .header__lang-heading {
             width: 41px;
+            min-width: 41px;
 
             height: 40px;
+            min-height: 40px;
 
             border-radius: 4px;
           }
@@ -1044,12 +1136,11 @@ export function Header({
           .header__lang-inner {
             gap: 3px;
 
-            font-size: 10px;
+            font-size: 11px;
           }
 
           .header__lang-inner svg {
             width: 7px;
-
             height: 7px;
           }
 
@@ -1062,7 +1153,7 @@ export function Header({
           .header__lang-item {
             padding-block: 6px;
 
-            font-size: 10px;
+            font-size: 11px;
           }
 
           .header__mobile-menu {
@@ -1081,7 +1172,7 @@ export function Header({
         }
 
         /* =========================================
-           MOBILE
+           MOBILE — 480
         ========================================= */
 
         @media (max-width: 480px) {
@@ -1090,7 +1181,7 @@ export function Header({
 
             gap: 5px;
 
-            padding: 6px 0;
+            padding: 6px 0 !important;
           }
 
           .header__logo-img {
@@ -1098,30 +1189,32 @@ export function Header({
           }
 
           .header__hamburger-btn {
-            min-width: 58px;
+            min-width: 57px;
 
             height: 36px;
+            min-height: 36px;
 
             padding-inline: 7px;
 
-            font-size: 9px;
+            font-size: 10px;
           }
 
           .header__lang-heading {
             width: 37px;
+            min-width: 37px;
 
             height: 36px;
+            min-height: 36px;
           }
 
           .header__lang-inner {
             gap: 3px;
 
-            font-size: 9px;
+            font-size: 10px;
           }
 
           .header__lang-inner svg {
             width: 6px;
-
             height: 6px;
           }
 
@@ -1130,7 +1223,7 @@ export function Header({
           }
 
           .header__lang-item {
-            font-size: 9px;
+            font-size: 10px;
           }
 
           .header__mobile-menu {
@@ -1145,7 +1238,6 @@ export function Header({
 
           [dir="rtl"] .header__mobile-nav {
             font-size: 21px;
-
             line-height: 1.45;
           }
 
@@ -1157,7 +1249,7 @@ export function Header({
         }
 
         /* =========================================
-           VERY SMALL MOBILE
+           VERY SMALL MOBILE — 380
         ========================================= */
 
         @media (max-width: 380px) {
@@ -1169,24 +1261,31 @@ export function Header({
             min-width: 54px;
 
             height: 34px;
+            min-height: 34px;
 
             padding-inline: 6px;
 
-            font-size: 8.5px;
+            font-size: 9px;
           }
 
           .header__lang-heading {
             width: 35px;
+            min-width: 35px;
 
             height: 34px;
+            min-height: 34px;
           }
 
           .header__lang-inner {
-            font-size: 8.5px;
+            font-size: 9px;
           }
 
           .header__lang-dropdown {
             width: 35px;
+          }
+
+          .header__lang-item {
+            font-size: 9px;
           }
         }
       `}</style>

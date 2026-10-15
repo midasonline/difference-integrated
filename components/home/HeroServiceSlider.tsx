@@ -80,6 +80,7 @@ export function HeroServiceSlider() {
   }, []);
 
   useEffect(() => {
+    if (!started) return;
     gsap.registerPlugin(SplitText);
 
     const title = titleRef.current;
@@ -88,82 +89,94 @@ export function HeroServiceSlider() {
 
     let split: SplitText | null = null;
 
-    if (title) {
-      const isRtl = document.documentElement.dir === "rtl";
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-      split = new SplitText(title, {
-        type: isRtl ? "words" : "chars,words",
-        ...(isRtl
-          ? { wordsClass: "word" }
-          : { charsClass: "char", wordsClass: "word" }),
-      });
+    const ctx = gsap.context(() => {
+      if (title) {
+        const isRtl = document.documentElement.dir === "rtl";
 
-      const titleTargets = (isRtl ? split.words : split.chars) as HTMLElement[];
+        split = new SplitText(title, {
+          type: isRtl ? "words" : "chars,words",
+          ...(isRtl
+            ? { wordsClass: "word" }
+            : { charsClass: "char", wordsClass: "word" }),
+        });
 
-      gsap.set(titleTargets, {
-        opacity: 0,
-        scaleY: 0,
-        yPercent: 25,
-        transformOrigin: "50% 0%",
-        willChange: "transform, opacity",
-      });
+        const titleTargets = (
+          isRtl ? split.words : split.chars
+        ) as HTMLElement[];
 
-      gsap.to(titleTargets, {
-        opacity: 1,
-        scaleY: 1,
-        yPercent: 0,
-        duration: 0.5,
-        stagger: isRtl ? 0.05 : 0.015,
-        ease: "back.out(1.4)",
-      });
-    }
-
-    if (iconStage) {
-      gsap.fromTo(
-        iconStage,
-        {
+        gsap.set(titleTargets, {
           opacity: 0,
-          y: 10,
-          scale: 0.92,
-        },
-        {
+          scaleY: 0,
+          yPercent: 25,
+          transformOrigin: "50% 0%",
+          willChange: "transform, opacity",
+        });
+
+        gsap.to(titleTargets, {
           opacity: 1,
-          y: 0,
-          scale: 1,
+          scaleY: 1,
+          yPercent: 0,
           duration: 0.5,
-          ease: "power3.out",
-          overwrite: true,
-        },
-      );
-    }
+          stagger: isRtl ? 0.05 : 0.015,
+          ease: "back.out(1.4)",
+        });
+      }
 
-    if (icon) {
-      gsap.fromTo(
-        icon,
-        {
-          opacity: 0,
-          scale: 0.72,
-          rotate: -5,
-        },
-        {
-          opacity: 1,
-          scale: 1,
-          rotate: 0,
-          duration: 0.65,
-          delay: 0.05,
-          ease: "back.out(1.5)",
-          overwrite: true,
-        },
-      );
-    }
+      if (iconStage) {
+        gsap.fromTo(
+          iconStage,
+          {
+            opacity: 0,
+            y: 10,
+            scale: 0.92,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.5,
+            ease: "power3.out",
+            overwrite: true,
+          },
+        );
+      }
 
+      if (icon) {
+        gsap.fromTo(
+          icon,
+          {
+            opacity: 0,
+            scale: 0.72,
+            rotate: -5,
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            rotate: 0,
+            duration: 0.65,
+            delay: 0.05,
+            ease: "back.out(1.5)",
+            overwrite: true,
+          },
+        );
+      }
+    });
     return () => {
+      ctx.revert();
       split?.revert();
     };
-  }, [current.id, currentIcon]);
+  }, [current.id, currentIcon, started]);
 
   useEffect(() => {
     if (!progressRef.current) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      gsap.set(progressRef.current, {
+        scaleX: (active + 1) / heroServices.length,
+      });
+      return;
+    }
 
     gsap.to(progressRef.current, {
       scaleX: (active + 1) / heroServices.length,
@@ -175,7 +188,12 @@ export function HeroServiceSlider() {
   }, [active]);
 
   useEffect(() => {
-    if (!started || paused) return;
+    if (
+      !started ||
+      paused ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    )
+      return;
 
     const timer = window.setTimeout(() => {
       setActive((currentIndex) => {
@@ -206,10 +224,7 @@ export function HeroServiceSlider() {
 
   return (
     <div
-      className="hero-slider w-[545rem] overflow-hidden rounded-[10rem] bg-light text-primary max-[1024px]:hidden"
-      style={{
-        transform: "translateX(110%)",
-      }}
+      className="hero-slider w-[545rem] overflow-hidden rounded-[10rem] bg-light text-primary max-[1025px]:hidden"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -236,7 +251,7 @@ export function HeroServiceSlider() {
           <div className="h-[86rem] w-[86rem]" />
         )}
 
-        <h3 className="hero-slider__title pt-[4rem] text-[15rem] uppercase text-primary">
+        <h3 className="hero-slider__title pt-[4rem] text-[max(16px,15rem)] uppercase text-primary">
           {copy.sliderLabel}
         </h3>
       </div>
@@ -257,12 +272,26 @@ export function HeroServiceSlider() {
         href={localePath("/services")}
         className="hero-slider__item-inner group flex min-h-[110rem] items-center justify-between px-[40rem] pb-[40rem] pt-[20rem]"
       >
-        <span
-          key={`hero-service-${current.id}-${active}`}
-          ref={titleRef}
-          className="hero-slider__item-title max-w-[360rem] text-[30rem] leading-[.9] uppercase text-primary"
-        >
-          {currentTitle}
+        <span className="hero-slider__title-stage grid min-w-0 max-w-[360rem]">
+          {/* Reserve the longest localized title so autoplay cannot move the hero. */}
+          {copy.serviceTitles.map((title, index) => (
+            <span
+              key={index}
+              aria-hidden="true"
+              className="hero-slider__item-title invisible text-[30rem] leading-[.9] uppercase text-primary"
+              style={{ gridArea: "1 / 1" }}
+            >
+              {title}
+            </span>
+          ))}
+          <span
+            key={`hero-service-${current.id}-${active}`}
+            ref={titleRef}
+            className="hero-slider__item-title text-[30rem] leading-[.9] uppercase text-primary"
+            style={{ gridArea: "1 / 1" }}
+          >
+            {currentTitle}
+          </span>
         </span>
 
         <span className="hero-slider__item-box hero-slider__arrow-box flex h-[40rem] w-[40rem] shrink-0 items-center justify-center overflow-hidden rounded-[5rem]">
@@ -275,14 +304,14 @@ export function HeroServiceSlider() {
           >
             <path
               d="M3 8H13"
-              stroke="var(--mvp-light)"
+              stroke="var(--di-light)"
               strokeWidth="1.5"
               strokeLinecap="round"
             />
 
             <path
               d="M9 4L13 8L9 12"
-              stroke="var(--mvp-light)"
+              stroke="var(--di-light)"
               strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"

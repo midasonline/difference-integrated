@@ -139,14 +139,14 @@ export function GlobalHeader() {
         }
 
         .global-site-header .header__menu-item[data-active-route="true"] {
-          color: var(--mvp-accent) !important;
-          box-shadow: inset 0 -1.5px 0 var(--mvp-accent);
+          color: var(--di-accent) !important;
+          box-shadow: inset 0 -1.5px 0 var(--di-accent);
         }
 
         .global-site-header
           .header__menu-item[data-active-route="true"]
           .text-hover-elem {
-          color: var(--mvp-accent) !important;
+          color: var(--di-accent) !important;
         }
 
         .global-site-header {

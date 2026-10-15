@@ -8,6 +8,7 @@ import gsap from "gsap";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
+import { observeAnimationLayout } from "@/lib/animationLayout";
 
 import { Footer } from "@/components/Footer";
 import { Contact } from "@/components/home/Contact";
@@ -37,29 +38,29 @@ function AboutHero() {
   return (
     <section
       id="hero"
-      className="hero-about relative flex h-screen min-h-[760px] flex-col justify-end overflow-hidden bg-cover bg-center text-white max-[1024px]:min-h-[680px]"
+      className="hero-about relative flex h-screen min-h-[760px] flex-col justify-end overflow-hidden bg-cover bg-center text-white max-[1025px]:min-h-[680px]"
       style={{
         backgroundImage: "url('/assets/img/about/about-hero.webp')",
       }}
     >
       <div className="pointer-events-none absolute inset-0 z-0 bg-[#19255b]/70" />
 
-      <div className="hero-about__container mvp-container relative z-[2] pb-[110rem] max-[1024px]:pb-[40rem]">
-        <div className="hero-about__head main-animated-text relative mb-[190rem] flex items-end justify-between pb-[10rem] max-[1024px]:mb-[40rem] max-[1024px]:flex-col max-[1024px]:items-stretch">
-          <h1 className="hero-about__title text-[200rem] leading-[.8] uppercase max-[1024px]:mb-[90rem] max-[1024px]:text-[80rem]">
+      <div className="hero-about__container di-container relative z-[2] pb-[110rem] max-[1025px]:pb-[40rem]">
+        <div className="hero-about__head main-animated-text relative mb-[190rem] flex items-end justify-between pb-[10rem] max-[1025px]:mb-[40rem] max-[1025px]:flex-col max-[1025px]:items-stretch">
+          <h1 className="hero-about__title text-[200rem] leading-[.8] uppercase max-[1025px]:mb-[90rem] max-[1025px]:text-[80rem]">
             {copy.title}
           </h1>
 
-          <div className="hero-about__abb flex w-[1100rem] items-center justify-between text-[40rem] leading-[.9] max-[1024px]:w-full max-[1024px]:text-[20rem]">
+          <div className="hero-about__abb flex w-[1100rem] items-center justify-between text-[40rem] leading-[.9] max-[1025px]:w-full max-[1025px]:text-[max(16px,20rem)]">
             <div
               dir="ltr"
-              className="hero-about__abb-wrapper flex gap-[160rem] max-[1024px]:gap-[20rem]"
+              className="hero-about__abb-wrapper flex gap-[160rem] max-[1025px]:gap-[20rem]"
             >
               <span className="hero-about__abb-item">D.</span>
               <span className="hero-about__abb-item">I.</span>
             </div>
 
-            <span className="hero-about__abb-text text-[40rem] leading-[.9] uppercase max-[1024px]:text-[20rem]">
+            <span className="hero-about__abb-text text-[40rem] leading-[.9] uppercase max-[1025px]:text-[max(16px,20rem)]">
               {copy.eyebrow}
             </span>
           </div>
@@ -67,15 +68,15 @@ function AboutHero() {
           <span className="main-animated-line absolute bottom-0 left-0 h-[1rem] w-0 bg-white/20" />
         </div>
 
-        <div className="hero-about__container-inner main-opacity-block ml-[740rem] flex max-w-[650rem] flex-col gap-[20rem] max-[1024px]:ml-0 max-[1024px]:max-w-none max-[1024px]:gap-[10rem]">
-          <h2 className="about-hero__statement text-[30rem] font-bold leading-[.9] uppercase max-[1024px]:mb-[10rem] max-[1024px]:text-[20rem]">
+        <div className="hero-about__container-inner main-opacity-block ms-[740rem] flex max-w-[650rem] flex-col gap-[20rem] max-[1025px]:ms-0 max-[1025px]:max-w-none max-[1025px]:gap-[10rem]">
+          <h2 className="about-hero__statement text-[30rem] font-bold leading-[.9] uppercase max-[1025px]:mb-[10rem] max-[1025px]:text-[max(16px,20rem)]">
             {copy.statement}
           </h2>
 
           {copy.paragraphs.map((paragraph) => (
             <p
               key={paragraph}
-              className="font-['Inter'] text-[20rem] font-normal leading-[27rem] max-[1024px]:text-[14rem] max-[1024px]:leading-[20rem]"
+              className="font-['Inter'] text-[max(16px,20rem)] font-normal leading-[max(1.35em,27rem)] max-[1025px]:text-[max(14px,14rem)] max-[1025px]:leading-[max(1.35em,20rem)]"
             >
               {paragraph}
             </p>
@@ -91,22 +92,22 @@ function BrandStatement() {
   const copy = dictionary.about.brandStatement;
 
   return (
-    <section className="reading-block min-h-screen bg-white py-[180rem] max-[1024px]:min-h-0 max-[1024px]:py-[90rem]">
-      <div className="mvp-container">
-        <div className="reading-block__text mx-auto max-w-[1540rem]">
-          <h2 className="about-brand-statement__title mb-[70rem] max-w-[1250rem] text-[125rem] font-bold leading-[.84] uppercase max-[1024px]:mb-[40rem] max-[1024px]:text-[64rem]">
+    <section className="reading-block min-h-screen bg-white py-[180rem] max-[1025px]:min-h-0 max-[1025px]:py-[90rem]">
+      <div className="di-container">
+        <div className="reading-block__text w-full">
+          <h2 className="about-brand-statement__title mb-[70rem] max-w-[1250rem] text-[125rem] font-bold leading-[.84] uppercase max-[1025px]:mb-[40rem] max-[1025px]:text-[64rem]">
             {copy.title[0]} <br />
             {copy.title[1]}
           </h2>
 
-          <div className="grid grid-cols-[1fr_.9fr] gap-[120rem] max-[1024px]:grid-cols-1 max-[1024px]:gap-[45rem]">
-            <div className="max-w-[680rem] space-y-[24rem] font-['Inter'] text-[20rem] font-normal leading-[27rem] normal-case max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
+          <div className="grid grid-cols-[1fr_.9fr] gap-[120rem] max-[1025px]:grid-cols-1 max-[1025px]:gap-[45rem]">
+            <div className="max-w-[680rem] space-y-[24rem] font-['Inter'] text-[max(16px,20rem)] font-normal leading-[max(1.35em,27rem)] normal-case max-[1025px]:text-[max(16px,16rem)] max-[1025px]:leading-[max(1.35em,23rem)]">
               {copy.paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
             </div>
 
-            <div className="about-brand-statement__pillars flex flex-col gap-[18rem] text-[60rem] font-bold leading-[54rem] uppercase max-[1024px]:gap-[12rem] max-[1024px]:text-[38rem] max-[1024px]:leading-[36rem]">
+            <div className="about-brand-statement__pillars flex flex-col gap-[18rem] text-[60rem] font-bold leading-[54rem] uppercase max-[1025px]:gap-[12rem] max-[1025px]:text-[38rem] max-[1025px]:leading-[36rem]">
               {copy.pillars.map((pillar) => (
                 <p key={pillar}>{pillar}</p>
               ))}
@@ -125,29 +126,29 @@ function OurStory() {
   return (
     <section
       id="our-story"
-      className="bg-white py-[90rem] max-[1024px]:py-[45rem]"
+      className="bg-white py-[90rem] max-[1025px]:py-[45rem]"
     >
-      <div className="mvp-container">
-        <div className="scale-block overflow-hidden rounded-[20rem] bg-[var(--mvp-primary)] px-[40rem] pb-[20rem] pt-[45rem] text-white max-[1024px]:rounded-[10rem] max-[1024px]:px-[20rem] max-[1024px]:pt-[30rem]">
-          <div className="opacity-block flex items-center justify-between border-b border-white/15 pb-[10rem] uppercase max-[1024px]:text-[15rem]">
+      <div className="di-container">
+        <div className="scale-block overflow-hidden rounded-[20rem] bg-[var(--di-primary)] px-[40rem] pb-[20rem] pt-[45rem] text-white max-[1025px]:rounded-[10rem] max-[1025px]:px-[20rem] max-[1025px]:pt-[30rem]">
+          <div className="opacity-block flex items-center justify-between border-b border-white/15 pb-[10rem] uppercase max-[1025px]:text-[max(16px,15rem)]">
             <span>{copy.label}</span>
             <span>{copy.brand}</span>
           </div>
 
-          <div className="opacity-block grid grid-cols-2 px-[80rem] max-[1024px]:grid-cols-1 max-[1024px]:px-0">
-            <div className="about-story__primary border-r border-white/15 py-[90rem] pr-[90rem] max-[1024px]:border-b max-[1024px]:border-r-0 max-[1024px]:py-[35rem] max-[1024px]:pr-0">
-              <h2 className="about-story__title animated-text mb-[28rem] text-[70rem] font-bold leading-[.9] uppercase max-[1024px]:text-[60rem]">
+          <div className="opacity-block grid grid-cols-2 px-[80rem] max-[1025px]:grid-cols-1 max-[1025px]:px-0">
+            <div className="about-story__primary border-r border-white/15 py-[90rem] pr-[90rem] max-[1025px]:border-b max-[1025px]:border-r-0 max-[1025px]:py-[35rem] max-[1025px]:pr-0">
+              <h2 className="about-story__title animated-text mb-[28rem] text-[70rem] font-bold leading-[.9] uppercase max-[1025px]:text-[60rem]">
                 {copy.heading[0]} <br />
                 {copy.heading[1]}
               </h2>
 
-              <p className="mb-[18rem] max-w-[570rem] font-['Inter'] text-[20rem] font-normal leading-[27rem] max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
+              <p className="mb-[18rem] max-w-[570rem] font-['Inter'] text-[max(16px,20rem)] font-normal leading-[max(1.35em,27rem)] max-[1025px]:text-[max(16px,16rem)] max-[1025px]:leading-[max(1.35em,23rem)]">
                 {copy.intro}
               </p>
             </div>
 
-            <div className="about-story__secondary py-[90rem] pl-[90rem] max-[1024px]:py-[35rem] max-[1024px]:pl-0">
-              <div className="mb-[55rem] max-w-[620rem] space-y-[24rem] font-['Inter'] text-[20rem] font-normal leading-[27rem] max-[1024px]:mb-[35rem] max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
+            <div className="about-story__secondary py-[90rem] pl-[90rem] max-[1025px]:py-[35rem] max-[1025px]:pl-0">
+              <div className="mb-[55rem] max-w-[620rem] space-y-[24rem] font-['Inter'] text-[max(16px,20rem)] font-normal leading-[max(1.35em,27rem)] max-[1025px]:mb-[35rem] max-[1025px]:text-[max(16px,16rem)] max-[1025px]:leading-[max(1.35em,23rem)]">
                 {copy.paragraphs.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
@@ -155,14 +156,14 @@ function OurStory() {
 
               <AnimatedButton
                 href={`${localePath("/")}#services`}
-                className="inline-flex max-[1024px]:w-full"
+                className="inline-flex max-[1025px]:w-full"
               >
                 {copy.button}
               </AnimatedButton>
             </div>
           </div>
 
-          <div className="border-t border-white/15 pt-[15rem] text-center text-[210rem] font-normal leading-none tracking-[-.03em] text-white/5 uppercase max-[1024px]:hidden">
+          <div className="border-t border-white/15 pt-[15rem] text-center text-[210rem] font-normal leading-none tracking-[-.03em] text-white/5 uppercase max-[1025px]:hidden">
             <div className="ticker">
               <span className="ticker-item">{copy.ticker}</span>
               <span className="ticker-item">{copy.ticker}</span>
@@ -182,18 +183,18 @@ function Goals() {
   return (
     <section
       id="goals"
-      className="bg-white py-[120rem] max-[1024px]:py-[60rem]"
+      className="bg-white py-[120rem] max-[1025px]:py-[60rem]"
     >
-      <div className="mvp-container">
-        <h2 className="about-goals__title animated-text mb-[70rem] text-[180rem] leading-[.8] uppercase max-[1024px]:mb-[40rem] max-[1024px]:text-[80rem]">
+      <div className="di-container">
+        <h2 className="about-goals__title animated-text mb-[70rem] text-[180rem] leading-[.8] uppercase max-[1025px]:mb-[40rem] max-[1025px]:text-[80rem]">
           {copy.title}
         </h2>
 
-        <div className="grid grid-cols-3 gap-[10rem] max-[1024px]:grid-cols-1">
+        <div className="grid grid-cols-3 gap-[10rem] max-[1025px]:grid-cols-1">
           {copy.items.map((goal, index) => (
             <article
               key={goal.heading}
-              className="scale-block group relative min-h-[620rem] overflow-hidden rounded-[20rem] max-[1024px]:min-h-[460rem] max-[1024px]:rounded-[10rem]"
+              className="scale-block group relative min-h-[620rem] overflow-hidden rounded-[20rem] max-[1025px]:min-h-[460rem] max-[1025px]:rounded-[10rem]"
             >
               <Image
                 src={goalMedia[index] ?? goalMedia[0]}
@@ -205,20 +206,20 @@ function Goals() {
 
               <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(25,37,91,.16)_0%,rgba(25,37,91,.28)_42%,rgba(25,37,91,.88)_100%)]" />
 
-              <div className="relative z-[2] flex min-h-[620rem] flex-col justify-between p-[55rem] text-white max-[1024px]:min-h-[460rem] max-[1024px]:p-[30rem]">
+              <div className="relative z-[2] flex min-h-[620rem] flex-col justify-between p-[55rem] text-white max-[1025px]:min-h-[460rem] max-[1025px]:p-[30rem]">
                 <span
                   dir="ltr"
-                  className="text-[130rem] leading-none max-[1024px]:text-[80rem]"
+                  className="text-[130rem] leading-none max-[1025px]:text-[80rem]"
                 >
                   {String(index + 1).padStart(2, "0")}
                 </span>
 
                 <div>
-                  <h3 className="about-card__title mb-[18rem] text-[60rem] font-bold leading-[54rem] uppercase max-[1024px]:text-[42rem] max-[1024px]:leading-[40rem]">
+                  <h3 className="about-card__title mb-[18rem] text-[60rem] font-bold leading-[54rem] uppercase max-[1025px]:text-[42rem] max-[1025px]:leading-[40rem]">
                     {goal.heading}
                   </h3>
 
-                  <p className="max-w-[460rem] font-['Inter'] text-[20rem] font-normal leading-[27rem] text-white/90 max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
+                  <p className="max-w-[460rem] font-['Inter'] text-[max(16px,20rem)] font-normal leading-[max(1.35em,27rem)] text-white/90 max-[1025px]:text-[max(16px,16rem)] max-[1025px]:leading-[max(1.35em,23rem)]">
                     {goal.text}
                   </p>
                 </div>
@@ -238,41 +239,41 @@ function WhatShapesEveryOperation() {
   return (
     <section
       id="advantages"
-      className="advantages relative max-h-screen overflow-hidden bg-white pb-[50rem] pt-[140rem] max-[1024px]:max-h-none max-[1024px]:overflow-visible max-[1024px]:py-[60rem]"
+      className="advantages relative max-h-screen overflow-hidden bg-white pb-[50rem] pt-[140rem] max-[1025px]:max-h-none max-[1025px]:overflow-visible max-[1025px]:py-[60rem]"
     >
-      <div className="mvp-container">
-        <div className="flex items-start justify-between gap-[70rem] max-[1024px]:flex-col max-[1024px]:gap-[40rem]">
-          <div className="flex h-[760rem] w-[42%] flex-col justify-between max-[1024px]:h-auto max-[1024px]:w-full">
-            <h2 className="about-operation__title animated-text text-[155rem] leading-[.8] uppercase max-[1024px]:text-[80rem]">
+      <div className="di-container">
+        <div className="flex items-start justify-between gap-[70rem] max-[1025px]:flex-col max-[1025px]:gap-[40rem]">
+          <div className="flex h-[760rem] w-[42%] flex-col justify-between max-[1025px]:h-auto max-[1025px]:w-full">
+            <h2 className="about-operation__title animated-text text-[155rem] leading-[.8] uppercase max-[1025px]:text-[80rem]">
               {copy.title[0]} <br />
               {copy.title[1]}
             </h2>
 
-            <div className="relative h-[2rem] w-full overflow-hidden bg-[var(--mvp-primary)]/15 max-[1024px]:hidden">
-              <div className="advantages__progressbar-fill absolute inset-y-0 left-0 w-0 bg-[var(--mvp-primary)]" />
+            <div className="relative h-[2rem] w-full overflow-hidden bg-[var(--di-primary)]/15 max-[1025px]:hidden">
+              <div className="advantages__progressbar-fill absolute inset-y-0 left-0 w-0 bg-[var(--di-primary)]" />
             </div>
           </div>
 
-          <div className="advantages__scrollbox w-[52%] max-[1024px]:w-full">
+          <div className="advantages__scrollbox w-[52%] max-[1025px]:w-full">
             <div className="flex flex-col gap-[10rem]">
               {copy.items.map((item, index) => (
                 <article
                   key={item.heading}
-                  className="advantages__scrollbox-item grid min-h-[360rem] grid-cols-[95rem_minmax(0,580rem)] content-center gap-x-[45rem] rounded-[20rem] bg-[var(--mvp-primary)] px-[55rem] py-[45rem] text-white max-[1024px]:min-h-0 max-[1024px]:grid-cols-[60rem_minmax(0,1fr)] max-[1024px]:gap-x-[24rem] max-[1024px]:rounded-[10rem] max-[1024px]:p-[30rem]"
+                  className="advantages__scrollbox-item grid min-h-[360rem] grid-cols-[95rem_minmax(0,580rem)] content-center gap-x-[45rem] rounded-[20rem] bg-[var(--di-primary)] px-[55rem] py-[45rem] text-white max-[1025px]:min-h-0 max-[1025px]:grid-cols-[60rem_minmax(0,1fr)] max-[1025px]:gap-x-[24rem] max-[1025px]:rounded-[10rem] max-[1025px]:p-[30rem]"
                 >
                   <span
                     dir="ltr"
-                    className="self-start text-[72rem] leading-none max-[1024px]:text-[50rem]"
+                    className="self-start text-[72rem] leading-none max-[1025px]:text-[50rem]"
                   >
                     {String(index + 1).padStart(2, "0")}
                   </span>
 
                   <div className="max-w-[580rem]">
-                    <h3 className="mb-[22rem] text-[60rem] font-bold leading-[54rem] uppercase max-[1024px]:mb-[15rem] max-[1024px]:text-[38rem] max-[1024px]:leading-[36rem]">
+                    <h3 className="mb-[22rem] text-[60rem] font-bold leading-[54rem] uppercase max-[1025px]:mb-[15rem] max-[1025px]:text-[38rem] max-[1025px]:leading-[36rem]">
                       {item.heading}
                     </h3>
 
-                    <p className="font-['Inter'] text-[20rem] font-normal leading-[27rem] normal-case max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
+                    <p className="font-['Inter'] text-[max(16px,20rem)] font-normal leading-[max(1.35em,27rem)] normal-case max-[1025px]:text-[max(16px,16rem)] max-[1025px]:leading-[max(1.35em,23rem)]">
                       {item.text}
                     </p>
                   </div>
@@ -291,10 +292,10 @@ function Mission() {
   const copy = dictionary.about.mission;
 
   return (
-    <section className="reading-block min-h-screen bg-white py-[180rem] max-[1024px]:min-h-0 max-[1024px]:py-[90rem]">
-      <div className="mvp-container">
-        <div className="grid grid-cols-[.7fr_1.3fr] gap-[100rem] max-[1024px]:grid-cols-1 max-[1024px]:gap-[35rem]">
-          <h2 className="about-mission__title text-[150rem] leading-[.8] uppercase max-[1024px]:text-[80rem]">
+    <section className="reading-block min-h-screen bg-white py-[180rem] max-[1025px]:min-h-0 max-[1025px]:py-[90rem]">
+      <div className="di-container">
+        <div className="grid grid-cols-[.7fr_1.3fr] gap-[100rem] max-[1025px]:grid-cols-1 max-[1025px]:gap-[35rem]">
+          <h2 className="about-mission__title text-[150rem] leading-[.8] uppercase max-[1025px]:text-[80rem]">
             {copy.title}
           </h2>
 
@@ -302,7 +303,7 @@ function Mission() {
             {copy.statements.map((statement) => (
               <h3
                 key={statement}
-                className="about-mission__statement mb-[45rem] text-[60rem] font-bold leading-[54rem] uppercase last:mb-0 max-[1024px]:mb-[30rem] max-[1024px]:text-[42rem] max-[1024px]:leading-[40rem]"
+                className="about-mission__statement mb-[45rem] text-[60rem] font-bold leading-[54rem] uppercase last:mb-0 max-[1025px]:mb-[30rem] max-[1025px]:text-[42rem] max-[1025px]:leading-[40rem]"
               >
                 {statement}
               </h3>
@@ -319,18 +320,18 @@ function Statement() {
   const copy = dictionary.about.statement;
 
   return (
-    <section className="bg-white py-[90rem] max-[1024px]:py-[45rem]">
-      <div className="mvp-container">
-        <div className="scale-block flex min-h-[760rem] flex-col items-center justify-center rounded-[20rem] bg-[var(--mvp-light)] px-[70rem] py-[90rem] text-center max-[1024px]:min-h-[520rem] max-[1024px]:rounded-[10rem] max-[1024px]:px-[24rem] max-[1024px]:py-[55rem]">
-          <p className="mb-[55rem] text-[32rem] uppercase max-[1024px]:mb-[35rem] max-[1024px]:text-[20rem]">
+    <section className="bg-white py-[90rem] max-[1025px]:py-[45rem]">
+      <div className="di-container">
+        <div className="scale-block flex min-h-[760rem] flex-col items-center justify-center rounded-[20rem] bg-[var(--di-light)] px-[70rem] py-[90rem] text-center max-[1025px]:min-h-[520rem] max-[1025px]:rounded-[10rem] max-[1025px]:px-[24rem] max-[1025px]:py-[55rem]">
+          <p className="mb-[55rem] text-[32rem] uppercase max-[1025px]:mb-[35rem] max-[1025px]:text-[max(16px,20rem)]">
             {copy.label}
           </p>
 
-          <h2 className="about-statement__title animated-text max-w-[1500rem] text-[165rem] leading-[.82] uppercase max-[1024px]:text-[70rem]">
+          <h2 className="about-statement__title animated-text max-w-[1500rem] text-[165rem] leading-[.82] uppercase max-[1025px]:text-[70rem]">
             {copy.title}
           </h2>
 
-          <div className="mt-[55rem] max-w-[900rem] space-y-[18rem] font-['Inter'] text-[20rem] font-normal leading-[27rem] max-[1024px]:mt-[35rem] max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
+          <div className="mt-[55rem] max-w-[900rem] space-y-[18rem] font-['Inter'] text-[max(16px,20rem)] font-normal leading-[max(1.35em,27rem)] max-[1025px]:mt-[35rem] max-[1025px]:text-[max(16px,16rem)] max-[1025px]:leading-[max(1.35em,23rem)]">
             {copy.paragraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
@@ -346,17 +347,17 @@ function Facts() {
   const copy = dictionary.about.facts;
 
   return (
-    <section className="bg-white py-[120rem] max-[1024px]:py-[60rem]">
-      <div className="mvp-container">
-        <h2 className="about-facts__title animated-text mb-[70rem] text-[180rem] leading-[.8] uppercase max-[1024px]:mb-[40rem] max-[1024px]:text-[80rem]">
+    <section className="bg-white py-[120rem] max-[1025px]:py-[60rem]">
+      <div className="di-container">
+        <h2 className="about-facts__title animated-text mb-[70rem] text-[180rem] leading-[.8] uppercase max-[1025px]:mb-[40rem] max-[1025px]:text-[80rem]">
           {copy.title}
         </h2>
 
-        <div className="grid grid-cols-3 gap-[10rem] max-[1024px]:grid-cols-1">
+        <div className="grid grid-cols-3 gap-[10rem] max-[1025px]:grid-cols-1">
           {copy.items.map((fact, index) => (
             <article
               key={fact.heading}
-              className="scale-block group relative min-h-[590rem] overflow-hidden rounded-[20rem] max-[1024px]:min-h-[460rem] max-[1024px]:rounded-[10rem]"
+              className="scale-block group relative min-h-[590rem] overflow-hidden rounded-[20rem] max-[1025px]:min-h-[460rem] max-[1025px]:rounded-[10rem]"
             >
               <Image
                 src={factMedia[index] ?? factMedia[0]}
@@ -368,24 +369,28 @@ function Facts() {
 
               <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(25,37,91,.18)_0%,rgba(25,37,91,.30)_40%,rgba(25,37,91,.93)_100%)] transition-all duration-500 group-hover:bg-[linear-gradient(180deg,rgba(25,37,91,.25)_0%,rgba(25,37,91,.43)_40%,rgba(25,37,91,.97)_100%)]" />
 
-              <div className="relative z-[2] flex min-h-[590rem] flex-col justify-between p-[55rem] text-white max-[1024px]:min-h-[460rem] max-[1024px]:p-[30rem]">
+              <div className="relative z-[2] flex min-h-[590rem] flex-col justify-between p-[55rem] text-white max-[1025px]:min-h-[460rem] max-[1025px]:p-[30rem]">
                 <span
-                  dir={fact.heading === "KSA" || fact.heading === "B2B" ? "ltr" : undefined}
-                  className="about-fact__eyebrow text-[120rem] leading-none max-[1024px]:text-[80rem]"
+                  dir={
+                    fact.heading === "KSA" || fact.heading === "B2B"
+                      ? "ltr"
+                      : undefined
+                  }
+                  className="about-fact__eyebrow text-[120rem] leading-none max-[1025px]:text-[80rem]"
                 >
                   {fact.heading}
                 </span>
 
                 <div className="max-w-[500rem]">
-                  <div className="mb-[20rem] h-[3rem] w-[58rem] bg-[var(--mvp-accent)] transition-all duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover:w-[95rem]" />
+                  <div className="mb-[20rem] h-[3rem] w-[58rem] bg-[var(--di-accent)] transition-all duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover:w-[95rem]" />
 
-                  <h3 className="about-card__title text-[60rem] font-bold leading-[54rem] uppercase transition-transform duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover:-translate-y-[14rem] max-[1024px]:mb-[18rem] max-[1024px]:translate-y-0 max-[1024px]:text-[40rem] max-[1024px]:leading-[38rem]">
+                  <h3 className="about-card__title text-[60rem] font-bold leading-[54rem] uppercase transition-transform duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover:-translate-y-[14rem] max-[1025px]:mb-[18rem] max-[1025px]:translate-y-0 max-[1025px]:text-[40rem] max-[1025px]:leading-[38rem]">
                     {fact.title}
                   </h3>
 
-                  <div className="grid translate-y-[24rem] opacity-0 transition-[grid-template-rows,opacity,transform] duration-500 ease-[cubic-bezier(.22,1,.36,1)] [grid-template-rows:0fr] group-hover:translate-y-0 group-hover:opacity-100 group-hover:[grid-template-rows:1fr] max-[1024px]:translate-y-0 max-[1024px]:opacity-100 max-[1024px]:[grid-template-rows:1fr]">
+                  <div className="grid translate-y-[24rem] opacity-0 transition-[grid-template-rows,opacity,transform] duration-500 ease-[cubic-bezier(.22,1,.36,1)] [grid-template-rows:0fr] group-hover:translate-y-0 group-hover:opacity-100 group-hover:[grid-template-rows:1fr] max-[1025px]:translate-y-0 max-[1025px]:opacity-100 max-[1025px]:[grid-template-rows:1fr]">
                     <div className="overflow-hidden">
-                      <p className="pt-[5rem] font-['Inter'] text-[20rem] font-normal leading-[27rem] text-white/90 max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
+                      <p className="pt-[5rem] font-['Inter'] text-[max(16px,20rem)] font-normal leading-[max(1.35em,27rem)] text-white/90 max-[1025px]:text-[max(16px,16rem)] max-[1025px]:leading-[max(1.35em,23rem)]">
                         {fact.text}
                       </p>
                     </div>
@@ -432,16 +437,23 @@ export function AboutExperience() {
     };
 
     const ctx = gsap.context(() => {
-      gsap.utils.toArray<HTMLElement>(".main-animated-text").forEach((element) => {
-        const revealTargets = splitForMotion(element);
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        gsap.set(".transition-plug", { yPercent: 105 });
+        gsap.set(".main-animated-line", { width: "100%" });
+        return;
+      }
+      gsap.utils
+        .toArray<HTMLElement>(".main-animated-text")
+        .forEach((element) => {
+          const revealTargets = splitForMotion(element);
 
-        gsap.set(revealTargets, {
-          willChange: "transform",
-          transformOrigin: "50% 0%",
-          scaleY: 0,
-          opacity: 0,
+          gsap.set(revealTargets, {
+            willChange: "transform",
+            transformOrigin: "50% 0%",
+            scaleY: 0,
+            opacity: 0,
+          });
         });
-      });
 
       gsap.utils.toArray<HTMLElement>(".animated-text").forEach((element) => {
         const revealTargets = splitForMotion(element);
@@ -491,7 +503,8 @@ export function AboutExperience() {
             start: "center center",
             end: "bottom+=50% bottom",
             scrub: true,
-            pin: true,
+            pin: section.offsetHeight <= window.innerHeight,
+            invalidateOnRefresh: true,
           },
         });
       });
@@ -510,9 +523,11 @@ export function AboutExperience() {
         });
       });
 
-      gsap.utils.toArray<HTMLElement>(".main-opacity-block").forEach((element) => {
-        gsap.set(element, { opacity: 0 });
-      });
+      gsap.utils
+        .toArray<HTMLElement>(".main-opacity-block")
+        .forEach((element) => {
+          gsap.set(element, { opacity: 0 });
+        });
 
       gsap.utils.toArray<HTMLElement>(".scale-block").forEach((element) => {
         gsap.set(element, { scale: 0.7 });
@@ -535,7 +550,7 @@ export function AboutExperience() {
           content: "#smooth-content",
           smooth: 2.5,
           speed: 0.7,
-          normalizeScroll: true,
+          normalizeScroll: { allowNestedScroll: true },
         });
 
         const scrollbox = document.querySelector<HTMLElement>(
@@ -722,7 +737,7 @@ export function AboutExperience() {
           content: "#smooth-content",
           smooth: 1,
           speed: 1,
-          normalizeScroll: true,
+          normalizeScroll: { allowNestedScroll: true },
           ignoreMobileResize: true,
         });
 
@@ -786,11 +801,7 @@ export function AboutExperience() {
         listeners.push(() => window.removeEventListener("load", start));
       }
 
-      const refresh = () => ScrollTrigger.refresh();
-      window.addEventListener("resize", refresh);
-      listeners.push(() => window.removeEventListener("resize", refresh));
-
-      requestAnimationFrame(() => ScrollTrigger.refresh());
+      listeners.push(observeAnimationLayout(rootRef.current!));
     }, rootRef);
 
     return () => {
@@ -809,7 +820,7 @@ export function AboutExperience() {
       <div id="smooth-wrapper">
         <div
           id="smooth-content"
-          className="overflow-hidden bg-white text-[var(--mvp-primary)]"
+          className="overflow-hidden bg-white text-[var(--di-primary)]"
         >
           <AboutHero />
           <BrandStatement />
@@ -822,7 +833,7 @@ export function AboutExperience() {
           <Services />
           <Contact />
 
-          <div className="bg-[var(--mvp-dark)]">
+          <div className="bg-[var(--di-dark)]">
             <Footer />
           </div>
         </div>

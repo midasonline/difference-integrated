@@ -6,6 +6,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
+import { observeAnimationLayout } from "@/lib/animationLayout";
 
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { PageTransition } from "@/components/ui/PageTransition";
@@ -84,14 +85,14 @@ function KeyPointsAccordion({
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <div className="border-t border-[var(--mvp-primary)]/20">
+    <div className="border-t border-[var(--di-primary)]/20">
       {points.map((point, index) => {
         const isOpen = openIndex === index;
 
         return (
           <div
             key={point.title}
-            className="service-keypoint-row border-b border-[var(--mvp-primary)]/20"
+            className="service-keypoint-row border-b border-[var(--di-primary)]/20"
           >
             <button
               type="button"
@@ -99,15 +100,15 @@ function KeyPointsAccordion({
               onClick={() => setOpenIndex(isOpen ? null : index)}
               className="group flex min-h-[64rem] w-full items-center justify-between gap-[24rem] py-[12rem] text-start"
             >
-              <span className="text-[20rem] font-bold uppercase leading-[20rem] transition-colors duration-300 group-hover:text-[var(--mvp-accent)] max-[1024px]:text-[18rem] max-[1024px]:leading-[18rem]">
+              <span className="text-[max(16px,20rem)] font-bold uppercase leading-[max(1.35em,20rem)] transition-colors duration-300 group-hover:text-[var(--di-accent)] max-[1025px]:text-[max(16px,18rem)] max-[1025px]:leading-[max(1.35em,18rem)]">
                 {point.title}
               </span>
 
               <span
                 className={`flex h-[35rem] w-[35rem] shrink-0 items-center justify-center rounded-[5rem] text-white transition-[background-color,transform] duration-300 ease-out ${
                   isOpen
-                    ? "bg-[var(--mvp-primary)]"
-                    : "bg-[var(--mvp-accent)] group-hover:bg-[var(--mvp-primary)]"
+                    ? "bg-[var(--di-primary)]"
+                    : "bg-[var(--di-accent)] group-hover:bg-[var(--di-primary)]"
                 }`}
                 aria-hidden="true"
               >
@@ -133,7 +134,7 @@ function KeyPointsAccordion({
               }`}
             >
               <div className="overflow-hidden">
-                <p className="max-w-[650rem] pb-[18rem] pe-[70rem] font-['Inter'] text-[15rem] font-normal leading-[21rem] text-[var(--mvp-primary)]/78 max-[1024px]:pe-[45rem] max-[1024px]:text-[14rem] max-[1024px]:leading-[20rem]">
+                <p className="max-w-[650rem] pb-[18rem] pe-[70rem] font-['Inter'] text-[max(16px,15rem)] font-normal leading-[max(1.35em,21rem)] text-[var(--di-primary)]/78 max-[1025px]:pe-[45rem] max-[1025px]:text-[max(14px,14rem)] max-[1025px]:leading-[max(1.35em,20rem)]">
                   {point.text}
                 </p>
               </div>
@@ -200,9 +201,13 @@ function ServiceNavigator({
           : "pointer-events-none -translate-x-[24rem] opacity-0"
       }`}
       aria-hidden={!isVisible}
-      onMouseEnter={openMenu}
+      onMouseEnter={() => {
+        if (window.matchMedia("(hover: hover)").matches) openMenu();
+      }}
       onMouseLeave={scheduleClose}
-      onFocusCapture={openMenu}
+      onFocusCapture={(event) => {
+        if (event.target.matches(":focus-visible")) openMenu();
+      }}
       onBlurCapture={(event) => {
         const nextTarget = event.relatedTarget;
 
@@ -222,7 +227,7 @@ function ServiceNavigator({
           clearCloseTimer();
           setMenuOpen((current) => !current);
         }}
-        className={`relative flex h-[60rem] min-w-[220rem] items-center justify-between gap-[22rem] overflow-hidden rounded-[11rem] border px-[18rem] text-start shadow-[0_14px_42px_rgba(0,0,0,.20)] backdrop-blur-[14px] transition-[background-color,border-color,box-shadow,transform] duration-300 focus-visible:outline-none focus-visible:ring-[2rem] focus-visible:ring-[var(--mvp-accent)] ${
+        className={`relative flex h-[60rem] min-w-[220rem] items-center justify-between gap-[22rem] overflow-hidden rounded-[11rem] border px-[18rem] text-start shadow-[0_14px_42px_rgba(0,0,0,.20)] backdrop-blur-[14px] transition-[background-color,border-color,box-shadow,transform] duration-300 focus-visible:outline-none focus-visible:ring-[2rem] focus-visible:ring-[var(--di-accent)] ${
           menuOpen
             ? "border-white/70 bg-[rgba(244,241,234,.98)] shadow-[0_20px_55px_rgba(0,0,0,.28)]"
             : "border-white/55 bg-[rgba(244,241,234,.92)] hover:-translate-y-[2rem] hover:border-white/75 hover:bg-[rgba(244,241,234,.98)] hover:shadow-[0_20px_55px_rgba(0,0,0,.28)]"
@@ -232,19 +237,19 @@ function ServiceNavigator({
         aria-haspopup="menu"
       >
         <span
-          className="absolute inset-x-0 top-0 h-[3rem] bg-[var(--mvp-accent)]"
+          className="absolute inset-x-0 top-0 h-[3rem] bg-[var(--di-accent)]"
           aria-hidden="true"
         />
 
-        <span className="text-[23rem] font-bold uppercase leading-none text-[var(--mvp-primary)]">
+        <span className="text-[max(16px,23rem)] font-bold uppercase leading-none text-[var(--di-primary)]">
           {copy.button}
         </span>
 
         <span
           className={`flex h-[31rem] w-[31rem] shrink-0 items-center justify-center rounded-full text-white transition-[background-color,transform] duration-300 ${
             menuOpen
-              ? "rotate-45 bg-[var(--mvp-accent)]"
-              : "bg-[var(--mvp-primary)]"
+              ? "rotate-45 bg-[var(--di-accent)]"
+              : "bg-[var(--di-primary)]"
           }`}
           aria-hidden="true"
         >
@@ -288,8 +293,8 @@ function ServiceNavigator({
                 onClick={() => handleSelect(index)}
                 className={`group/item relative flex min-h-[52rem] w-full items-center gap-[13rem] rounded-[9rem] px-[14rem] py-[9rem] text-start transition-[background-color,color,transform] duration-250 ${
                   isActive
-                    ? "bg-[var(--mvp-primary)] text-white"
-                    : "text-[var(--mvp-primary)] hover:bg-white/85"
+                    ? "bg-[var(--di-primary)] text-white"
+                    : "text-[var(--di-primary)] hover:bg-white/85"
                 }`}
                 aria-label={`${copy.goToPrefix} ${service.title}`}
                 aria-current={isActive ? "page" : undefined}
@@ -297,8 +302,8 @@ function ServiceNavigator({
                 <span
                   className={`h-[10rem] w-[10rem] shrink-0 rounded-full border transition-all duration-250 ${
                     isActive
-                      ? "border-[var(--mvp-accent)] bg-[var(--mvp-accent)] shadow-[0_0_0_4px_rgba(233,81,29,.16)]"
-                      : "border-[var(--mvp-primary)]/45 bg-transparent group-hover/item:border-[var(--mvp-accent)] group-hover/item:bg-[var(--mvp-accent)]"
+                      ? "border-[var(--di-accent)] bg-[var(--di-accent)] shadow-[0_0_0_4px_rgba(233,81,29,.16)]"
+                      : "border-[var(--di-primary)]/45 bg-transparent group-hover/item:border-[var(--di-accent)] group-hover/item:bg-[var(--di-accent)]"
                   }`}
                   aria-hidden="true"
                 />
@@ -306,8 +311,8 @@ function ServiceNavigator({
                 <span
                   className={`w-[32rem] shrink-0 font-['Inter'] text-[12.5rem] font-semibold tracking-[.05em] ${
                     isActive
-                      ? "text-[var(--mvp-accent)]"
-                      : "text-[var(--mvp-primary)]/65"
+                      ? "text-[var(--di-accent)]"
+                      : "text-[var(--di-primary)]/65"
                   }`}
                 >
                   {service.number}
@@ -317,7 +322,7 @@ function ServiceNavigator({
                   className={`min-w-0 flex-1 text-[18.5rem] font-bold uppercase leading-[1.08] transition-transform duration-250 max-[1500px]:text-[17.5rem] ${
                     isActive
                       ? "text-white"
-                      : "text-[var(--mvp-primary)] group-hover/item:translate-x-[2rem]"
+                      : "text-[var(--di-primary)] group-hover/item:translate-x-[2rem]"
                   }`}
                 >
                   {service.title}
@@ -326,8 +331,8 @@ function ServiceNavigator({
                 <span
                   className={`flex h-[27rem] w-[27rem] shrink-0 items-center justify-center rounded-full transition-[background-color,color,transform] duration-250 ${
                     isActive
-                      ? "bg-[var(--mvp-accent)] text-white"
-                      : "bg-[var(--mvp-primary)]/8 text-[var(--mvp-primary)]/65 group-hover/item:translate-x-[2rem] group-hover/item:bg-[var(--mvp-accent)] group-hover/item:text-white"
+                      ? "bg-[var(--di-accent)] text-white"
+                      : "bg-[var(--di-primary)]/8 text-[var(--di-primary)]/65 group-hover/item:translate-x-[2rem] group-hover/item:bg-[var(--di-accent)] group-hover/item:text-white"
                   }`}
                   aria-hidden="true"
                 >
@@ -370,9 +375,9 @@ function ServiceButton({
   return (
     <Link
       href={href}
-      className="mvp-btn text-hover w-[545rem] max-w-full max-[1024px]:w-full"
+      className="di-btn text-hover w-[545rem] max-w-full max-[1025px]:w-full"
     >
-      <span className="mvp-btn-inner text-hover-inner">
+      <span className="di-btn-inner text-hover-inner">
         <span className="text-hover-elem text-hover-elem-1">{label}</span>
         <span className="text-hover-elem text-hover-elem-2">{label}</span>
       </span>
@@ -392,178 +397,180 @@ function ServicesInquiryForm({
   return (
     <section
       dir={isRtl ? "rtl" : "ltr"}
-      className="services-inquiry-section relative overflow-hidden bg-white px-[20rem] py-[90rem] text-[var(--mvp-primary)] min-[1025px]:px-[40rem] min-[1025px]:py-[120rem]"
+      className="services-inquiry-section relative overflow-hidden bg-white py-[90rem] text-[var(--di-primary)] min-[1025px]:py-[120rem]"
     >
-      <div className="services-inquiry-frame mx-auto max-w-[1500rem] overflow-hidden rounded-[28rem] bg-[var(--mvp-light)] px-[30rem] pb-[55rem] pt-[30rem] max-[1024px]:rounded-[18rem] max-[1024px]:px-[20rem] max-[1024px]:pb-[40rem] max-[1024px]:pt-[22rem]">
-        <div className="services-inquiry-top flex items-center justify-between border-b border-[var(--mvp-primary)]/20 pb-[22rem]">
-          <span className="text-[20rem] font-bold uppercase leading-none">
-            {copy.label}
-          </span>
-
-          <span
-            className="h-[4rem] w-[110rem] bg-[var(--mvp-accent)] max-[640px]:w-[70rem]"
-            aria-hidden="true"
-          />
-        </div>
-
-        <div className="services-inquiry-title-wrap overflow-hidden">
-          <h2 className="services-inquiry-title mt-[42rem] max-w-[1100rem] text-[96rem] font-bold uppercase leading-[0.86] tracking-[-0.025em] max-[1024px]:mt-[32rem] max-[1024px]:text-[62rem] max-[640px]:text-[46rem]">
-            {copy.title}
-          </h2>
-        </div>
-
-        <form
-          className="services-inquiry-form mt-[58rem] grid grid-cols-2 gap-x-[55rem] gap-y-[38rem] max-[760px]:mt-[42rem] max-[760px]:grid-cols-1 max-[760px]:gap-y-[30rem]"
-          onSubmit={(event) => event.preventDefault()}
-        >
-          <label className="service-form-field group relative flex flex-col gap-[10rem] overflow-hidden pb-[4rem]">
-            <span className="service-form-label font-['Inter'] text-[14rem] font-semibold uppercase tracking-[.08em] text-[var(--mvp-primary)]/65">
-              {copy.fullName}{" "}
-              <span className="text-[var(--mvp-accent)]">*</span>
+      <div className="di-container">
+        <div className="services-inquiry-frame overflow-hidden rounded-[28rem] bg-[var(--di-light)] px-[30rem] pb-[55rem] pt-[30rem] max-[1025px]:rounded-[18rem] max-[1025px]:px-[20rem] max-[1025px]:pb-[40rem] max-[1025px]:pt-[22rem]">
+          <div className="services-inquiry-top flex items-center justify-between border-b border-[var(--di-primary)]/20 pb-[22rem]">
+            <span className="text-[max(16px,20rem)] font-bold uppercase leading-none">
+              {copy.label}
             </span>
-            <input
-              type="text"
-              name="fullName"
-              required
-              className="service-form-control h-[58rem] border-0 bg-transparent px-0 font-['Inter'] text-[20rem] font-normal text-[var(--mvp-primary)] outline-none placeholder:text-[var(--mvp-primary)]/30"
-              placeholder={copy.fullNamePlaceholder}
-            />
-            <span
-              className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--mvp-primary)]/25"
-              aria-hidden="true"
-            />
-            <span
-              className="service-form-line-accent absolute bottom-0 left-0 h-[2rem] w-full origin-left scale-x-0 bg-[var(--mvp-accent)] transition-transform duration-500 group-focus-within:scale-x-100"
-              aria-hidden="true"
-            />
-          </label>
 
-          <label className="service-form-field group relative flex flex-col gap-[10rem] overflow-hidden pb-[4rem]">
-            <span className="service-form-label font-['Inter'] text-[14rem] font-semibold uppercase tracking-[.08em] text-[var(--mvp-primary)]/65">
-              {copy.companyName}
-            </span>
-            <input
-              type="text"
-              name="companyName"
-              className="service-form-control h-[58rem] border-0 bg-transparent px-0 font-['Inter'] text-[20rem] font-normal text-[var(--mvp-primary)] outline-none placeholder:text-[var(--mvp-primary)]/30"
-              placeholder={copy.companyNamePlaceholder}
-            />
             <span
-              className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--mvp-primary)]/25"
+              className="h-[4rem] w-[110rem] bg-[var(--di-accent)] max-[640px]:w-[70rem]"
               aria-hidden="true"
             />
-            <span
-              className="service-form-line-accent absolute bottom-0 left-0 h-[2rem] w-full origin-left scale-x-0 bg-[var(--mvp-accent)] transition-transform duration-500 group-focus-within:scale-x-100"
-              aria-hidden="true"
-            />
-          </label>
-
-          <label className="service-form-field group relative flex flex-col gap-[10rem] overflow-hidden pb-[4rem]">
-            <span className="service-form-label font-['Inter'] text-[14rem] font-semibold uppercase tracking-[.08em] text-[var(--mvp-primary)]/65">
-              {copy.phone} <span className="text-[var(--mvp-accent)]">*</span>
-            </span>
-            <input
-              type="tel"
-              name="phone"
-              required
-              className="service-form-control h-[58rem] border-0 bg-transparent px-0 font-['Inter'] text-[20rem] font-normal text-[var(--mvp-primary)] outline-none placeholder:text-[var(--mvp-primary)]/30"
-              placeholder={copy.phonePlaceholder}
-            />
-            <span
-              className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--mvp-primary)]/25"
-              aria-hidden="true"
-            />
-            <span
-              className="service-form-line-accent absolute bottom-0 left-0 h-[2rem] w-full origin-left scale-x-0 bg-[var(--mvp-accent)] transition-transform duration-500 group-focus-within:scale-x-100"
-              aria-hidden="true"
-            />
-          </label>
-
-          <label className="service-form-field group relative flex flex-col gap-[10rem] overflow-hidden pb-[4rem]">
-            <span className="service-form-label font-['Inter'] text-[14rem] font-semibold uppercase tracking-[.08em] text-[var(--mvp-primary)]/65">
-              {copy.email} <span className="text-[var(--mvp-accent)]">*</span>
-            </span>
-            <input
-              type="email"
-              name="email"
-              required
-              className="service-form-control h-[58rem] border-0 bg-transparent px-0 font-['Inter'] text-[20rem] font-normal text-[var(--mvp-primary)] outline-none placeholder:text-[var(--mvp-primary)]/30"
-              placeholder={copy.emailPlaceholder}
-            />
-            <span
-              className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--mvp-primary)]/25"
-              aria-hidden="true"
-            />
-            <span
-              className="service-form-line-accent absolute bottom-0 left-0 h-[2rem] w-full origin-left scale-x-0 bg-[var(--mvp-accent)] transition-transform duration-500 group-focus-within:scale-x-100"
-              aria-hidden="true"
-            />
-          </label>
-
-          <label className="service-form-field group relative col-span-2 flex flex-col gap-[10rem] overflow-hidden pb-[4rem] max-[760px]:col-span-1">
-            <span className="service-form-label font-['Inter'] text-[14rem] font-semibold uppercase tracking-[.08em] text-[var(--mvp-primary)]/65">
-              {copy.serviceRequired}
-            </span>
-            <select
-              name="service"
-              defaultValue=""
-              className="service-form-control h-[58rem] cursor-pointer border-0 bg-transparent px-0 font-['Inter'] text-[20rem] font-normal text-[var(--mvp-primary)] outline-none"
-            >
-              <option value="" disabled>
-                {copy.selectService}
-              </option>
-              {services.map((service) => (
-                <option key={service.number} value={service.title}>
-                  {service.title}
-                </option>
-              ))}
-            </select>
-            <span
-              className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--mvp-primary)]/25"
-              aria-hidden="true"
-            />
-            <span
-              className="service-form-line-accent absolute bottom-0 left-0 h-[2rem] w-full origin-left scale-x-0 bg-[var(--mvp-accent)] transition-transform duration-500 group-focus-within:scale-x-100"
-              aria-hidden="true"
-            />
-          </label>
-
-          <label className="service-form-field group relative col-span-2 flex flex-col gap-[10rem] overflow-hidden pb-[4rem] max-[760px]:col-span-1">
-            <span className="service-form-label font-['Inter'] text-[14rem] font-semibold uppercase tracking-[.08em] text-[var(--mvp-primary)]/65">
-              {copy.requirement}
-            </span>
-            <textarea
-              name="requirement"
-              rows={5}
-              className="service-form-control min-h-[145rem] resize-y border-0 bg-transparent px-0 py-[16rem] font-['Inter'] text-[20rem] font-normal leading-[1.45] text-[var(--mvp-primary)] outline-none placeholder:text-[var(--mvp-primary)]/30"
-              placeholder={copy.requirementPlaceholder}
-            />
-            <span
-              className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--mvp-primary)]/25"
-              aria-hidden="true"
-            />
-            <span
-              className="service-form-line-accent absolute bottom-0 left-0 h-[2rem] w-full origin-left scale-x-0 bg-[var(--mvp-accent)] transition-transform duration-500 group-focus-within:scale-x-100"
-              aria-hidden="true"
-            />
-          </label>
-
-          <div className="service-form-submit-wrap col-span-2 mt-[14rem] max-[760px]:col-span-1">
-            <button
-              type="submit"
-              className="mvp-btn mvp-btn-accent text-hover w-[390rem] max-w-full max-[640px]:w-full"
-            >
-              <span className="mvp-btn-inner text-hover-inner">
-                <span className="text-hover-elem text-hover-elem-1">
-                  {copy.submit}
-                </span>
-                <span className="text-hover-elem text-hover-elem-2">
-                  {copy.submit}
-                </span>
-              </span>
-            </button>
           </div>
-        </form>
+
+          <div className="services-inquiry-title-wrap overflow-hidden">
+            <h2 className="services-inquiry-title mt-[42rem] max-w-[1100rem] text-[96rem] font-bold uppercase leading-[0.86] tracking-[-0.025em] max-[1025px]:mt-[32rem] max-[1025px]:text-[62rem] max-[640px]:text-[46rem]">
+              {copy.title}
+            </h2>
+          </div>
+
+          <form
+            className="services-inquiry-form mt-[58rem] grid grid-cols-2 gap-x-[55rem] gap-y-[38rem] max-[760px]:mt-[42rem] max-[760px]:grid-cols-1 max-[760px]:gap-y-[30rem]"
+            onSubmit={(event) => event.preventDefault()}
+          >
+            <label className="service-form-field group relative flex flex-col gap-[10rem] overflow-hidden pb-[4rem]">
+              <span className="service-form-label font-['Inter'] text-[max(14px,14rem)] font-semibold uppercase tracking-[.08em] text-[var(--di-primary)]/65">
+                {copy.fullName}{" "}
+                <span className="text-[var(--di-accent)]">*</span>
+              </span>
+              <input
+                type="text"
+                name="fullName"
+                required
+                className="service-form-control h-[58rem] border-0 bg-transparent px-0 font-['Inter'] text-[max(16px,20rem)] font-normal text-[var(--di-primary)] outline-none placeholder:text-[var(--di-primary)]/30"
+                placeholder={copy.fullNamePlaceholder}
+              />
+              <span
+                className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--di-primary)]/25"
+                aria-hidden="true"
+              />
+              <span
+                className="service-form-line-accent absolute bottom-0 left-0 h-[2rem] w-full origin-left scale-x-0 bg-[var(--di-accent)] transition-transform duration-500 group-focus-within:scale-x-100"
+                aria-hidden="true"
+              />
+            </label>
+
+            <label className="service-form-field group relative flex flex-col gap-[10rem] overflow-hidden pb-[4rem]">
+              <span className="service-form-label font-['Inter'] text-[max(14px,14rem)] font-semibold uppercase tracking-[.08em] text-[var(--di-primary)]/65">
+                {copy.companyName}
+              </span>
+              <input
+                type="text"
+                name="companyName"
+                className="service-form-control h-[58rem] border-0 bg-transparent px-0 font-['Inter'] text-[max(16px,20rem)] font-normal text-[var(--di-primary)] outline-none placeholder:text-[var(--di-primary)]/30"
+                placeholder={copy.companyNamePlaceholder}
+              />
+              <span
+                className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--di-primary)]/25"
+                aria-hidden="true"
+              />
+              <span
+                className="service-form-line-accent absolute bottom-0 left-0 h-[2rem] w-full origin-left scale-x-0 bg-[var(--di-accent)] transition-transform duration-500 group-focus-within:scale-x-100"
+                aria-hidden="true"
+              />
+            </label>
+
+            <label className="service-form-field group relative flex flex-col gap-[10rem] overflow-hidden pb-[4rem]">
+              <span className="service-form-label font-['Inter'] text-[max(14px,14rem)] font-semibold uppercase tracking-[.08em] text-[var(--di-primary)]/65">
+                {copy.phone} <span className="text-[var(--di-accent)]">*</span>
+              </span>
+              <input
+                type="tel"
+                name="phone"
+                required
+                className="service-form-control h-[58rem] border-0 bg-transparent px-0 font-['Inter'] text-[max(16px,20rem)] font-normal text-[var(--di-primary)] outline-none placeholder:text-[var(--di-primary)]/30"
+                placeholder={copy.phonePlaceholder}
+              />
+              <span
+                className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--di-primary)]/25"
+                aria-hidden="true"
+              />
+              <span
+                className="service-form-line-accent absolute bottom-0 left-0 h-[2rem] w-full origin-left scale-x-0 bg-[var(--di-accent)] transition-transform duration-500 group-focus-within:scale-x-100"
+                aria-hidden="true"
+              />
+            </label>
+
+            <label className="service-form-field group relative flex flex-col gap-[10rem] overflow-hidden pb-[4rem]">
+              <span className="service-form-label font-['Inter'] text-[max(14px,14rem)] font-semibold uppercase tracking-[.08em] text-[var(--di-primary)]/65">
+                {copy.email} <span className="text-[var(--di-accent)]">*</span>
+              </span>
+              <input
+                type="email"
+                name="email"
+                required
+                className="service-form-control h-[58rem] border-0 bg-transparent px-0 font-['Inter'] text-[max(16px,20rem)] font-normal text-[var(--di-primary)] outline-none placeholder:text-[var(--di-primary)]/30"
+                placeholder={copy.emailPlaceholder}
+              />
+              <span
+                className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--di-primary)]/25"
+                aria-hidden="true"
+              />
+              <span
+                className="service-form-line-accent absolute bottom-0 left-0 h-[2rem] w-full origin-left scale-x-0 bg-[var(--di-accent)] transition-transform duration-500 group-focus-within:scale-x-100"
+                aria-hidden="true"
+              />
+            </label>
+
+            <label className="service-form-field group relative col-span-2 flex flex-col gap-[10rem] overflow-hidden pb-[4rem] max-[760px]:col-span-1">
+              <span className="service-form-label font-['Inter'] text-[max(14px,14rem)] font-semibold uppercase tracking-[.08em] text-[var(--di-primary)]/65">
+                {copy.serviceRequired}
+              </span>
+              <select
+                name="service"
+                defaultValue=""
+                className="service-form-control h-[58rem] cursor-pointer border-0 bg-transparent px-0 font-['Inter'] text-[max(16px,20rem)] font-normal text-[var(--di-primary)] outline-none"
+              >
+                <option value="" disabled>
+                  {copy.selectService}
+                </option>
+                {services.map((service) => (
+                  <option key={service.number} value={service.title}>
+                    {service.title}
+                  </option>
+                ))}
+              </select>
+              <span
+                className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--di-primary)]/25"
+                aria-hidden="true"
+              />
+              <span
+                className="service-form-line-accent absolute bottom-0 left-0 h-[2rem] w-full origin-left scale-x-0 bg-[var(--di-accent)] transition-transform duration-500 group-focus-within:scale-x-100"
+                aria-hidden="true"
+              />
+            </label>
+
+            <label className="service-form-field group relative col-span-2 flex flex-col gap-[10rem] overflow-hidden pb-[4rem] max-[760px]:col-span-1">
+              <span className="service-form-label font-['Inter'] text-[max(14px,14rem)] font-semibold uppercase tracking-[.08em] text-[var(--di-primary)]/65">
+                {copy.requirement}
+              </span>
+              <textarea
+                name="requirement"
+                rows={5}
+                className="service-form-control min-h-[145rem] resize-y border-0 bg-transparent px-0 py-[16rem] font-['Inter'] text-[max(16px,20rem)] font-normal leading-[1.45] text-[var(--di-primary)] outline-none placeholder:text-[var(--di-primary)]/30"
+                placeholder={copy.requirementPlaceholder}
+              />
+              <span
+                className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--di-primary)]/25"
+                aria-hidden="true"
+              />
+              <span
+                className="service-form-line-accent absolute bottom-0 left-0 h-[2rem] w-full origin-left scale-x-0 bg-[var(--di-accent)] transition-transform duration-500 group-focus-within:scale-x-100"
+                aria-hidden="true"
+              />
+            </label>
+
+            <div className="service-form-submit-wrap col-span-2 mt-[14rem] max-[760px]:col-span-1">
+              <button
+                type="submit"
+                className="di-btn di-btn-accent text-hover w-[390rem] max-w-full max-[640px]:w-full"
+              >
+                <span className="di-btn-inner text-hover-inner">
+                  <span className="text-hover-elem text-hover-elem-1">
+                    {copy.submit}
+                  </span>
+                  <span className="text-hover-elem text-hover-elem-2">
+                    {copy.submit}
+                  </span>
+                </span>
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </section>
   );
@@ -681,6 +688,11 @@ export default function ServicesPageClient(): React.JSX.Element {
     const mm = gsap.matchMedia();
 
     const ctx = gsap.context(() => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        gsap.set(".transition-plug", { yPercent: 105 });
+        gsap.set(progressWrap, { display: "none" });
+        return;
+      }
       const heroTitle = servicesSection.querySelector<HTMLElement>(
         ".services-main-animated-text",
       );
@@ -2275,34 +2287,12 @@ export default function ServicesPageClient(): React.JSX.Element {
           });
         }
       }
-
-      requestAnimationFrame(() => ScrollTrigger.refresh());
-
-      if (document.fonts?.ready) {
-        document.fonts.ready.then(() => {
-          requestAnimationFrame(() => ScrollTrigger.refresh());
-        });
-      }
     }, root);
 
-    let resizeTimer: ReturnType<typeof setTimeout> | null = null;
-
-    const handleResize = () => {
-      if (resizeTimer) clearTimeout(resizeTimer);
-
-      resizeTimer = setTimeout(() => {
-        ScrollTrigger.refresh();
-      }, 150);
-    };
-
-    window.addEventListener("resize", handleResize, { passive: true });
+    const stopObservingLayout = observeAnimationLayout(root);
 
     return () => {
-      window.removeEventListener("resize", handleResize);
-
-      if (resizeTimer) {
-        clearTimeout(resizeTimer);
-      }
+      stopObservingLayout();
 
       jumpTweenRef.current?.kill();
       jumpTweenRef.current = null;
@@ -2327,7 +2317,7 @@ export default function ServicesPageClient(): React.JSX.Element {
     <div ref={rootRef} className="services-page">
       <PageTransition initialCovered />
 
-      <main className="overflow-x-clip bg-white text-[var(--mvp-primary)]">
+      <main className="overflow-x-clip bg-white text-[var(--di-primary)]">
         <section
           ref={servicesRef}
           dir="ltr"
@@ -2349,7 +2339,7 @@ export default function ServicesPageClient(): React.JSX.Element {
             <section
               dir={isRtl ? "rtl" : "ltr"}
               data-services-panel
-              className="relative flex h-[100svh] min-h-[650rem] w-full shrink-0 items-end overflow-hidden pb-[35rem] max-[1024px]:pb-[25rem] min-[1025px]:w-screen"
+              className="relative flex h-[100svh] min-h-[650rem] w-full shrink-0 items-end overflow-hidden pb-[35rem] max-[1025px]:pb-[25rem] min-[1025px]:w-screen"
             >
               <Image
                 src="/assets/img/services-page/hero-bg.webp"
@@ -2362,17 +2352,17 @@ export default function ServicesPageClient(): React.JSX.Element {
               />
               <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,18,55,.18)_0%,rgba(10,18,55,.38)_48%,rgba(10,18,55,.82)_100%)]" />
 
-              <div className="mvp-container relative z-[2] flex w-full items-end justify-between gap-[70rem] max-[1024px]:flex-col max-[1024px]:items-start max-[1024px]:gap-[30rem]">
-                <h1 className="services-main-animated-text shrink-0 text-[200rem] uppercase leading-[0.8] tracking-[-0.025em] text-white max-[1024px]:text-[80rem]">
+              <div className="di-container relative z-[2] flex w-full items-end justify-between gap-[70rem] max-[1025px]:flex-col max-[1025px]:items-start max-[1025px]:gap-[30rem]">
+                <h1 className="services-main-animated-text shrink-0 text-[200rem] uppercase leading-[0.8] tracking-[-0.025em] text-white max-[1025px]:text-[80rem]">
                   {copy.hero.title}
                 </h1>
 
-                <div className="services-hero-copy mb-[10rem] max-w-[650rem] text-white max-[1024px]:mb-0">
-                  <h2 className="services-hero-heading mb-[18rem] text-[60rem] font-bold uppercase leading-[54rem] max-[1024px]:text-[38rem] max-[1024px]:leading-[36rem]">
+                <div className="services-hero-copy mb-[10rem] max-w-[650rem] text-white max-[1025px]:mb-0">
+                  <h2 className="services-hero-heading mb-[18rem] text-[60rem] font-bold uppercase leading-[54rem] max-[1025px]:text-[38rem] max-[1025px]:leading-[36rem]">
                     {copy.hero.heading}
                   </h2>
 
-                  <div className="space-y-[12rem] font-['Inter'] text-[20rem] font-normal leading-[27rem] max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
+                  <div className="space-y-[12rem] font-['Inter'] text-[max(16px,20rem)] font-normal leading-[max(1.35em,27rem)] max-[1025px]:text-[max(16px,16rem)] max-[1025px]:leading-[max(1.35em,23rem)]">
                     {copy.hero.paragraphs.map((paragraph) => (
                       <p key={paragraph}>{paragraph}</p>
                     ))}
@@ -2402,45 +2392,45 @@ export default function ServicesPageClient(): React.JSX.Element {
                   />
                   <div className="service-visual-overlay absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-transparent" />
 
-                  <div className="relative z-[2] flex items-end gap-[65rem] text-white max-[1024px]:flex-col max-[1024px]:items-start max-[1024px]:gap-[10rem]">
+                  <div className="relative z-[2] flex items-end gap-[65rem] text-white max-[1025px]:flex-col max-[1025px]:items-start max-[1025px]:gap-[10rem]">
                     <div className="service-number-wrap flex items-end gap-[8rem]">
-                      <span className="text-[150rem] leading-[0.8] max-[1024px]:text-[100rem]">
+                      <span className="text-[150rem] leading-[0.8] max-[1025px]:text-[100rem]">
                         {service.number}
                       </span>
-                      <span className="mb-[8rem] font-['Inter'] text-[16rem] font-medium leading-none text-white/75 max-[1024px]:mb-[4rem]">
+                      <span className="mb-[8rem] font-['Inter'] text-[max(16px,16rem)] font-medium leading-none text-white/75 max-[1025px]:mb-[4rem]">
                         / {services.length}
                       </span>
                     </div>
 
-                    <h2 className="service-image-title max-w-[610rem] text-[60rem] font-bold uppercase leading-[54rem] max-[1024px]:max-w-[340rem] max-[1024px]:text-[40rem] max-[1024px]:leading-[38rem]">
+                    <h2 className="service-image-title max-w-[610rem] text-[60rem] font-bold uppercase leading-[54rem] max-[1025px]:max-w-[340rem] max-[1025px]:text-[40rem] max-[1025px]:leading-[38rem]">
                       {service.title}
                     </h2>
                   </div>
                 </div>
 
-                <div className="service-copy-panel relative flex flex-1 flex-col justify-between overflow-hidden bg-white px-[clamp(42rem,4.6vw,96rem)] pb-[38rem] pt-[clamp(102rem,7vw,128rem)] min-[1025px]:h-full min-[1025px]:w-[50vw] max-[1024px]:gap-[35rem] max-[1024px]:px-[20rem] max-[1024px]:pb-[80rem] max-[1024px]:pt-[40rem]">
+                <div className="service-copy-panel relative flex flex-1 flex-col justify-between overflow-hidden bg-white px-[clamp(42rem,4.6vw,96rem)] pb-[38rem] pt-[clamp(102rem,7vw,128rem)] min-[1025px]:h-full min-[1025px]:w-[50vw] max-[1025px]:gap-[35rem] max-[1025px]:px-[20rem] max-[1025px]:pb-[80rem] max-[1025px]:pt-[40rem]">
                   <span
-                    className="service-content-sweep pointer-events-none absolute inset-y-0 left-0 z-[3] w-[8rem] bg-[var(--mvp-accent)] max-[1024px]:inset-x-0 max-[1024px]:bottom-auto max-[1024px]:h-[5rem] max-[1024px]:w-full"
+                    className="service-content-sweep pointer-events-none absolute inset-y-0 left-0 z-[3] w-[8rem] bg-[var(--di-accent)] max-[1025px]:inset-x-0 max-[1025px]:bottom-auto max-[1025px]:h-[5rem] max-[1025px]:w-full"
                     aria-hidden="true"
                   />
                   <div className="service-copy-inner max-w-[720rem]">
-                    <h3 className="service-tagline text-[56rem] font-bold uppercase leading-[0.92] tracking-[-0.012em] max-[1024px]:text-[38rem] max-[1024px]:leading-[36rem]">
+                    <h3 className="service-tagline text-[56rem] font-bold uppercase leading-[0.92] tracking-[-0.012em] max-[1025px]:text-[38rem] max-[1025px]:leading-[36rem]">
                       {service.tagline}
                     </h3>
 
-                    <p className="service-description mt-[18rem] max-w-[700rem] font-['Inter'] text-[19rem] font-normal leading-[27rem] text-[var(--mvp-primary)]/88 max-[1024px]:text-[16rem] max-[1024px]:leading-[23rem]">
+                    <p className="service-description mt-[18rem] max-w-[700rem] font-['Inter'] text-[max(16px,19rem)] font-normal leading-[max(1.35em,27rem)] text-[var(--di-primary)]/88 max-[1025px]:text-[max(16px,16rem)] max-[1025px]:leading-[max(1.35em,23rem)]">
                       {service.description}
                     </p>
 
                     <div className="mt-[26rem]">
-                      <p className="service-keypoints-label mb-[10rem] text-[18rem] font-bold uppercase tracking-[0.04em]">
+                      <p className="service-keypoints-label mb-[10rem] text-[max(16px,18rem)] font-bold uppercase tracking-[0.04em]">
                         {copy.labels.keyPoints}
                       </p>
 
                       <KeyPointsAccordion points={service.points} />
                     </div>
 
-                    <p className="service-supporting mt-[20rem] max-w-[680rem] font-['Inter'] text-[16rem] font-normal leading-[23rem] text-[var(--mvp-primary)]/76 max-[1024px]:text-[15rem] max-[1024px]:leading-[21rem]">
+                    <p className="service-supporting mt-[20rem] max-w-[680rem] font-['Inter'] text-[max(16px,16rem)] font-normal leading-[max(1.35em,23rem)] text-[var(--di-primary)]/76 max-[1025px]:text-[max(16px,15rem)] max-[1025px]:leading-[max(1.35em,21rem)]">
                       {service.supportingCopy}
                     </p>
                   </div>
@@ -2462,7 +2452,7 @@ export default function ServicesPageClient(): React.JSX.Element {
           >
             <div
               ref={progressRef}
-              className="absolute left-0 top-0 h-full bg-[var(--mvp-accent)]"
+              className="absolute left-0 top-0 h-full bg-[var(--di-accent)]"
             />
           </div>
         </section>

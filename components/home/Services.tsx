@@ -41,6 +41,15 @@ function ServiceCard({
           index === 0 ? "translate(-50%, -50%)" : "translate(-50%, 100%)",
       }}
     >
+      <div className="service-card__media hidden max-[1025px]:block">
+        <Image
+          src={item.image}
+          alt={heading}
+          fill
+          sizes="(max-width: 640px) 90vw, 45vw"
+          className="object-cover object-center"
+        />
+      </div>
       <div className="services__item-inner flex items-center gap-[100rem]">
         <span
           className={`services__item-number text-[260rem] leading-none tracking-[-.02em] ${
@@ -60,7 +69,7 @@ function ServiceCard({
           </h3>
 
           <p
-            className={`services__item-text max-w-[250rem] font-['Inter'] text-[20rem] leading-none ${
+            className={`services__item-text max-w-[250rem] font-['Inter'] text-[max(16px,20rem)] leading-none ${
               accentCard ? "text-light" : "text-primary"
             }`}
           >
@@ -102,10 +111,10 @@ export function Services() {
   const servicesHref = localePath("/services");
 
   return (
-    <section className="services bg-white py-[180rem] max-[1024px]:pb-[80rem] max-[1024px]:pt-[40rem]">
-      <div className="mvp-container">
-        <div className="services__container flex h-[920rem] gap-[10rem] max-[1024px]:h-auto max-[1024px]:gap-0">
-          <div className="services__container-inner relative isolate flex w-[915rem] flex-col justify-between overflow-hidden rounded-[20rem] bg-primary px-[60rem] pb-[55rem] pt-[120rem] text-light max-[1024px]:w-full max-[1024px]:rounded-[10rem] max-[1024px]:px-[20rem] max-[1024px]:pb-[20rem] max-[1024px]:pt-[50rem]">
+    <section className="services bg-white py-[180rem] max-[1025px]:pb-[80rem] max-[1025px]:pt-[40rem]">
+      <div className="di-container">
+        <div className="services__container flex h-[920rem] gap-[10rem]">
+          <div className="services__container-inner relative isolate flex min-w-0 flex-1 flex-col justify-between overflow-hidden rounded-[20rem] bg-primary px-[60rem] pb-[55rem] pt-[120rem] text-light max-[1025px]:w-full max-[1025px]:rounded-[10rem] max-[1025px]:px-[20rem] max-[1025px]:pb-[20rem] max-[1025px]:pt-[50rem]">
             <div className="services__visuals absolute inset-0 z-0 overflow-hidden bg-primary">
               {services.map((service, index) => {
                 const translated = copy.items[index];
@@ -133,11 +142,14 @@ export function Services() {
 
             <div className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(180deg,rgba(25,37,91,0.58)_0%,rgba(25,37,91,0.70)_48%,rgba(25,37,91,0.62)_100%)]" />
 
-            <h2 className="services__title animated-text relative z-[3] max-w-[730rem] text-[200rem] leading-[.8] tracking-[-.03em] uppercase text-light max-[1024px]:mb-[60rem] max-[1024px]:max-w-full max-[1024px]:text-[80rem]">
+            <h2 className="services__title animated-text relative z-[3] max-w-[730rem] text-[200rem] leading-[.8] tracking-[-.03em] uppercase text-light max-[1025px]:mb-[60rem] max-[1025px]:max-w-full max-[1025px]:text-[80rem]">
               {copy.title}
             </h2>
 
-            <AnimatedButton href={servicesHref} className="services__btn relative z-[3]">
+            <AnimatedButton
+              href={servicesHref}
+              className="services__btn relative z-[3]"
+            >
               {copy.allServices}
             </AnimatedButton>
 
@@ -151,7 +163,7 @@ export function Services() {
             </div>
           </div>
 
-          <div className="services__items relative w-[915rem]">
+          <div className="services__items relative min-w-0 flex-1">
             {services.map((item, index) => {
               const translated = copy.items[index];
 

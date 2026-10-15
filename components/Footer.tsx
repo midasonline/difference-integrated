@@ -21,7 +21,7 @@ export function Footer() {
       className={`footer di-footer ${isArabic ? "di-footer--rtl" : ""}`}
       dir={isArabic ? "rtl" : "ltr"}
     >
-      <div className="mvp-container">
+      <div className="di-container">
         <div className="di-footer__inner">
           <div className="di-footer__top">
             <a
@@ -80,7 +80,7 @@ export function Footer() {
 
           <div className="di-footer__brand-wrap" dir="ltr">
             <div
-              className={`di-footer__brand text-center mx-auto w-fit  ${isArabic && "leading-relaxed!"}`}
+              className={`di-footer__brand text-nowrap text-center mx-auto w-fit  ${isArabic && "leading-relaxed!"}`}
             >
               {isArabic ? "الفرق المتكامل" : "Difference Integrated"}
             </div>

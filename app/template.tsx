@@ -21,7 +21,7 @@ export default function Template({
       {children}
 
       {!isHomePage && !isAboutPage ? (
-        <div className="bg-[var(--mvp-dark)]">
+        <div className="bg-[var(--di-dark)]">
           <Footer />
         </div>
       ) : null}

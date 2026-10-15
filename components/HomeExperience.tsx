@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import { Header } from "@/components/Header";
 import { Preloader } from "@/components/ui/Preloader";
 import { PageTransition } from "@/components/ui/PageTransition";
 import { HeroVideoScene } from "@/components/home/HeroVideoScene";
@@ -16,12 +15,10 @@ export function HomeExperience() {
   useMvpAnimations(rootRef);
 
   return (
-    <div ref={rootRef}>
+    <div ref={rootRef} className="home-page" data-intro-state="waiting">
       <Preloader />
 
       <PageTransition />
-
-      <Header />
 
       <div id="smooth-wrapper">
         <div id="smooth-content" className="overflow-hidden">

@@ -11,10 +11,7 @@ export const navItems = [
     label: "Services",
     href: "/services",
   },
-  {
-    label: "Blog",
-    href: "#",
-  },
+
   {
     label: "Contacts",
     href: "/contact",
@@ -249,6 +246,9 @@ export const footerColumns = [
       "Fleet & Machinery",
       "Aggregate & Construction Material Transportation",
       "General Freight & Logistics Solutions",
+      "Cattle Transportation / Livestock Service",
+      "Agriculture Transportation",
+      "Vehicle Transportation",
     ],
   },
   {
@@ -256,11 +256,7 @@ export const footerColumns = [
     href: "/about",
     items: ["Why Us?", "Our Main Goals", "Key Advantages"],
   },
-  {
-    heading: "Blog",
-    href: "/blog",
-    items: ["General materials"],
-  },
+
   {
     heading: "Contacts",
     href: "/contact",

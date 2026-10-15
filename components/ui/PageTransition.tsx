@@ -42,6 +42,8 @@ export function PageTransition({
       if (samePage && nextUrl.hash) return;
       if (nextUrl.href === window.location.href) return;
 
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
       event.preventDefault();
 
       if (transitioningRef.current) return;
@@ -75,14 +77,14 @@ export function PageTransition({
 
   return (
     <div
-      className="transition-plug pointer-events-none fixed inset-0 z-[60] bg-[var(--mvp-light)]"
+      className="transition-plug pointer-events-none fixed inset-0 z-[60] bg-[var(--di-light)]"
       style={{
         transform: initialCovered ? "translateY(0%)" : "translateY(-105%)",
       }}
       aria-hidden="true"
     >
       <div
-        className="transition-plug__inner absolute left-0 w-full bg-[var(--mvp-primary)]"
+        className="transition-plug__inner absolute left-0 w-full bg-[var(--di-primary)]"
         style={
           initialCovered
             ? { top: "auto", bottom: 0, height: "100%" }

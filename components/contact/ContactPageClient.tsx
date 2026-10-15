@@ -60,14 +60,14 @@ function ContactRow({
     <a
       href={href}
       data-contact-row
-      className="group grid grid-cols-[120rem_1fr_42rem] items-center gap-[18rem] border-t border-[var(--mvp-primary)]/15 py-[22rem] max-[1024px]:grid-cols-[90rem_1fr_42rem] max-[1024px]:gap-[12rem] max-[1024px]:py-[18rem]"
+      className="group grid grid-cols-[120rem_1fr_42rem] items-center gap-[18rem] border-t border-[var(--di-primary)]/15 py-[22rem] max-[1025px]:grid-cols-[90rem_1fr_42rem] max-[1025px]:gap-[12rem] max-[1025px]:py-[18rem]"
     >
-      <span className="font-['Inter'] text-[12rem] font-semibold uppercase tracking-[.03em] text-[var(--mvp-primary)] max-[1024px]:text-[10rem]">
+      <span className="font-['Inter'] text-[max(12px,12rem)] font-semibold uppercase tracking-[.03em] text-[var(--di-primary)] max-[1025px]:text-[max(12px,10rem)]">
         {label}:
       </span>
 
       <span
-        className={`contact-page__contact-value min-w-0 break-words text-[30rem] font-bold leading-none tracking-[-.025em] text-[var(--mvp-primary)] transition-transform duration-500 max-[1400px]:text-[27rem] max-[1200px]:text-[24rem] max-[1024px]:text-[22rem] max-[600px]:text-[19rem] ${
+        className={`contact-page__contact-value min-w-0 break-words text-[30rem] font-bold leading-none tracking-[-.025em] text-[var(--di-primary)] transition-transform duration-500 max-[1400px]:text-[27rem] max-[1200px]:text-[max(16px,24rem)] max-[1025px]:text-[max(16px,22rem)] max-[600px]:text-[max(16px,19rem)] ${
           isRtl
             ? "group-hover:-translate-x-[6rem]"
             : "group-hover:translate-x-[6rem]"
@@ -76,7 +76,7 @@ function ContactRow({
         {value}
       </span>
 
-      <span className="flex h-[40rem] w-[40rem] shrink-0 items-center justify-center rounded-[4rem] bg-[var(--mvp-primary)] text-white transition-all duration-500 group-hover:bg-[var(--mvp-accent)]">
+      <span className="flex h-[40rem] w-[40rem] shrink-0 items-center justify-center rounded-[4rem] bg-[var(--di-primary)] text-white transition-all duration-500 group-hover:bg-[var(--di-accent)]">
         <ArrowIcon isRtl={isRtl} />
       </span>
     </a>
@@ -101,7 +101,7 @@ function PersonCard({
 
   return (
     <article data-person-card className="min-w-0">
-      <div className="relative h-[600rem] overflow-hidden rounded-[12rem] bg-[#f2f2f5] max-[1500px]:h-[560rem] max-[1200px]:h-[500rem] max-[1024px]:h-[540rem] max-[700px]:h-[430rem]">
+      <div className="relative h-[600rem] overflow-hidden rounded-[12rem] bg-[#f2f2f5] max-[1500px]:h-[560rem] max-[1200px]:h-[500rem] max-[1025px]:h-[540rem] max-[700px]:h-[430rem]">
         <div
           className={`absolute top-[18rem] z-[3] min-w-[170rem] rounded-[4rem] bg-white px-[20rem] py-[16rem] shadow-[0_10px_30px_rgba(22,37,91,.04)] max-[700px]:top-[14rem] max-[700px]:min-w-[150rem] max-[700px]:px-[16rem] max-[700px]:py-[13rem] ${
             isRtl
@@ -109,13 +109,13 @@ function PersonCard({
               : "left-[20rem] max-[700px]:left-[14rem]"
           }`}
         >
-          <span className="contact-person-role mb-[5rem] block font-['Inter'] text-[10rem] font-semibold uppercase leading-none tracking-[.03em] text-[var(--mvp-primary)]">
+          <span className="contact-person-role mb-[5rem] block font-['Inter'] text-[max(12px,10rem)] font-semibold uppercase leading-none tracking-[.03em] text-[var(--di-primary)]">
             {person.role}
           </span>
 
           <span
             dir="ltr"
-            className={`contact-person-name block max-w-[180rem] text-[17rem] font-bold uppercase leading-[1.05] text-[var(--mvp-primary)] max-[700px]:text-[15rem] ${
+            className={`contact-person-name block max-w-[180rem] text-[max(16px,17rem)] font-bold uppercase leading-[1.05] text-[var(--di-primary)] max-[700px]:text-[max(16px,15rem)] ${
               isRtl ? "text-right" : "text-left"
             }`}
           >
@@ -140,9 +140,9 @@ function PersonCard({
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(22,37,91,0)_58%,rgba(22,37,91,.08)_100%)]" />
       </div>
 
-      <div className="grid min-h-[88rem] grid-cols-2 items-end gap-[26rem] border-b border-[var(--mvp-primary)]/15 py-[22rem] max-[1320px]:grid-cols-1 max-[1320px]:gap-[15rem] max-[1024px]:py-[18rem]">
+      <div className="grid min-h-[88rem] grid-cols-2 items-end gap-[26rem] border-b border-[var(--di-primary)]/15 py-[22rem] max-[1320px]:grid-cols-1 max-[1320px]:gap-[15rem] max-[1025px]:py-[18rem]">
         <div>
-          <span className="mb-[4rem] block font-['Inter'] text-[10rem] font-semibold uppercase tracking-[.03em] text-[var(--mvp-primary)]">
+          <span className="mb-[4rem] block font-['Inter'] text-[max(12px,10rem)] font-semibold uppercase tracking-[.03em] text-[var(--di-primary)]">
             {labels.email}:
           </span>
 
@@ -150,14 +150,14 @@ function PersonCard({
             <a
               href={`mailto:${person.email}`}
               dir="ltr"
-              className={`block break-words text-[15rem] font-bold uppercase leading-[1.15] text-[var(--mvp-primary)] transition-colors duration-300 hover:text-[var(--mvp-accent)] max-[700px]:text-[13rem] ${
+              className={`block break-words text-[max(16px,15rem)] font-bold uppercase leading-[1.15] text-[var(--di-primary)] transition-colors duration-300 hover:text-[var(--di-accent)] max-[700px]:text-[max(13px,13rem)] ${
                 isRtl ? "text-right" : "text-left"
               }`}
             >
               {person.email}
             </a>
           ) : (
-            <span className="block break-words text-[15rem] font-bold uppercase leading-[1.15] text-[var(--mvp-primary)] max-[700px]:text-[13rem]">
+            <span className="block break-words text-[max(16px,15rem)] font-bold uppercase leading-[1.15] text-[var(--di-primary)] max-[700px]:text-[max(13px,13rem)]">
               {person.email}
             </span>
           )}
@@ -170,7 +170,7 @@ function PersonCard({
               : "text-right max-[1320px]:text-left"
           }`}
         >
-          <span className="mb-[4rem] block font-['Inter'] text-[10rem] font-semibold uppercase tracking-[.03em] text-[var(--mvp-primary)]">
+          <span className="mb-[4rem] block font-['Inter'] text-[max(12px,10rem)] font-semibold uppercase tracking-[.03em] text-[var(--di-primary)]">
             {labels.phoneNumber}:
           </span>
 
@@ -178,12 +178,12 @@ function PersonCard({
             <a
               href={`tel:${person.phone.replace(/\s/g, "")}`}
               dir="ltr"
-              className="text-[15rem] font-bold uppercase leading-[1.15] text-[var(--mvp-primary)] transition-colors duration-300 hover:text-[var(--mvp-accent)] max-[700px]:text-[13rem]"
+              className="text-[max(16px,15rem)] font-bold uppercase leading-[1.15] text-[var(--di-primary)] transition-colors duration-300 hover:text-[var(--di-accent)] max-[700px]:text-[max(13px,13rem)]"
             >
               {person.phone}
             </a>
           ) : (
-            <span className="text-[15rem] font-bold uppercase leading-[1.15] text-[var(--mvp-primary)] max-[700px]:text-[13rem]">
+            <span className="text-[max(16px,15rem)] font-bold uppercase leading-[1.15] text-[var(--di-primary)] max-[700px]:text-[max(13px,13rem)]">
               {person.phone}
             </span>
           )}
@@ -311,24 +311,24 @@ export default function ContactPageClient() {
 
       <main
         ref={rootRef}
-        className="contact-page overflow-x-clip bg-white text-[var(--mvp-primary)]"
+        className="contact-page overflow-x-clip bg-white text-[var(--di-primary)]"
       >
-        <section className="bg-white pb-[110rem] pt-[190rem] max-[1280px]:pt-[180rem] max-[1024px]:pb-[75rem] max-[1024px]:pt-[150rem] max-[700px]:pt-[135rem]">
-          <div className="mvp-container">
-            <div className="grid grid-cols-[.9fr_1fr_1fr] gap-[14rem] max-[1024px]:grid-cols-2 max-[1024px]:gap-[20rem] max-[700px]:grid-cols-1">
+        <section className="bg-white pb-[110rem] pt-[190rem] max-[1280px]:pt-[180rem] max-[1025px]:pb-[75rem] max-[1025px]:pt-[150rem] max-[700px]:pt-[135rem]">
+          <div className="di-container">
+            <div className="grid grid-cols-[.9fr_1fr_1fr] gap-[14rem] max-[1025px]:grid-cols-2 max-[1025px]:gap-[20rem] max-[700px]:grid-cols-1">
               <div
-                className={`flex min-h-[690rem] flex-col justify-between max-[1024px]:col-span-2 max-[1024px]:min-h-0 max-[1024px]:px-0 max-[700px]:col-span-1 ${
+                className={`flex min-h-[690rem] flex-col justify-between max-[1025px]:col-span-2 max-[1025px]:min-h-0 max-[1025px]:px-0 max-[700px]:col-span-1 ${
                   isRtl
                     ? "pl-[105rem] max-[1500px]:pl-[65rem] max-[1280px]:pl-[30rem]"
                     : "pr-[105rem] max-[1500px]:pr-[65rem] max-[1280px]:pr-[30rem]"
                 }`}
               >
-                <div className="max-w-[560rem] max-[1024px]:mb-[70rem] max-[700px]:mb-[50rem]">
+                <div className="max-w-[560rem] max-[1025px]:mb-[70rem] max-[700px]:mb-[50rem]">
                   {copy.hero.title.map((line) => (
                     <div key={line} className="overflow-hidden pb-[10rem]">
                       <span
                         data-title-line
-                        className="contact-page__title block text-[clamp(90rem,7.2vw,145rem)] font-bold uppercase leading-[.82] tracking-[-.05em] text-[var(--mvp-primary)] max-[700px]:text-[70rem]"
+                        className="contact-page__title block text-[clamp(90rem,7.2vw,145rem)] font-bold uppercase leading-[.82] tracking-[-.05em] text-[var(--di-primary)] max-[700px]:text-[70rem]"
                       >
                         {line}
                       </span>
@@ -351,7 +351,7 @@ export default function ContactPageClient() {
                     isRtl={isRtl}
                   />
 
-                  <div className="h-px w-full bg-[var(--mvp-primary)]/15" />
+                  <div className="h-px w-full bg-[var(--di-primary)]/15" />
                 </div>
               </div>
 

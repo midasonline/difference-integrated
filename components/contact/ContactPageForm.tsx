@@ -45,14 +45,14 @@ function Field({
   const raised = focused || value.length > 0;
 
   return (
-    <label className="group relative block border-b border-[var(--mvp-primary)]/20 pt-[25rem] transition-colors duration-300 focus-within:border-[var(--mvp-accent)]">
+    <label className="group relative block border-b border-[var(--di-primary)]/20 pt-[25rem] transition-colors duration-300 focus-within:border-[var(--di-accent)]">
       <span
         className={`pointer-events-none absolute font-['Inter'] font-medium uppercase tracking-[.08em] transition-all duration-300 ${
           isRtl ? "right-0" : "left-0"
         } ${
           raised
-            ? "top-[5rem] text-[10rem] text-[var(--mvp-accent)]"
-            : "top-[28rem] text-[15rem] text-[var(--mvp-primary)]/55"
+            ? "top-[5rem] text-[max(12px,10rem)] text-[var(--di-accent)]"
+            : "top-[28rem] text-[max(16px,15rem)] text-[var(--di-primary)]/55"
         }`}
       >
         {label}
@@ -61,7 +61,7 @@ function Field({
           <span
             className={`${
               isRtl ? "mr-[4rem]" : "ml-[4rem]"
-            } text-[var(--mvp-accent)]`}
+            } text-[var(--di-accent)]`}
           >
             *
           </span>
@@ -77,7 +77,7 @@ function Field({
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         onChange={(event) => setValue(event.target.value)}
-        className={`h-[72rem] w-full bg-transparent pt-[16rem] font-['Inter'] text-[18rem] text-[var(--mvp-primary)] outline-none max-[700px]:h-[64rem] max-[700px]:text-[16rem] ${
+        className={`h-[72rem] w-full bg-transparent pt-[16rem] font-['Inter'] text-[max(16px,18rem)] text-[var(--di-primary)] outline-none max-[700px]:h-[64rem] max-[700px]:text-[max(16px,16rem)] ${
           isRtl ? "text-right" : "text-left"
         }`}
       />
@@ -100,21 +100,21 @@ function SelectField({
   const raised = focused || value.length > 0;
 
   return (
-    <label className="group relative block border-b border-[var(--mvp-primary)]/20 pt-[25rem] transition-colors duration-300 focus-within:border-[var(--mvp-accent)]">
+    <label className="group relative block border-b border-[var(--di-primary)]/20 pt-[25rem] transition-colors duration-300 focus-within:border-[var(--di-accent)]">
       <span
         className={`pointer-events-none absolute font-['Inter'] font-medium uppercase tracking-[.08em] transition-all duration-300 ${
           isRtl ? "right-0" : "left-0"
         } ${
           raised
-            ? "top-[5rem] text-[10rem] text-[var(--mvp-accent)]"
-            : "top-[28rem] text-[15rem] text-[var(--mvp-primary)]/55"
+            ? "top-[5rem] text-[max(12px,10rem)] text-[var(--di-accent)]"
+            : "top-[28rem] text-[max(16px,15rem)] text-[var(--di-primary)]/55"
         }`}
       >
         {label}
         <span
           className={`${
             isRtl ? "mr-[4rem]" : "ml-[4rem]"
-          } text-[var(--mvp-accent)]`}
+          } text-[var(--di-accent)]`}
         >
           *
         </span>
@@ -127,7 +127,7 @@ function SelectField({
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         onChange={(event) => setValue(event.target.value)}
-        className={`h-[72rem] w-full appearance-none bg-transparent pt-[16rem] font-['Inter'] text-[18rem] text-[var(--mvp-primary)] outline-none max-[700px]:h-[64rem] max-[700px]:text-[16rem] ${
+        className={`h-[72rem] w-full appearance-none bg-transparent pt-[16rem] font-['Inter'] text-[max(16px,18rem)] text-[var(--di-primary)] outline-none max-[700px]:h-[64rem] max-[700px]:text-[max(16px,16rem)] ${
           isRtl ? "text-right" : "text-left"
         }`}
       >
@@ -143,7 +143,7 @@ function SelectField({
       <svg
         viewBox="0 0 12 8"
         fill="none"
-        className={`pointer-events-none absolute bottom-[28rem] h-[8rem] w-[12rem] text-[var(--mvp-primary)] ${
+        className={`pointer-events-none absolute bottom-[28rem] h-[8rem] w-[12rem] text-[var(--di-primary)] ${
           isRtl ? "left-0" : "right-0"
         }`}
         aria-hidden="true"
@@ -276,14 +276,14 @@ export default function ContactPageForm() {
     <section
       ref={sectionRef}
       id="contact-form"
-      className="bg-[var(--mvp-primary)] py-[120rem] text-white max-[1024px]:py-[75rem]"
+      className="bg-[var(--di-primary)] py-[120rem] text-white max-[1025px]:py-[75rem]"
     >
-      <div className="mvp-container">
-        <div className="grid grid-cols-[.8fr_1.2fr] gap-[100rem] max-[1024px]:grid-cols-1 max-[1024px]:gap-[55rem]">
+      <div className="di-container">
+        <div className="grid grid-cols-[.8fr_1.2fr] gap-[100rem] max-[1025px]:grid-cols-1 max-[1025px]:gap-[55rem]">
           <div>
             <span
               data-form-label
-              className="mb-[35rem] block font-['Inter'] text-[13rem] font-medium uppercase tracking-[.15em] text-[var(--mvp-accent)]"
+              className="mb-[35rem] block font-['Inter'] text-[max(13px,13rem)] font-medium uppercase tracking-[.15em] text-[var(--di-accent)]"
             >
               {/* {copy.label} */}
             </span>
@@ -300,7 +300,7 @@ export default function ContactPageForm() {
 
             <div
               data-form-copy
-              className="max-w-[520rem] font-['Inter'] text-[18rem] font-normal leading-[1.5] text-white/70 max-[700px]:text-[16rem]"
+              className="max-w-[520rem] font-['Inter'] text-[max(16px,18rem)] font-normal leading-[1.5] text-white/70 max-[700px]:text-[max(16px,16rem)]"
             >
               {copy.paragraphs.map((paragraph, index) => (
                 <p key={paragraph} className={index > 0 ? "mt-[18rem]" : ""}>
@@ -309,8 +309,8 @@ export default function ContactPageForm() {
               ))}
             </div>
 
-            <div className="mt-[65rem] border-t border-white/15 pt-[22rem] max-[1024px]:mt-[40rem]">
-              <p className="font-['Inter'] text-[12rem] font-medium uppercase tracking-[.12em] text-white/45">
+            <div className="mt-[65rem] border-t border-white/15 pt-[22rem] max-[1025px]:mt-[40rem]">
+              <p className="font-['Inter'] text-[max(12px,12rem)] font-medium uppercase tracking-[.12em] text-white/45">
                 {copy.location}
               </p>
             </div>
@@ -318,14 +318,14 @@ export default function ContactPageForm() {
 
           <div
             data-form-panel
-            className="rounded-[12rem] bg-white px-[55rem] py-[55rem] text-[var(--mvp-primary)] max-[700px]:rounded-[8rem] max-[700px]:px-[22rem] max-[700px]:py-[30rem]"
+            className="rounded-[12rem] bg-white px-[55rem] py-[55rem] text-[var(--di-primary)] max-[700px]:rounded-[8rem] max-[700px]:px-[22rem] max-[700px]:py-[30rem]"
           >
-            <div className="mb-[45rem] flex items-center justify-between gap-[20rem] border-b border-[var(--mvp-primary)]/15 pb-[18rem] max-[700px]:mb-[30rem]">
-              <span className="font-['Inter'] text-[12rem] font-semibold uppercase tracking-[.12em]">
+            <div className="mb-[45rem] flex items-center justify-between gap-[20rem] border-b border-[var(--di-primary)]/15 pb-[18rem] max-[700px]:mb-[30rem]">
+              <span className="font-['Inter'] text-[max(12px,12rem)] font-semibold uppercase tracking-[.12em]">
                 {copy.panelTitle}
               </span>
 
-              <span className="font-['Inter'] text-[11rem] font-medium uppercase tracking-[.1em] text-[var(--mvp-primary)]/40">
+              <span className="font-['Inter'] text-[max(12px,11rem)] font-medium uppercase tracking-[.1em] text-[var(--di-primary)]/40">
                 {copy.required}
               </span>
             </div>
@@ -391,12 +391,12 @@ export default function ContactPageForm() {
               </div>
 
               <label className="mt-[35rem] block">
-                <span className="mb-[14rem] block font-['Inter'] text-[12rem] font-semibold uppercase tracking-[.1em]">
+                <span className="mb-[14rem] block font-['Inter'] text-[max(12px,12rem)] font-semibold uppercase tracking-[.1em]">
                   {copy.requirementLabel}
                   <span
                     className={`${
                       isRtl ? "mr-[4rem]" : "ml-[4rem]"
-                    } text-[var(--mvp-accent)]`}
+                    } text-[var(--di-accent)]`}
                   >
                     *
                   </span>
@@ -407,20 +407,20 @@ export default function ContactPageForm() {
                   required
                   rows={5}
                   placeholder={copy.requirementPlaceholder}
-                  className={`min-h-[150rem] w-full resize-none rounded-[5rem] border border-[var(--mvp-primary)]/15 bg-[#f5f5f7] px-[20rem] py-[18rem] font-['Inter'] text-[16rem] leading-[1.5] text-[var(--mvp-primary)] outline-none transition-colors duration-300 placeholder:text-[var(--mvp-primary)]/35 focus:border-[var(--mvp-accent)] ${
+                  className={`min-h-[150rem] w-full resize-none rounded-[5rem] border border-[var(--di-primary)]/15 bg-[#f5f5f7] px-[20rem] py-[18rem] font-['Inter'] text-[max(16px,16rem)] leading-[1.5] text-[var(--di-primary)] outline-none transition-colors duration-300 placeholder:text-[var(--di-primary)]/35 focus:border-[var(--di-accent)] ${
                     isRtl ? "text-right" : "text-left"
                   }`}
                 />
               </label>
 
               <div className="mt-[35rem] flex items-center justify-between gap-[30rem] max-[700px]:flex-col max-[700px]:items-stretch">
-                <p className="max-w-[440rem] font-['Inter'] text-[12rem] leading-[1.5] text-[var(--mvp-primary)]/45">
+                <p className="max-w-[440rem] font-['Inter'] text-[max(12px,12rem)] leading-[1.5] text-[var(--di-primary)]/45">
                   {copy.consent}
                 </p>
 
                 <button
                   type="submit"
-                  className="group flex h-[64rem] min-w-[220rem] items-center justify-between gap-[30rem] rounded-[5rem] bg-[var(--mvp-accent)] px-[24rem] text-[14rem] font-bold uppercase tracking-[.06em] text-white transition-colors duration-500 hover:bg-[var(--mvp-primary)] max-[700px]:w-full"
+                  className="group flex h-[64rem] min-w-[220rem] items-center justify-between gap-[30rem] rounded-[5rem] bg-[var(--di-accent)] px-[24rem] text-[max(14px,14rem)] font-bold uppercase tracking-[.06em] text-white transition-colors duration-500 hover:bg-[var(--di-primary)] max-[700px]:w-full"
                 >
                   <span>{copy.submit}</span>
 
@@ -445,7 +445,7 @@ export default function ContactPageForm() {
                 }`}
               >
                 <div className="overflow-hidden">
-                  <div className="rounded-[5rem] bg-[var(--mvp-primary)] px-[18rem] py-[14rem] font-['Inter'] text-[13rem] text-white">
+                  <div className="rounded-[5rem] bg-[var(--di-primary)] px-[18rem] py-[14rem] font-['Inter'] text-[max(13px,13rem)] text-white">
                     {copy.success}
                   </div>
                 </div>

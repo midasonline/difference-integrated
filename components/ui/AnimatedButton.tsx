@@ -19,12 +19,12 @@ export function AnimatedButton({
   onClick,
   type = "button",
 }: AnimatedButtonProps) {
-  const classes = `mvp-btn text-hover ${accent ? "mvp-btn-accent" : ""} ${className}`;
+  const classes = `di-btn text-hover ${accent ? "di-btn-accent" : ""} ${className}`;
 
   if (href) {
     return (
       <a href={href} className={classes}>
-        <span className="mvp-btn-inner">
+        <span className="di-btn-inner">
           <HoverText>{children}</HoverText>
         </span>
       </a>
@@ -33,7 +33,7 @@ export function AnimatedButton({
 
   return (
     <button type={type} className={classes} onClick={onClick}>
-      <span className="mvp-btn-inner">
+      <span className="di-btn-inner">
         <HoverText>{children}</HoverText>
       </span>
     </button>

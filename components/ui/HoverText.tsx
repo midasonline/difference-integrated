@@ -15,7 +15,7 @@ export function HoverText({ children, secondClassName = "" }: HoverTextProps) {
   useLayoutEffect(() => {
     const root = rootRef.current;
 
-    if (!root) return;
+    if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     gsap.registerPlugin(SplitText);
 
@@ -76,11 +76,11 @@ export function HoverText({ children, secondClassName = "" }: HoverTextProps) {
     const hoverTarget = root.closest<HTMLElement>(".text-hover") ?? root;
 
     const handleEnter = () => {
-      timeline.play();
+      if (window.matchMedia("(hover: hover)").matches) timeline.play();
     };
 
     const handleLeave = () => {
-      timeline.reverse();
+      if (window.matchMedia("(hover: hover)").matches) timeline.reverse();
     };
 
     hoverTarget.addEventListener("mouseenter", handleEnter);

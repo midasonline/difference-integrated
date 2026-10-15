@@ -1,29 +1,38 @@
+"use client";
+
+import { useLayoutEffect, useRef } from "react";
+import { BackgroundVideo } from "@/components/ui/BackgroundVideo";
 import { Hero } from "@/components/home/Hero";
 import { About } from "@/components/home/About";
 import { videoSources } from "@/data/site";
 
 export function HeroVideoScene() {
+  const sceneRef = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    const scene = sceneRef.current;
+    const hero = scene?.querySelector<HTMLElement>(".hero");
+    if (!scene || !hero) return;
+    const observer = new ResizeObserver(() => {
+      scene.style.setProperty("--hero-height", `${hero.offsetHeight}px`);
+    });
+    observer.observe(hero);
+    return () => observer.disconnect();
+  }, []);
   return (
-    <div className="hero__video-container relative">
+    <div ref={sceneRef} className="hero__video-container relative">
       <div className="hero__video-wrapper pointer-events-none absolute inset-x-0 top-0 z-0 h-screen w-full overflow-hidden">
         <div
-          className="hero__video-cover hero-mobile-poster absolute left-1/2 top-full h-full w-full overflow-hidden"
+          className="hero__video-cover absolute left-1/2 top-full h-full w-full overflow-hidden"
           style={{
             transform: "translateX(-50%) scale(.35) rotate(30deg)",
           }}
         >
-          <video
-            className="absolute inset-0 h-full w-full object-cover object-center max-[1024px]:hidden"
-            loop
-            autoPlay
-            preload="auto"
-            muted
-            playsInline
+          <BackgroundVideo
             src={videoSources.hero}
             poster="/assets/img/home/videos/hero-poster.png"
           />
 
-          <div className="absolute inset-0 z-[1] bg-black/35 max-[1024px]:hidden" />
+          <div className="absolute inset-0 z-[1] bg-black/35" />
         </div>
       </div>
 
