@@ -29,7 +29,7 @@ export function HeroVideoScene() {
         >
           <BackgroundVideo
             src={videoSources.hero}
-            poster="/assets/img/home/videos/hero-poster.png"
+            poster="/assets/img/home/videos/hero-poster.webp"
           />
 
           <div className="absolute inset-0 z-[1] bg-black/35" />
