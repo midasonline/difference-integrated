@@ -2341,6 +2341,7 @@ export default function ServicesPageClient(): React.JSX.Element {
               data-services-panel
               className="relative flex h-[100svh] min-h-[650rem] w-full shrink-0 items-end overflow-hidden pb-[35rem] max-[1025px]:pb-[25rem] min-[1025px]:w-screen"
             >
+              {/* Desktop / Tablet Hero Image */}
               <Image
                 src="/assets/img/services-page/hero-bg.webp"
                 alt={copy.hero.imageAlt}
@@ -2348,8 +2349,29 @@ export default function ServicesPageClient(): React.JSX.Element {
                 priority
                 quality={82}
                 sizes="100vw"
-                className="object-cover object-center"
+                className="hidden object-cover object-center min-[769px]:block"
               />
+
+              {/* Mobile Hero Image */}
+              <Image
+                src="/assets/img/services-page/hero-mobile.png"
+                alt={copy.hero.imageAlt}
+                fill
+                priority
+                quality={82}
+                sizes="100vw"
+                className="block object-cover object-center min-[769px]:hidden"
+              />
+
+              {/* <Image
+                src="/assets/img/services-page/hero-bg.webp"
+                alt={copy.hero.imageAlt}
+                fill
+                priority
+                quality={82}
+                sizes="100vw"
+                className="object-cover object-center"
+              /> */}
               <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,18,55,.18)_0%,rgba(10,18,55,.38)_48%,rgba(10,18,55,.82)_100%)]" />
 
               <div className="di-container relative z-[2] flex w-full items-end justify-between gap-[70rem] max-[1025px]:flex-col max-[1025px]:items-start max-[1025px]:gap-[30rem]">

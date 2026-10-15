@@ -772,13 +772,13 @@ const en = {
           items: ["Why Us?", "Our Main Goals", "Key Advantages"],
         },
         {
-          heading: "Blog",
-          items: ["General materials"],
+          heading: "Contact",
+          items: ["General materials", "Contact Us"],
         },
-        {
-          heading: "Contacts",
-          items: ["Our Contacts", "Contact Us"],
-        },
+        // {
+        //   heading: "Contacts",
+        //   items: ["Our Contacts", "Contact Us"],
+        // },
       ],
       rights: "Difference Integrated Logistics 2026 all rights reserved.",
       privacy: "Privacy Policy",
