@@ -182,7 +182,8 @@ const en = {
         "Tell us what needs to move, where the movement begins and ends, and what conditions need to be considered.",
         "Our team can then review the requirement and structure the transport approach around the actual operation.",
       ],
-      location: "Difference Integrated · Saudi Arabia",
+      location:
+        "6995 King Fahd Branch Road, Utaiqah Dist., Riyadh 12653 - Unit 34 B, Saudi Arabia",
       panelTitle: "Send Your Requirement",
       required: "* Required",
       fields: {
