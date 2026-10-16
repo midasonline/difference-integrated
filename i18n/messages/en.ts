@@ -183,7 +183,7 @@ const en = {
         "Our team can then review the requirement and structure the transport approach around the actual operation.",
       ],
       location:
-        "6995 King Fahd Branch Road, Utaiqah Dist., Riyadh 12653 - Unit 34 B, Saudi Arabia",
+        "6995 King Fahd Branch Road, Utaiqah Dist, Riyadh 12653 - Unit 34 B, Saudi Arabia",
       panelTitle: "Send Your Requirement",
       required: "* Required",
       fields: {
