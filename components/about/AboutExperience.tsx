@@ -20,9 +20,9 @@ import { PageTransition } from "@/components/ui/PageTransition";
 const SERVICES_SNAP_DELAY = 0.5;
 
 const goalMedia = [
-  "/assets/img/about/goals/prepare.webp",
-  "/assets/img/about/goals/control.webp",
-  "/assets/img/about/goals/deliver.webp",
+  "/assets/img/about/PREPARE.webp",
+  "/assets/img/about/CONTROL.webp",
+  "/assets/img/about/DELIVER.webp",
 ];
 
 const factMedia = [
@@ -40,7 +40,7 @@ function AboutHero() {
       id="hero"
       className="hero-about relative flex h-screen min-h-[760px] flex-col justify-end overflow-hidden bg-cover bg-center text-white max-[1025px]:min-h-[680px]"
       style={{
-        backgroundImage: "url('/assets/img/about/about-hero.webp')",
+        backgroundImage: "url('/assets/img/about/About.webp')",
       }}
     >
       <div className="pointer-events-none absolute inset-0 z-0 bg-[#19255b]/70" />
