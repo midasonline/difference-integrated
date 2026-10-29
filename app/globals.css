@@ -80,6 +80,8 @@
   --di-dark: #141414;
 }
 
+/* colorchanges                */
+
 @theme inline {
   --color-primary: #19255b;
 
