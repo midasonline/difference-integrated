@@ -8,7 +8,7 @@ import { SplitText } from "gsap/SplitText";
 import { heroServices } from "@/data/site";
 import { useI18n } from "@/components/i18n/I18nProvider";
 
-const AUTOPLAY_DELAY = 5000;
+const AUTOPLAY_DELAY = 3000;
 const SLIDE_SPEED = 0.8;
 
 const SERVICE_ICONS: Record<string, string> = {
@@ -18,24 +18,34 @@ const SERVICE_ICONS: Record<string, string> = {
   "Sand Transportation":
     "/assets/img/home/service-icons/Sand-Transportation.svg",
 
+  "Fuel & Tanker Transportation": "/assets/img/home/service-icons/Fuel.svg",
+
+  "Fleet & Machinery": "/assets/img/home/service-icons/Fleet-Equipment.svg",
+
   "Heavy Dumper Logistics":
     "/assets/img/home/service-icons/Heavy-Dumper-Logistics.svg",
 
   "Logistics Coordination":
     "/assets/img/home/service-icons/customer-support.svg",
 
-  "Container Transportation":
-    "/assets/img/home/service-icons/Container-Transportation.svg",
+  "Goods Transportation": "/assets/img/home/service-icons/Goods.svg",
 
   "Bulk Construction Material Transport":
     "/assets/img/home/service-icons/Bulk-Construction-Material-Transport.svg",
 
-  "Fleet & Equipment": "/assets/img/home/service-icons/Fleet-Equipment.svg",
-
-  "Fleet & Machinery": "/assets/img/home/service-icons/Fleet-Equipment.svg",
-
   "Aggregate & Construction Material Transportation":
     "/assets/img/home/service-icons/Aggregate-Construction-Material-Transportation.svg",
+
+  "General Freight & Logistics Solutions":
+    "/assets/img/home/service-icons/general.svg",
+
+  "Cattle Transportation / Livestock Service":
+    "/assets/img/home/service-icons/livestock.svg",
+
+  "Agriculture Transportation":
+    "/assets/img/home/service-icons/agriculture.svg",
+
+  "Vehicle Transportation": "/assets/img/home/service-icons/vehicle.svg",
 };
 
 type IconMaskStyle = CSSProperties & {

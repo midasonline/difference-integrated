@@ -39,10 +39,30 @@ function AboutHero() {
     <section
       id="hero"
       className="hero-about relative flex h-screen min-h-[760px] flex-col justify-end overflow-hidden bg-cover bg-center text-white max-[1025px]:min-h-[680px]"
-      style={{
-        backgroundImage: "url('/assets/img/about/About.webp')",
-      }}
     >
+      <div className="md:block hidden absolute w-full h-full">
+        <Image
+          src="/assets/img/about/About.webp"
+          alt="Hero"
+          fill
+          priority
+          quality={82}
+          sizes="100vw"
+          className="object-cover w-full h-full md:hidden block"
+        />
+      </div>
+      {/* mobile  */}
+      <div className="md:hidden block absolute w-full h-full">
+        <Image
+          src="/assets/img/about/about-mbl.webp"
+          alt="Hero"
+          fill
+          priority
+          quality={82}
+          sizes="100vw"
+          className="object-cover w-full h-full md:hidden block"
+        />
+      </div>
       <div className="pointer-events-none absolute inset-0 z-0 bg-[#19255b]/70" />
 
       <div className="hero-about__container di-container relative z-[2] pb-[110rem] max-[1025px]:pb-[40rem]">

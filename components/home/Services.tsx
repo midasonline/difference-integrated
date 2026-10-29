@@ -140,7 +140,7 @@ export function Services() {
               })}
             </div>
 
-            <div className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(180deg,rgba(25,37,91,0.58)_0%,rgba(25,37,91,0.70)_48%,rgba(25,37,91,0.62)_100%)]" />
+            <div className="pointer-events-none absolute inset-0 z-[1] bg-black/50" />
 
             <h2 className="services__title animated-text relative z-[3] max-w-[730rem] text-[200rem] leading-[.8] tracking-[-.03em] uppercase text-light max-[1025px]:mb-[60rem] max-[1025px]:max-w-full max-[1025px]:text-[80rem]">
               {copy.title}

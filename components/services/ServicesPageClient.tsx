@@ -2339,42 +2339,36 @@ export default function ServicesPageClient(): React.JSX.Element {
             <section
               dir={isRtl ? "rtl" : "ltr"}
               data-services-panel
-              className="relative flex h-[100svh] min-h-[650rem] w-full shrink-0 items-end overflow-hidden pb-[35rem] max-[1025px]:pb-[25rem] min-[1025px]:w-screen"
+              className="relative flex h-[100svh] min-h-[650rem] w-full shrink-0 items-end overflow-hidden pb-[35rem] lg:pb-0 min-[1025px]:w-screen"
             >
-              {/* Desktop / Tablet Hero Image */}
-              <Image
-                src="/assets/img/services-page/hero-bg.webp"
-                alt={copy.hero.imageAlt}
-                fill
-                priority
-                quality={82}
-                sizes="100vw"
-                className="hidden object-cover object-center min-[769px]:block"
-              />
+              <div className="absolute w-full h-full md:block hidden">
+                {/* Mobile Hero Image */}
+                <Image
+                  src="/assets/img/services-page/service-page-hero-desktop.webp"
+                  alt={copy.hero.imageAlt}
+                  fill
+                  priority
+                  quality={82}
+                  sizes="100vw"
+                  className="object-cover w-full h-full"
+                />
+              </div>
+              <div className="absolute w-full h-full md:hidden block">
+                {/* Mobile Hero Image */}
+                <Image
+                  src="/assets/img/services-page/hero-mobile.png"
+                  alt={copy.hero.imageAlt}
+                  fill
+                  priority
+                  quality={82}
+                  sizes="100vw"
+                  className="object-cover w-full h-full"
+                />
+              </div>
 
-              {/* Mobile Hero Image */}
-              <Image
-                src="/assets/img/services-page/hero-mobile.png"
-                alt={copy.hero.imageAlt}
-                fill
-                priority
-                quality={82}
-                sizes="100vw"
-                className="block object-cover object-center min-[769px]:hidden"
-              />
-
-              {/* <Image
-                src="/assets/img/services-page/hero-bg.webp"
-                alt={copy.hero.imageAlt}
-                fill
-                priority
-                quality={82}
-                sizes="100vw"
-                className="object-cover object-center"
-              /> */}
               <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,18,55,.18)_0%,rgba(10,18,55,.38)_48%,rgba(10,18,55,.82)_100%)]" />
 
-              <div className="di-container relative z-[2] flex w-full items-end justify-between gap-[70rem] max-[1025px]:flex-col max-[1025px]:items-start max-[1025px]:gap-[30rem]">
+              <div className="di-container lg:pb-140! relative z-[2] flex w-full items-end justify-between gap-[70rem] max-[1025px]:flex-col max-[1025px]:items-start max-[1025px]:gap-[30rem]">
                 <h1 className="services-main-animated-text shrink-0 text-[200rem] uppercase leading-[0.8] tracking-[-0.025em] text-white max-[1025px]:text-[80rem]">
                   {copy.hero.title}
                 </h1>

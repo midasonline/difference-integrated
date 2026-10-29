@@ -273,10 +273,10 @@ function PrivacyHero() {
         max-[1025px]:min-h-[680px]
       "
       style={{
-        backgroundImage: "url('/assets/img/about/about-hero.png')",
+        backgroundImage: "url('/assets/img/about/privacy-policy.webp')",
       }}
     >
-      <div className="pointer-events-none absolute inset-0 bg-[#19255b]/25" />
+      <div className="pointer-events-none absolute inset-0 bg-[#19255b]/50" />
 
       <div className="hero-about__container di-container relative z-[2] pb-[110rem] max-[1025px]:pb-[40rem]">
         <div

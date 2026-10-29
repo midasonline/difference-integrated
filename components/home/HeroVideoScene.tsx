@@ -5,6 +5,7 @@ import { BackgroundVideo } from "@/components/ui/BackgroundVideo";
 import { Hero } from "@/components/home/Hero";
 import { About } from "@/components/home/About";
 import { videoSources } from "@/data/site";
+import Image from "next/image";
 
 export function HeroVideoScene() {
   const sceneRef = useRef<HTMLDivElement>(null);
@@ -27,10 +28,24 @@ export function HeroVideoScene() {
             transform: "translateX(-50%) scale(.35) rotate(30deg)",
           }}
         >
-          <BackgroundVideo
-            src={videoSources.hero}
-            poster="/assets/img/home/videos/hero-poster.webp"
-          />
+          <div className="md:block hidden">
+            <BackgroundVideo
+              src={videoSources.hero}
+              poster="/assets/img/home/videos/hero-poster.webp"
+            />
+          </div>
+
+          <div className="md:hidden block">
+            <Image
+              src="/assets/img/services-page/hero-mobile.png"
+              alt="Hero"
+              fill
+              priority
+              quality={82}
+              sizes="100vw"
+              className="object-cover w-full h-full md:hidden block"
+            />
+          </div>
 
           <div className="absolute inset-0 z-[1] bg-black/35" />
         </div>

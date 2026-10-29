@@ -269,5 +269,3 @@ export const videoSources = {
 
   footer: "/assets/img/footer.mp4",
 };
-
-// hello

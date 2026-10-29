@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { usePathname } from "next/navigation";
 
 import { Header, type HeaderVariant } from "@/components/Header";
 import { BackToTop } from "@/components/ui/BackToTop";
 import { stripLocaleFromPathname } from "@/i18n/routing";
+
+const SITE_ENTRY_ROUTE_KEY = "di-site-entry-route-v1";
 
 const DARK_HERO_ROUTES = [
   "/",
@@ -71,6 +73,16 @@ export function GlobalHeader() {
   const currentPath = normalizePath(stripLocaleFromPathname(pathname));
   const isHome = currentPath === "/";
   const headerVariant = getHeaderVariant(currentPath);
+
+  useLayoutEffect(() => {
+    try {
+      if (!window.sessionStorage.getItem(SITE_ENTRY_ROUTE_KEY)) {
+        window.sessionStorage.setItem(SITE_ENTRY_ROUTE_KEY, currentPath);
+      }
+    } catch {
+      // sessionStorage can be unavailable in restricted/private environments.
+    }
+  }, [currentPath]);
 
   useEffect(() => {
     const links = document.querySelectorAll<HTMLAnchorElement>(

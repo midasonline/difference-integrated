@@ -24,17 +24,26 @@ export function Footer() {
       <div className="di-container">
         <div className="di-footer__inner">
           <div className="di-footer__top">
-            <a
-              href={localePath("/")}
-              className="di-footer__logo-link"
-              aria-label="Difference Integrated Logistics"
-            >
-              <img
-                src="/assets/img/DI-Logo-W.svg"
-                alt="Difference Integrated Logistics"
-                className="di-footer__logo"
-              />
-            </a>
+            <div className="max-w-[360rem] shrink-0">
+              <a
+                href={localePath("/")}
+                className="di-footer__logo-link"
+                aria-label="Difference Integrated Logistics"
+              >
+                <img
+                  src="/assets/img/DI-Logo-WO.svg"
+                  alt="Difference Integrated Logistics"
+                  className="di-footer__logo"
+                />
+              </a>
+              <br></br>
+              <br></br>
+
+              <address className="mt-[22rem] max-w-[340rem] not-italic text-[14rem] leading-[1.65] text-white/70 max-[1024px]:mt-[18rem] max-[640px]:mt-[16rem] max-[640px]:text-[13rem]">
+                6995 King Fahd Branch Road, Utaiqah Dist, Riyadh 12653 - Unit 34
+                B, Saudi Arabia
+              </address>
+            </div>
 
             <nav
               className="di-footer__nav"
@@ -80,7 +89,9 @@ export function Footer() {
 
           <div className="di-footer__brand-wrap" dir="ltr">
             <div
-              className={`di-footer__brand text-nowrap text-center mx-auto w-fit  ${isArabic && "leading-relaxed!"}`}
+              className={`di-footer__brand text-nowrap text-center mx-auto w-fit ${
+                isArabic && "leading-relaxed!"
+              }`}
             >
               {isArabic ? "الفرق المتكامل" : "Difference Integrated"}
             </div>
@@ -97,24 +108,6 @@ export function Footer() {
                 <HoverText>{copy.privacy}</HoverText>
               </a>
             </div>
-
-            <button
-              type="button"
-              onClick={scrollToTop}
-              className="di-footer__up group"
-              aria-label={isArabic ? "العودة إلى أعلى الصفحة" : "Back to top"}
-            >
-              <span className="di-footer__up-label">{copy.up}</span>
-
-              <span className="di-footer__up-icon" aria-hidden="true">
-                <svg viewBox="0 0 30 30" className="h-full w-full">
-                  <path
-                    d="M15 9l6 7-1.5 1.3L16 13.2V22h-2v-8.8l-3.5 4.1L9 16l6-7z"
-                    fill="currentColor"
-                  />
-                </svg>
-              </span>
-            </button>
           </div>
         </div>
       </div>
