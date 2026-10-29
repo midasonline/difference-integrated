@@ -34,12 +34,18 @@ const serviceMedia = [
     number: "01",
     image: "/assets/img/services-page/construction-logistics.webp",
   },
-  { number: "02", image: "/assets/img/services-page/sand-transportation.webp" },
+  {
+    number: "02",
+    image: "/assets/img/services-page/sand-transportation.webp",
+  },
   {
     number: "03",
     image: "/assets/img/services-page/fuel-tanker-transportation.webp",
   },
-  { number: "04", image: "/assets/img/services-page/fleet-equipment.webp" },
+  {
+    number: "04",
+    image: "/assets/img/services-page/fleet-equipment.webp",
+  },
   {
     number: "05",
     image: "/assets/img/services-page/heavy-dumper-logistics.webp",
@@ -60,7 +66,10 @@ const serviceMedia = [
     number: "09",
     image: "/assets/img/services-page/aggregate-transportation.webp",
   },
-  { number: "10", image: "/assets/img/services-page/general-freight.webp" },
+  {
+    number: "10",
+    image: "/assets/img/services-page/general-freight.webp",
+  },
   {
     number: "11",
     image: "/assets/img/services-page/cattle-transportation.png",
@@ -114,7 +123,9 @@ function KeyPointsAccordion({
               >
                 <svg
                   viewBox="0 0 24 24"
-                  className={`h-[11rem] w-[11rem] transition-transform duration-300 ease-out ${isOpen ? "rotate-45" : "rotate-0"}`}
+                  className={`h-[11rem] w-[11rem] transition-transform duration-300 ease-out ${
+                    isOpen ? "rotate-45" : "rotate-0"
+                  }`}
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2.2"
@@ -427,6 +438,7 @@ function ServicesInquiryForm({
                 {copy.fullName}{" "}
                 <span className="text-[var(--di-accent)]">*</span>
               </span>
+
               <input
                 type="text"
                 name="fullName"
@@ -434,10 +446,12 @@ function ServicesInquiryForm({
                 className="service-form-control h-[58rem] border-0 bg-transparent px-0 font-['Inter'] text-[max(16px,20rem)] font-normal text-[var(--di-primary)] outline-none placeholder:text-[var(--di-primary)]/30"
                 placeholder={copy.fullNamePlaceholder}
               />
+
               <span
                 className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--di-primary)]/25"
                 aria-hidden="true"
               />
+
               <span
                 className="service-form-line-accent absolute bottom-0 left-0 h-[2rem] w-full origin-left scale-x-0 bg-[var(--di-accent)] transition-transform duration-500 group-focus-within:scale-x-100"
                 aria-hidden="true"
@@ -448,16 +462,19 @@ function ServicesInquiryForm({
               <span className="service-form-label font-['Inter'] text-[max(14px,14rem)] font-semibold uppercase tracking-[.08em] text-[var(--di-primary)]/65">
                 {copy.companyName}
               </span>
+
               <input
                 type="text"
                 name="companyName"
                 className="service-form-control h-[58rem] border-0 bg-transparent px-0 font-['Inter'] text-[max(16px,20rem)] font-normal text-[var(--di-primary)] outline-none placeholder:text-[var(--di-primary)]/30"
                 placeholder={copy.companyNamePlaceholder}
               />
+
               <span
                 className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--di-primary)]/25"
                 aria-hidden="true"
               />
+
               <span
                 className="service-form-line-accent absolute bottom-0 left-0 h-[2rem] w-full origin-left scale-x-0 bg-[var(--di-accent)] transition-transform duration-500 group-focus-within:scale-x-100"
                 aria-hidden="true"
@@ -468,6 +485,7 @@ function ServicesInquiryForm({
               <span className="service-form-label font-['Inter'] text-[max(14px,14rem)] font-semibold uppercase tracking-[.08em] text-[var(--di-primary)]/65">
                 {copy.phone} <span className="text-[var(--di-accent)]">*</span>
               </span>
+
               <input
                 type="tel"
                 name="phone"
@@ -475,10 +493,12 @@ function ServicesInquiryForm({
                 className="service-form-control h-[58rem] border-0 bg-transparent px-0 font-['Inter'] text-[max(16px,20rem)] font-normal text-[var(--di-primary)] outline-none placeholder:text-[var(--di-primary)]/30"
                 placeholder={copy.phonePlaceholder}
               />
+
               <span
                 className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--di-primary)]/25"
                 aria-hidden="true"
               />
+
               <span
                 className="service-form-line-accent absolute bottom-0 left-0 h-[2rem] w-full origin-left scale-x-0 bg-[var(--di-accent)] transition-transform duration-500 group-focus-within:scale-x-100"
                 aria-hidden="true"
@@ -489,6 +509,7 @@ function ServicesInquiryForm({
               <span className="service-form-label font-['Inter'] text-[max(14px,14rem)] font-semibold uppercase tracking-[.08em] text-[var(--di-primary)]/65">
                 {copy.email} <span className="text-[var(--di-accent)]">*</span>
               </span>
+
               <input
                 type="email"
                 name="email"
@@ -496,10 +517,12 @@ function ServicesInquiryForm({
                 className="service-form-control h-[58rem] border-0 bg-transparent px-0 font-['Inter'] text-[max(16px,20rem)] font-normal text-[var(--di-primary)] outline-none placeholder:text-[var(--di-primary)]/30"
                 placeholder={copy.emailPlaceholder}
               />
+
               <span
                 className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--di-primary)]/25"
                 aria-hidden="true"
               />
+
               <span
                 className="service-form-line-accent absolute bottom-0 left-0 h-[2rem] w-full origin-left scale-x-0 bg-[var(--di-accent)] transition-transform duration-500 group-focus-within:scale-x-100"
                 aria-hidden="true"
@@ -510,6 +533,7 @@ function ServicesInquiryForm({
               <span className="service-form-label font-['Inter'] text-[max(14px,14rem)] font-semibold uppercase tracking-[.08em] text-[var(--di-primary)]/65">
                 {copy.serviceRequired}
               </span>
+
               <select
                 name="service"
                 defaultValue=""
@@ -518,16 +542,19 @@ function ServicesInquiryForm({
                 <option value="" disabled>
                   {copy.selectService}
                 </option>
+
                 {services.map((service) => (
                   <option key={service.number} value={service.title}>
                     {service.title}
                   </option>
                 ))}
               </select>
+
               <span
                 className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--di-primary)]/25"
                 aria-hidden="true"
               />
+
               <span
                 className="service-form-line-accent absolute bottom-0 left-0 h-[2rem] w-full origin-left scale-x-0 bg-[var(--di-accent)] transition-transform duration-500 group-focus-within:scale-x-100"
                 aria-hidden="true"
@@ -538,16 +565,19 @@ function ServicesInquiryForm({
               <span className="service-form-label font-['Inter'] text-[max(14px,14rem)] font-semibold uppercase tracking-[.08em] text-[var(--di-primary)]/65">
                 {copy.requirement}
               </span>
+
               <textarea
                 name="requirement"
                 rows={5}
                 className="service-form-control min-h-[145rem] resize-y border-0 bg-transparent px-0 py-[16rem] font-['Inter'] text-[max(16px,20rem)] font-normal leading-[1.45] text-[var(--di-primary)] outline-none placeholder:text-[var(--di-primary)]/30"
                 placeholder={copy.requirementPlaceholder}
               />
+
               <span
                 className="service-form-line absolute inset-x-0 bottom-0 h-[1rem] origin-left bg-[var(--di-primary)]/25"
                 aria-hidden="true"
               />
+
               <span
                 className="service-form-line-accent absolute bottom-0 left-0 h-[2rem] w-full origin-left scale-x-0 bg-[var(--di-accent)] transition-transform duration-500 group-focus-within:scale-x-100"
                 aria-hidden="true"
@@ -563,6 +593,7 @@ function ServicesInquiryForm({
                   <span className="text-hover-elem text-hover-elem-1">
                     {copy.submit}
                   </span>
+
                   <span className="text-hover-elem text-hover-elem-2">
                     {copy.submit}
                   </span>
@@ -580,6 +611,7 @@ export default function ServicesPageClient(): React.JSX.Element {
   const { dictionary, locale, localePath } = useI18n();
   const copy = dictionary.servicesPage;
   const isRtl = locale === "ar";
+
   const services: Service[] = serviceMedia.map((media, index) => ({
     ...media,
     ...copy.services[index],
@@ -590,9 +622,11 @@ export default function ServicesPageClient(): React.JSX.Element {
   const trackRef = useRef<HTMLDivElement>(null);
   const progressWrapRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
+
   const masterTriggerRef = useRef<ReturnType<
     typeof ScrollTrigger.create
   > | null>(null);
+
   const masterTimelineRef = useRef<gsap.core.Timeline | null>(null);
   const serviceTargetTimesRef = useRef<number[]>([]);
   const activeServiceIndexRef = useRef(-1);
@@ -601,6 +635,7 @@ export default function ServicesPageClient(): React.JSX.Element {
   const autoSnapTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isAutoSnappingRef = useRef(false);
   const serviceFullTargetTimesRef = useRef<number[]>([]);
+
   const [activeServiceIndex, setActiveServiceIndex] = useState(-1);
 
   const updateActiveService = (index: number) => {
@@ -655,9 +690,11 @@ export default function ServicesPageClient(): React.JSX.Element {
       duration: 0.9,
       ease: "power3.inOut",
       overwrite: true,
+
       onUpdate: () => {
         window.scrollTo(0, scrollState.y);
       },
+
       onComplete: () => {
         jumpTweenRef.current = null;
       },
@@ -671,10 +708,12 @@ export default function ServicesPageClient(): React.JSX.Element {
       !trackRef.current ||
       !progressWrapRef.current ||
       !progressRef.current
-    )
+    ) {
       return;
+    }
 
     gsap.registerPlugin(ScrollTrigger, SplitText);
+
     window.scrollTo(0, 0);
 
     const root = rootRef.current;
@@ -689,27 +728,43 @@ export default function ServicesPageClient(): React.JSX.Element {
 
     const ctx = gsap.context(() => {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        gsap.set(".transition-plug", { yPercent: 105 });
-        gsap.set(progressWrap, { display: "none" });
+        gsap.set(".transition-plug", {
+          yPercent: 105,
+        });
+
+        gsap.set(progressWrap, {
+          display: "none",
+        });
+
         return;
       }
+
       const heroTitle = servicesSection.querySelector<HTMLElement>(
         ".services-main-animated-text",
       );
+
       const heroCopy = servicesSection.querySelector<HTMLElement>(
         ".services-hero-copy",
       );
+
       let heroRevealTargets: HTMLElement[] = [];
 
       if (heroTitle) {
         const heroSplit = new SplitText(heroTitle, {
           type: isRtl ? "words" : "chars,words",
+
           ...(isRtl
-            ? { wordsClass: "word" }
-            : { charsClass: "char", wordsClass: "word" }),
+            ? {
+                wordsClass: "word",
+              }
+            : {
+                charsClass: "char",
+                wordsClass: "word",
+              }),
         });
 
         splits.push(heroSplit);
+
         heroRevealTargets = (
           isRtl ? heroSplit.words : heroSplit.chars
         ) as HTMLElement[];
@@ -731,12 +786,15 @@ export default function ServicesPageClient(): React.JSX.Element {
 
       const transitionPlug =
         root.querySelector<HTMLElement>(".transition-plug");
+
       const transitionInner = root.querySelector<HTMLElement>(
         ".transition-plug__inner",
       );
 
       if (transitionPlug) {
-        gsap.set(transitionPlug, { yPercent: 0 });
+        gsap.set(transitionPlug, {
+          yPercent: 0,
+        });
       }
 
       if (transitionInner) {
@@ -749,6 +807,7 @@ export default function ServicesPageClient(): React.JSX.Element {
 
       const entrance = gsap.timeline({
         paused: true,
+
         defaults: {
           ease: "power4.inOut",
           duration: 2,
@@ -758,14 +817,26 @@ export default function ServicesPageClient(): React.JSX.Element {
       if (transitionInner) {
         entrance.fromTo(
           transitionInner,
-          { top: "auto", bottom: 0, height: "100%" },
-          { height: "0%" },
+          {
+            top: "auto",
+            bottom: 0,
+            height: "100%",
+          },
+          {
+            height: "0%",
+          },
           0,
         );
       }
 
       if (transitionPlug) {
-        entrance.to(transitionPlug, { yPercent: 105 }, 0.05);
+        entrance.to(
+          transitionPlug,
+          {
+            yPercent: 105,
+          },
+          0.05,
+        );
       }
 
       if (heroRevealTargets.length) {
@@ -798,41 +869,59 @@ export default function ServicesPageClient(): React.JSX.Element {
 
       const playEntrance = () => {
         window.scrollTo(0, 0);
-        requestAnimationFrame(() => entrance.play(0));
+
+        requestAnimationFrame(() => {
+          entrance.play(0);
+        });
       };
 
       if (document.readyState === "complete") {
         playEntrance();
       } else {
-        window.addEventListener("load", playEntrance, { once: true });
-        listeners.push(() => window.removeEventListener("load", playEntrance));
+        window.addEventListener("load", playEntrance, {
+          once: true,
+        });
+
+        listeners.push(() => {
+          window.removeEventListener("load", playEntrance);
+        });
       }
 
       root.querySelectorAll<HTMLElement>(".text-hover").forEach((element) => {
         const lines = element.querySelectorAll<HTMLElement>(".text-hover-elem");
+
         if (!lines.length) return;
 
         lines.forEach((line) => {
           const split = new SplitText(line, {
             type: isRtl ? "words" : "chars,words",
+
             ...(isRtl
-              ? { wordsClass: "word" }
-              : { charsClass: "char", wordsClass: "word" }),
+              ? {
+                  wordsClass: "word",
+                }
+              : {
+                  charsClass: "char",
+                  wordsClass: "word",
+                }),
           });
 
           splits.push(split);
         });
 
         const motionUnit = isRtl ? ".word" : ".char";
+
         const first = element.querySelectorAll<HTMLElement>(
           `.text-hover-elem-1 ${motionUnit}`,
         );
+
         const second = element.querySelectorAll<HTMLElement>(
           `.text-hover-elem-2 ${motionUnit}`,
         );
 
         const timeline = gsap.timeline({
           paused: true,
+
           defaults: {
             stagger: 0.015,
             duration: 0.35,
@@ -840,36 +929,60 @@ export default function ServicesPageClient(): React.JSX.Element {
           },
         });
 
-        if (first.length) timeline.to(first, { yPercent: -120 });
-        if (second.length) timeline.to(second, { yPercent: -100 }, 0);
+        if (first.length) {
+          timeline.to(first, {
+            yPercent: -120,
+          });
+        }
+
+        if (second.length) {
+          timeline.to(
+            second,
+            {
+              yPercent: -100,
+            },
+            0,
+          );
+        }
 
         const enter = () => {
-          if (window.innerWidth > 1024) timeline.play();
+          if (window.innerWidth > 1024) {
+            timeline.play();
+          }
         };
 
         const leave = () => {
-          if (window.innerWidth > 1024) timeline.reverse();
+          if (window.innerWidth > 1024) {
+            timeline.reverse();
+          }
         };
 
         element.addEventListener("mouseenter", enter);
+
         element.addEventListener("mouseleave", leave);
 
         listeners.push(() => {
           element.removeEventListener("mouseenter", enter);
+
           element.removeEventListener("mouseleave", leave);
+
           timeline.kill();
         });
       });
 
       const setupPanelSplits = (panel: HTMLElement) => {
         const localSplits: SplitText[] = [];
+
         const imageTitle = panel.querySelector<HTMLElement>(
           ".service-image-title",
         );
+
         const tagline = panel.querySelector<HTMLElement>(".service-tagline");
+
         const description = panel.querySelector<HTMLElement>(
           ".service-description",
         );
+
         const supporting = panel.querySelector<HTMLElement>(
           ".service-supporting",
         );
@@ -887,6 +1000,7 @@ export default function ServicesPageClient(): React.JSX.Element {
           });
 
           localSplits.push(split);
+
           imageTitleWords = split.words as HTMLElement[];
 
           gsap.set(split.lines, {
@@ -903,6 +1017,7 @@ export default function ServicesPageClient(): React.JSX.Element {
           });
 
           localSplits.push(split);
+
           taglineWords = split.words as HTMLElement[];
 
           gsap.set(split.lines, {
@@ -911,24 +1026,28 @@ export default function ServicesPageClient(): React.JSX.Element {
           });
         }
 
+        /*
+         * SAFARI FIX
+         * ----------
+         * Body copy must keep its native browser wrapping.
+         *
+         * Previously these two paragraphs were passed through:
+         *
+         * new SplitText(element, { type: "lines" })
+         *
+         * Safari and Chromium calculate font and line metrics slightly
+         * differently. That meant Safari could permanently wrap short
+         * fragments such as "receiving" or "control" onto their own lines.
+         *
+         * We now keep the actual paragraph untouched and simply use the
+         * paragraph element itself as the GSAP animation target.
+         */
         if (description) {
-          const split = new SplitText(description, {
-            type: "lines",
-            linesClass: "service-copy-line",
-          });
-
-          localSplits.push(split);
-          descriptionLines = split.lines as HTMLElement[];
+          descriptionLines = [description];
         }
 
         if (supporting) {
-          const split = new SplitText(supporting, {
-            type: "lines",
-            linesClass: "service-copy-line",
-          });
-
-          localSplits.push(split);
-          supportingLines = split.lines as HTMLElement[];
+          supportingLines = [supporting];
         }
 
         return {
@@ -948,11 +1067,7 @@ export default function ServicesPageClient(): React.JSX.Element {
 
         /*
          * Keep the horizontal motion system physically LTR for every locale.
-         * The track itself is `dir="ltr"`, while Arabic text/panels remain
-         * `dir="rtl"`. This isolates GSAP x-transforms and ScrollTrigger snap
-         * math from the document writing direction, so Arabic can use the same
-         * pinned horizontal experience as English without reversing coordinates
-         * or producing oversized pin spacers.
+         * The track itself is dir="ltr", while Arabic text/panels remain RTL.
          */
         const reducedMotion = window.matchMedia(
           "(prefers-reduced-motion: reduce)",
@@ -980,39 +1095,51 @@ export default function ServicesPageClient(): React.JSX.Element {
           const visualShell = panel.querySelector<HTMLElement>(
             ".service-visual-shell",
           );
+
           const visualImage = panel.querySelector<HTMLElement>(
             ".service-visual-image",
           );
+
           const visualOverlay = panel.querySelector<HTMLElement>(
             ".service-visual-overlay",
           );
+
           const numberWrap = panel.querySelector<HTMLElement>(
             ".service-number-wrap",
           );
+
           const imageTitleWords = panel.querySelectorAll<HTMLElement>(
             ".service-image-title .word",
           );
+
           const copyInner = panel.querySelector<HTMLElement>(
             ".service-copy-inner",
           );
+
           const contentSweep = panel.querySelector<HTMLElement>(
             ".service-content-sweep",
           );
+
           const taglineWords = panel.querySelectorAll<HTMLElement>(
             ".service-tagline .word",
           );
+
           const descriptionLines = panel.querySelectorAll<HTMLElement>(
-            ".service-description .service-copy-line",
+            ".service-description",
           );
+
           const keypointLabel = panel.querySelector<HTMLElement>(
             ".service-keypoints-label",
           );
+
           const keypointRows = panel.querySelectorAll<HTMLElement>(
             ".service-keypoint-row",
           );
+
           const supportingLines = panel.querySelectorAll<HTMLElement>(
-            ".service-supporting .service-copy-line",
+            ".service-supporting",
           );
+
           const cta = panel.querySelector<HTMLElement>(".service-cta");
 
           if (visualShell) {
@@ -1119,8 +1246,13 @@ export default function ServicesPageClient(): React.JSX.Element {
         };
 
         const playPanelReveal = (index: number) => {
-          if (index < 0 || index >= servicePanels.length) return;
-          if (revealedPanels.has(index)) return;
+          if (index < 0 || index >= servicePanels.length) {
+            return;
+          }
+
+          if (revealedPanels.has(index)) {
+            return;
+          }
 
           revealedPanels.add(index);
 
@@ -1145,27 +1277,35 @@ export default function ServicesPageClient(): React.JSX.Element {
           const visualShell = panel.querySelector<HTMLElement>(
             ".service-visual-shell",
           );
+
           const visualImage = panel.querySelector<HTMLElement>(
             ".service-visual-image",
           );
+
           const visualOverlay = panel.querySelector<HTMLElement>(
             ".service-visual-overlay",
           );
+
           const numberWrap = panel.querySelector<HTMLElement>(
             ".service-number-wrap",
           );
+
           const copyInner = panel.querySelector<HTMLElement>(
             ".service-copy-inner",
           );
+
           const contentSweep = panel.querySelector<HTMLElement>(
             ".service-content-sweep",
           );
+
           const keypointRows = panel.querySelectorAll<HTMLElement>(
             ".service-keypoint-row",
           );
+
           const keypointLabel = panel.querySelector<HTMLElement>(
             ".service-keypoints-label",
           );
+
           const cta = panel.querySelector<HTMLElement>(".service-cta");
 
           const {
@@ -1277,6 +1417,7 @@ export default function ServicesPageClient(): React.JSX.Element {
 
             const reveal = gsap.timeline({
               paused: true,
+
               defaults: {
                 overwrite: "auto",
               },
@@ -1402,7 +1543,6 @@ export default function ServicesPageClient(): React.JSX.Element {
                   y: 0,
                   opacity: 1,
                   duration: 0.4,
-                  stagger: 0.028,
                   ease: "power3.out",
                 },
                 0.32,
@@ -1443,10 +1583,9 @@ export default function ServicesPageClient(): React.JSX.Element {
                   y: 0,
                   opacity: 1,
                   duration: 0.34,
-                  stagger: 0.028,
                   ease: "power3.out",
                 },
-                1.0,
+                1,
               );
             }
 
@@ -1475,6 +1614,7 @@ export default function ServicesPageClient(): React.JSX.Element {
             track,
             {
               x: () => -(index + 1) * window.innerWidth,
+
               duration: 1,
               ease: "power2.inOut",
             },
@@ -1485,29 +1625,23 @@ export default function ServicesPageClient(): React.JSX.Element {
 
           /*
            * Content animation is NOT tied to extra scroll.
-           *
-           * Start the reveal EARLY while the new service is still sliding in:
-           * - image number/title begin first,
-           * - right-side copy starts as soon as that half enters the viewport,
-           * - the remaining details continue automatically.
+           * Start reveal while the service is moving into view.
            */
           serviceActivationTimes[index] = moveStart + 0.18;
+
           serviceTargetTimes[index] = landingTime;
         });
 
         serviceTargetTimesRef.current = serviceTargetTimes;
+
         serviceFullTargetTimesRef.current = serviceTargetTimes;
+
         masterTimelineRef.current = master;
 
         const masterTrigger = ScrollTrigger.create({
           trigger: servicesSection,
           start: "top top",
 
-          /*
-           * Much shorter scroll distance than before.
-           * Scroll now only changes the horizontal slide.
-           * It no longer has to "pay" extra distance for every content reveal.
-           */
           end: () =>
             `+=${Math.max(
               window.innerHeight * servicePanels.length * 0.72,
@@ -1527,11 +1661,13 @@ export default function ServicesPageClient(): React.JSX.Element {
 
             gsap.to(progressWrap, {
               opacity: self.progress > 0.97 ? 0 : 1,
+
               duration: 0.2,
               overwrite: true,
             });
 
             const currentTime = master.time();
+
             let nextActiveIndex = -1;
 
             serviceActivationTimes.forEach((activationTime, index) => {
@@ -1551,17 +1687,24 @@ export default function ServicesPageClient(): React.JSX.Element {
         masterTriggerRef.current = masterTrigger;
 
         const clearAutoSnapTimer = () => {
-          if (!autoSnapTimerRef.current) return;
+          if (!autoSnapTimerRef.current) {
+            return;
+          }
 
           clearTimeout(autoSnapTimerRef.current);
+
           autoSnapTimerRef.current = null;
         };
 
         const cancelAutoSnapTween = () => {
-          if (!isAutoSnappingRef.current) return;
+          if (!isAutoSnappingRef.current) {
+            return;
+          }
 
           autoSnapTweenRef.current?.kill();
+
           autoSnapTweenRef.current = null;
+
           isAutoSnappingRef.current = false;
         };
 
@@ -1578,6 +1721,7 @@ export default function ServicesPageClient(): React.JSX.Element {
           }
 
           const trigger = masterTriggerRef.current;
+
           const currentScroll = window.scrollY;
 
           if (
@@ -1593,11 +1737,13 @@ export default function ServicesPageClient(): React.JSX.Element {
             0,
             Math.min(
               servicePanels.length,
+
               Math.abs(trackX) / Math.max(window.innerWidth, 1),
             ),
           );
 
           const dominantPanel = Math.round(panelPosition);
+
           const distanceFromAligned = Math.abs(panelPosition - dominantPanel);
 
           if (distanceFromAligned < 0.025) {
@@ -1609,6 +1755,7 @@ export default function ServicesPageClient(): React.JSX.Element {
 
           if (dominantPanel > 0) {
             targetServiceIndex = dominantPanel - 1;
+
             targetTime =
               serviceTargetTimesRef.current[targetServiceIndex] ??
               dominantPanel;
@@ -1623,6 +1770,7 @@ export default function ServicesPageClient(): React.JSX.Element {
             trigger.start + (trigger.end - trigger.start) * targetProgress;
 
           jumpTweenRef.current?.kill();
+
           autoSnapTweenRef.current?.kill();
 
           const scrollState = {
@@ -1643,10 +1791,12 @@ export default function ServicesPageClient(): React.JSX.Element {
 
             onComplete: () => {
               autoSnapTweenRef.current = null;
+
               isAutoSnappingRef.current = false;
 
               if (targetServiceIndex >= 0) {
                 updateActiveService(targetServiceIndex);
+
                 playPanelReveal(targetServiceIndex);
               } else {
                 updateActiveService(-1);
@@ -1706,8 +1856,11 @@ export default function ServicesPageClient(): React.JSX.Element {
 
         return () => {
           window.removeEventListener("scroll", scheduleAutoSnap);
+
           window.removeEventListener("wheel", handleUserInterrupt);
+
           window.removeEventListener("touchstart", handleUserInterrupt);
+
           window.removeEventListener("pointerdown", handleUserInterrupt);
 
           clearAutoSnapTimer();
@@ -1715,8 +1868,11 @@ export default function ServicesPageClient(): React.JSX.Element {
 
           if (masterTriggerRef.current === masterTrigger) {
             masterTriggerRef.current = null;
+
             masterTimelineRef.current = null;
+
             serviceTargetTimesRef.current = [];
+
             serviceFullTargetTimesRef.current = [];
           }
 
@@ -1739,46 +1895,65 @@ export default function ServicesPageClient(): React.JSX.Element {
           servicesSection,
         );
 
-        // Keep Arabic service content in its natural visible state on mobile.
-        // This avoids SplitText/ScrollTrigger leaving translated copy hidden
-        // after route changes while preserving the English animation exactly.
+        /*
+         * Keep Arabic service content in its natural visible state on mobile.
+         */
         if (isRtl) {
-          gsap.set(track, { clearProps: "transform" });
-          gsap.set(progressWrap, { display: "none" });
+          gsap.set(track, {
+            clearProps: "transform",
+          });
+
+          gsap.set(progressWrap, {
+            display: "none",
+          });
+
           return;
         }
 
         const reducedMotion = window.matchMedia(
           "(prefers-reduced-motion: reduce)",
         ).matches;
+
         const mobileTimelines: gsap.core.Timeline[] = [];
         const mobileSplits: SplitText[] = [];
 
-        gsap.set(track, { clearProps: "transform" });
-        gsap.set(progressWrap, { display: "none" });
+        gsap.set(track, {
+          clearProps: "transform",
+        });
+
+        gsap.set(progressWrap, {
+          display: "none",
+        });
 
         servicePanels.forEach((panel) => {
           const visualShell = panel.querySelector<HTMLElement>(
             ".service-visual-shell",
           );
+
           const visualImage = panel.querySelector<HTMLElement>(
             ".service-visual-image",
           );
+
           const numberWrap = panel.querySelector<HTMLElement>(
             ".service-number-wrap",
           );
+
           const copyPanel = panel.querySelector<HTMLElement>(
             ".service-copy-panel",
           );
+
           const contentSweep = panel.querySelector<HTMLElement>(
             ".service-content-sweep",
           );
+
           const keypointRows = panel.querySelectorAll<HTMLElement>(
             ".service-keypoint-row",
           );
+
           const keypointLabel = panel.querySelector<HTMLElement>(
             ".service-keypoints-label",
           );
+
           const cta = panel.querySelector<HTMLElement>(".service-cta");
 
           const {
@@ -1877,6 +2052,7 @@ export default function ServicesPageClient(): React.JSX.Element {
             const visualTimeline = gsap.timeline({
               scrollTrigger: {
                 trigger: visualShell,
+
                 start: "top 90%",
                 end: "top 42%",
                 scrub: 0.7,
@@ -1887,6 +2063,7 @@ export default function ServicesPageClient(): React.JSX.Element {
               visualShell,
               {
                 clipPath: "inset(0 0 0% 0)",
+
                 duration: 1,
                 ease: "power3.inOut",
               },
@@ -1963,6 +2140,7 @@ export default function ServicesPageClient(): React.JSX.Element {
                   {
                     scaleX: 0,
                     transformOrigin: "right center",
+
                     duration: 0.3,
                     ease: "power3.out",
                   },
@@ -1992,7 +2170,6 @@ export default function ServicesPageClient(): React.JSX.Element {
                   y: 0,
                   opacity: 1,
                   duration: 0.45,
-                  stagger: 0.04,
                   ease: "power3.out",
                 },
                 0.3,
@@ -2033,7 +2210,6 @@ export default function ServicesPageClient(): React.JSX.Element {
                   y: 0,
                   opacity: 1,
                   duration: 0.42,
-                  stagger: 0.04,
                   ease: "power3.out",
                 },
                 0.68,
@@ -2063,47 +2239,52 @@ export default function ServicesPageClient(): React.JSX.Element {
             timeline.kill();
           });
 
-          mobileSplits.forEach((split) => split.revert());
+          mobileSplits.forEach((split) => {
+            split.revert();
+          });
         };
       });
 
       const inquirySection = root.querySelector<HTMLElement>(
         ".services-inquiry-section",
       );
+
       const inquiryFrame = root.querySelector<HTMLElement>(
         ".services-inquiry-frame",
       );
+
       const inquiryTop = root.querySelector<HTMLElement>(
         ".services-inquiry-top",
       );
+
       const inquiryTitle = root.querySelector<HTMLElement>(
         ".services-inquiry-title",
       );
+
       const inquiryForm = root.querySelector<HTMLElement>(
         ".services-inquiry-form",
       );
+
       const inquiryFields = root.querySelectorAll<HTMLElement>(
         ".service-form-field",
       );
+
       const inquiryLabels = root.querySelectorAll<HTMLElement>(
         ".service-form-label",
       );
+
       const inquiryControls = root.querySelectorAll<HTMLElement>(
         ".service-form-control",
       );
+
       const inquiryLines =
         root.querySelectorAll<HTMLElement>(".service-form-line");
+
       const inquirySubmit = root.querySelector<HTMLElement>(
         ".service-form-submit-wrap",
       );
 
       if (inquirySection && inquiryFrame) {
-        /*
-         * Same visual language used across the site:
-         * 1) the whole block scales into place with scroll,
-         * 2) heading reveals character-by-character,
-         * 3) form content resolves in a staggered sequence.
-         */
         gsap.set(inquiryFrame, {
           scale: 0.72,
           transformOrigin: "50% 50%",
@@ -2112,6 +2293,7 @@ export default function ServicesPageClient(): React.JSX.Element {
         gsap.to(inquiryFrame, {
           scale: 1,
           ease: "none",
+
           scrollTrigger: {
             trigger: inquirySection,
             start: "top bottom",
@@ -2129,9 +2311,11 @@ export default function ServicesPageClient(): React.JSX.Element {
             opacity: 1,
             duration: 1,
             ease: "power4.inOut",
+
             scrollTrigger: {
               trigger: inquiryTop,
               start: "center 92%",
+
               toggleActions: "play none none none",
             },
           });
@@ -2159,9 +2343,12 @@ export default function ServicesPageClient(): React.JSX.Element {
             duration: 0.85,
             stagger: 0.025,
             ease: "back.out(1.7)",
+
             scrollTrigger: {
               trigger: inquiryTitle,
+
               start: "center bottom-=5%",
+
               toggleActions: "play none none none",
             },
           });
@@ -2176,9 +2363,11 @@ export default function ServicesPageClient(): React.JSX.Element {
             opacity: 1,
             duration: 0.55,
             ease: "power2.out",
+
             scrollTrigger: {
               trigger: inquiryForm,
               start: "top 88%",
+
               toggleActions: "play none none none",
             },
           });
@@ -2188,19 +2377,25 @@ export default function ServicesPageClient(): React.JSX.Element {
           gsap.set(inquiryFields, {
             y: 58,
             opacity: 0,
+
             clipPath: "inset(0 0 100% 0)",
           });
 
           gsap.to(inquiryFields, {
             y: 0,
             opacity: 1,
+
             clipPath: "inset(0 0 0% 0)",
+
             duration: 0.85,
             stagger: 0.075,
             ease: "power4.out",
+
             scrollTrigger: {
               trigger: inquiryForm ?? inquirySection,
+
               start: "top 84%",
+
               toggleActions: "play none none none",
             },
           });
@@ -2218,9 +2413,12 @@ export default function ServicesPageClient(): React.JSX.Element {
             duration: 0.65,
             stagger: 0.055,
             ease: "power3.out",
+
             scrollTrigger: {
               trigger: inquiryForm ?? inquirySection,
+
               start: "top 82%",
+
               toggleActions: "play none none none",
             },
           });
@@ -2238,9 +2436,12 @@ export default function ServicesPageClient(): React.JSX.Element {
             duration: 0.7,
             stagger: 0.06,
             ease: "power3.out",
+
             scrollTrigger: {
               trigger: inquiryForm ?? inquirySection,
+
               start: "top 80%",
+
               toggleActions: "play none none none",
             },
           });
@@ -2249,6 +2450,7 @@ export default function ServicesPageClient(): React.JSX.Element {
         if (inquiryLines.length) {
           gsap.set(inquiryLines, {
             scaleX: 0,
+
             transformOrigin: "left center",
           });
 
@@ -2257,9 +2459,12 @@ export default function ServicesPageClient(): React.JSX.Element {
             duration: 0.8,
             stagger: 0.06,
             ease: "power4.out",
+
             scrollTrigger: {
               trigger: inquiryForm ?? inquirySection,
+
               start: "top 78%",
+
               toggleActions: "play none none none",
             },
           });
@@ -2270,6 +2475,7 @@ export default function ServicesPageClient(): React.JSX.Element {
             y: 55,
             opacity: 0,
             scale: 0.94,
+
             transformOrigin: "left center",
           });
 
@@ -2279,9 +2485,11 @@ export default function ServicesPageClient(): React.JSX.Element {
             scale: 1,
             duration: 0.8,
             ease: "back.out(1.5)",
+
             scrollTrigger: {
               trigger: inquirySubmit,
               start: "top 92%",
+
               toggleActions: "play none none none",
             },
           });
@@ -2299,15 +2507,22 @@ export default function ServicesPageClient(): React.JSX.Element {
 
       if (autoSnapTimerRef.current) {
         clearTimeout(autoSnapTimerRef.current);
+
         autoSnapTimerRef.current = null;
       }
 
       autoSnapTweenRef.current?.kill();
+
       autoSnapTweenRef.current = null;
+
       isAutoSnappingRef.current = false;
 
       listeners.forEach((cleanup) => cleanup());
-      splits.forEach((split) => split.revert());
+
+      splits.forEach((split) => {
+        split.revert();
+      });
+
       mm.revert();
       ctx.revert();
     };
@@ -2341,8 +2556,7 @@ export default function ServicesPageClient(): React.JSX.Element {
               data-services-panel
               className="relative flex h-[100svh] min-h-[650rem] w-full shrink-0 items-end overflow-hidden pb-[35rem] lg:pb-0 min-[1025px]:w-screen"
             >
-              <div className="absolute w-full h-full md:block hidden">
-                {/* Mobile Hero Image */}
+              <div className="absolute h-full w-full hidden md:block">
                 <Image
                   src="/assets/img/services-page/service-page-hero-desktop.webp"
                   alt={copy.hero.imageAlt}
@@ -2350,11 +2564,11 @@ export default function ServicesPageClient(): React.JSX.Element {
                   priority
                   quality={82}
                   sizes="100vw"
-                  className="object-cover w-full h-full"
+                  className="h-full w-full object-cover"
                 />
               </div>
-              <div className="absolute w-full h-full md:hidden block">
-                {/* Mobile Hero Image */}
+
+              <div className="absolute h-full w-full block md:hidden">
                 <Image
                   src="/assets/img/services-page/hero-mobile.png"
                   alt={copy.hero.imageAlt}
@@ -2362,7 +2576,7 @@ export default function ServicesPageClient(): React.JSX.Element {
                   priority
                   quality={82}
                   sizes="100vw"
-                  className="object-cover w-full h-full"
+                  className="h-full w-full object-cover"
                 />
               </div>
 
@@ -2406,6 +2620,7 @@ export default function ServicesPageClient(): React.JSX.Element {
                     sizes="(max-width: 1024px) 100vw, 50vw"
                     className="service-visual-image object-cover object-center"
                   />
+
                   <div className="service-visual-overlay absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-transparent" />
 
                   <div className="relative z-[2] flex items-end gap-[65rem] text-white max-[1025px]:flex-col max-[1025px]:items-start max-[1025px]:gap-[10rem]">
@@ -2413,6 +2628,7 @@ export default function ServicesPageClient(): React.JSX.Element {
                       <span className="text-[150rem] leading-[0.8] max-[1025px]:text-[100rem]">
                         {service.number}
                       </span>
+
                       <span className="mb-[8rem] font-['Inter'] text-[max(16px,16rem)] font-medium leading-none text-white/75 max-[1025px]:mb-[4rem]">
                         / {services.length}
                       </span>
@@ -2429,6 +2645,7 @@ export default function ServicesPageClient(): React.JSX.Element {
                     className="service-content-sweep pointer-events-none absolute inset-y-0 left-0 z-[3] w-[8rem] bg-[var(--di-accent)] max-[1025px]:inset-x-0 max-[1025px]:bottom-auto max-[1025px]:h-[5rem] max-[1025px]:w-full"
                     aria-hidden="true"
                   />
+
                   <div className="service-copy-inner max-w-[720rem]">
                     <h3 className="service-tagline text-[56rem] font-bold uppercase leading-[0.92] tracking-[-0.012em] max-[1025px]:text-[38rem] max-[1025px]:leading-[36rem]">
                       {service.tagline}
