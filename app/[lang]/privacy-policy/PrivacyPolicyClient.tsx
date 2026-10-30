@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect } from "react";
+import { FiArrowRight, FiCheckCircle, FiShield } from "react-icons/fi";
 
 type PolicySection = {
   id: string;
@@ -173,85 +173,6 @@ const policySections: PolicySection[] = [
 ];
 
 /* =========================================================
-   SVG ICONS
-========================================================= */
-
-function ArrowIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={className}
-      aria-hidden="true"
-    >
-      <path
-        d="M5 12H19"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinecap="round"
-      />
-      <path
-        d="M14 7L19 12L14 17"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function CheckIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={className}
-      aria-hidden="true"
-    >
-      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.4" />
-
-      <path
-        d="M8.2 12.2L10.6 14.6L15.9 9.4"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function PrivacyIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 32 32"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={className}
-      aria-hidden="true"
-    >
-      <path
-        d="M16 3L26 7V14C26 20.5 22.2 25.9 16 29C9.8 25.9 6 20.5 6 14V7L16 3Z"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinejoin="round"
-      />
-
-      <path
-        d="M12 15.5L14.7 18.2L20.5 12.5"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-/* =========================================================
    HERO
 ========================================================= */
 
@@ -383,7 +304,10 @@ function PolicyDirectory() {
         <div className="grid grid-cols-[.72fr_1.28fr] gap-[120rem] max-[1025px]:grid-cols-1 max-[1025px]:gap-[55rem]">
           <div className="privacy-reveal privacy-reveal-left" data-reveal>
             <div className="mb-[28rem] flex items-center gap-[18rem]">
-              <PrivacyIcon className="privacy-icon-reveal h-[30rem] w-[30rem] text-[var(--di-accent)] max-[1025px]:h-[24rem] max-[1025px]:w-[24rem]" />
+              <FiShield
+                className="privacy-icon-reveal h-[30rem] w-[30rem] text-[var(--di-accent)] max-[1025px]:h-[24rem] max-[1025px]:w-[24rem]"
+                aria-hidden="true"
+              />
 
               <span className="text-[max(13px,13rem)] font-medium uppercase tracking-[.12em] text-[var(--di-accent)] max-[1025px]:text-[max(12px,11rem)]">
                 Privacy Policy
@@ -447,7 +371,10 @@ function PolicyDirectory() {
               >
                 <span>{section.title}</span>
 
-                <ArrowIcon className="h-[21rem] w-[21rem] shrink-0 transition-transform duration-300 group-hover:translate-x-[5rem]" />
+                <FiArrowRight
+                  className="h-[21rem] w-[21rem] shrink-0 transition-transform duration-300 group-hover:translate-x-[5rem]"
+                  aria-hidden="true"
+                />
               </a>
             ))}
           </div>
@@ -498,7 +425,6 @@ function PolicyBlock({
             max-[1025px]:gap-[38rem]
           "
         >
-          {/* TITLE */}
           <div className="privacy-reveal privacy-reveal-left" data-reveal>
             <h2
               className="
@@ -516,7 +442,6 @@ function PolicyBlock({
             </h2>
           </div>
 
-          {/* BODY */}
           <div
             className="privacy-reveal privacy-reveal-right max-w-[800rem] font-['Inter']"
             data-reveal
@@ -597,7 +522,10 @@ function PolicyBlock({
                         transitionDelay: `${bulletIndex * 45}ms`,
                       }}
                     >
-                      <CheckIcon className="privacy-check-icon mt-[2rem] h-[20rem] w-[20rem] shrink-0 text-[var(--di-accent)]" />
+                      <FiCheckCircle
+                        className="privacy-check-icon mt-[2rem] h-[20rem] w-[20rem] shrink-0 text-[var(--di-accent)]"
+                        aria-hidden="true"
+                      />
 
                       <span>{item}</span>
                     </div>
@@ -674,7 +602,10 @@ function PrivacyStatement() {
                     transitionDelay: `${index * 100}ms`,
                   }}
                 >
-                  <PrivacyIcon className="privacy-icon-reveal h-[28rem] w-[28rem] shrink-0 text-[var(--di-accent)]" />
+                  <FiShield
+                    className="privacy-icon-reveal h-[28rem] w-[28rem] shrink-0 text-[var(--di-accent)]"
+                    aria-hidden="true"
+                  />
 
                   <span>{item}</span>
                 </div>
@@ -754,17 +685,7 @@ export default function PrivacyPolicyClient() {
         ))}
       </main>
 
-      {/* =====================================================
-          PRIVACY POLICY SCROLL ANIMATIONS
-      ===================================================== */}
-
       <style jsx global>{`
-        /*
-         * -----------------------------------------------------
-         * BASIC REVEALS
-         * -----------------------------------------------------
-         */
-
         .privacy-reveal {
           opacity: 0;
           will-change: transform, opacity;
@@ -786,12 +707,6 @@ export default function PrivacyPolicyClient() {
           transform: translate3d(0, 0, 0);
         }
 
-        /*
-         * -----------------------------------------------------
-         * DIRECTORY
-         * -----------------------------------------------------
-         */
-
         .privacy-directory-item {
           opacity: 0;
           transform: translate3d(0, 28rem, 0);
@@ -808,12 +723,6 @@ export default function PrivacyPolicyClient() {
             border-color 0.3s ease;
         }
 
-        /*
-         * -----------------------------------------------------
-         * BODY COPY
-         * -----------------------------------------------------
-         */
-
         .privacy-copy {
           opacity: 0;
           transform: translate3d(0, 18rem, 0);
@@ -826,12 +735,6 @@ export default function PrivacyPolicyClient() {
           opacity: 1;
           transform: translate3d(0, 0, 0);
         }
-
-        /*
-         * -----------------------------------------------------
-         * BULLET / INFORMATION ROWS
-         * -----------------------------------------------------
-         */
 
         .privacy-bullet-row {
           opacity: 0;
@@ -861,12 +764,6 @@ export default function PrivacyPolicyClient() {
           transform: scale(1);
         }
 
-        /*
-         * -----------------------------------------------------
-         * SVG PRIVACY ICONS
-         * -----------------------------------------------------
-         */
-
         .privacy-icon-reveal {
           transform: scale(0.7) rotate(-8deg);
           opacity: 0;
@@ -879,13 +776,6 @@ export default function PrivacyPolicyClient() {
           opacity: 1;
           transform: scale(1) rotate(0deg);
         }
-
-        /*
-         * -----------------------------------------------------
-         * BIG STATEMENT
-         * clip-path rather than generic fade
-         * -----------------------------------------------------
-         */
 
         .privacy-statement-title {
           clip-path: inset(0 0 100% 0);
@@ -900,12 +790,6 @@ export default function PrivacyPolicyClient() {
           clip-path: inset(0 0 0% 0);
           transform: translate3d(0, 0, 0);
         }
-
-        /*
-         * -----------------------------------------------------
-         * PRINCIPLES
-         * -----------------------------------------------------
-         */
 
         .privacy-principle {
           opacity: 0;
@@ -926,12 +810,6 @@ export default function PrivacyPolicyClient() {
           transform: scale(1) rotate(0deg);
         }
 
-        /*
-         * -----------------------------------------------------
-         * POLICY SECTION SOFT COLOR TRANSITION
-         * -----------------------------------------------------
-         */
-
         .privacy-section {
           position: relative;
         }
@@ -942,24 +820,20 @@ export default function PrivacyPolicyClient() {
           inset: 0;
           pointer-events: none;
           opacity: 0;
+
           background: linear-gradient(
             90deg,
             rgba(233, 81, 29, 0.025),
             transparent 30%,
             transparent
           );
+
           transition: opacity 0.7s ease;
         }
 
         .privacy-section:hover::after {
           opacity: 1;
         }
-
-        /*
-         * -----------------------------------------------------
-         * RESPONSIVE
-         * -----------------------------------------------------
-         */
 
         @media (max-width: 1024px) {
           .privacy-reveal-left,
@@ -978,12 +852,6 @@ export default function PrivacyPolicyClient() {
             transform: translate3d(0, 0, 0);
           }
         }
-
-        /*
-         * -----------------------------------------------------
-         * ACCESSIBILITY
-         * -----------------------------------------------------
-         */
 
         @media (prefers-reduced-motion: reduce) {
           .privacy-reveal,

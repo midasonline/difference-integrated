@@ -6,15 +6,9 @@ import { HoverText } from "@/components/ui/HoverText";
 
 export function Footer() {
   const { dictionary, locale, localePath } = useI18n();
+
   const copy = dictionary.home.footer;
   const isArabic = locale === "ar";
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
 
   return (
     <footer
@@ -36,8 +30,6 @@ export function Footer() {
                   className="di-footer__logo"
                 />
               </a>
-              <br></br>
-              <br></br>
 
               <address className="mt-[22rem] max-w-[340rem] not-italic text-[14rem] leading-[1.65] text-white/70 max-[1024px]:mt-[18rem] max-[640px]:mt-[16rem] max-[640px]:text-[13rem]">
                 6995 King Fahd Branch Road, Utaiqah Dist, Riyadh 12653 - Unit 34
@@ -50,7 +42,7 @@ export function Footer() {
               aria-label={isArabic ? "روابط التذييل" : "Footer navigation"}
             >
               {footerColumns.map((column, columnIndex) => {
-                const translatedColumn = copy.columns[columnIndex];
+                const translatedColumn = copy.columns?.[columnIndex];
 
                 return (
                   <div
@@ -69,17 +61,31 @@ export function Footer() {
                     </a>
 
                     <div className="di-footer__links">
-                      {column.items.map((item, itemIndex) => (
-                        <a
-                          key={`${column.heading}-${item}`}
-                          href={localePath(column.href)}
-                          className="text-hover di-footer__link"
-                        >
-                          <HoverText>
-                            {translatedColumn?.items[itemIndex] ?? item}
-                          </HoverText>
-                        </a>
-                      ))}
+                      {column.items.map((item, itemIndex) => {
+                        const translatedItem =
+                          translatedColumn?.items?.[itemIndex];
+
+                        const isNewAboutPage =
+                          column.heading === "About Us" &&
+                          (item.href === "/safety-compliance" ||
+                            item.href === "/vision-2030");
+
+                        const label = isNewAboutPage
+                          ? item.text
+                          : typeof translatedItem === "string"
+                            ? translatedItem
+                            : item.text;
+
+                        return (
+                          <a
+                            key={`${column.heading}-${item.text}-${itemIndex}`}
+                            href={localePath(item.href)}
+                            className="text-hover di-footer__link"
+                          >
+                            <HoverText>{label}</HoverText>
+                          </a>
+                        );
+                      })}
                     </div>
                   </div>
                 );
@@ -89,11 +95,11 @@ export function Footer() {
 
           <div className="di-footer__brand-wrap" dir="ltr">
             <div
-              className={`di-footer__brand text-nowrap text-center mx-auto w-fit ${
-                isArabic && "leading-relaxed!"
+              className={`di-footer__brand mx-auto w-fit text-nowrap text-center ${
+                isArabic ? "leading-relaxed!" : ""
               }`}
             >
-              {isArabic ? "الفرق المتكامل" : "Difference Integrated"}
+              {isArabic ? "ديفرانس إنتيجريتد" : "Difference Integrated"}
             </div>
           </div>
 
@@ -101,12 +107,23 @@ export function Footer() {
             <div className="di-footer__legal">
               <p className="di-footer__rights">{copy.rights}</p>
 
-              <a
-                href={localePath("/privacy-policy")}
-                className="text-hover di-footer__privacy"
-              >
-                <HoverText>{copy.privacy}</HoverText>
-              </a>
+              <div className="flex flex-wrap items-center gap-x-[24rem] gap-y-[10rem]">
+                <a
+                  href={localePath("/privacy-policy")}
+                  className="text-hover di-footer__privacy"
+                >
+                  <HoverText>{copy.privacy}</HoverText>
+                </a>
+
+                <a
+                  href={localePath("/terms-of-services")}
+                  className="text-hover di-footer__privacy"
+                >
+                  <HoverText>
+                    {isArabic ? "شروط الخدمة" : "Terms of Services"}
+                  </HoverText>
+                </a>
+              </div>
             </div>
           </div>
         </div>

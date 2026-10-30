@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
+import PrivacyPolicyClient from "@/components/legal/PrivacyPolicyClient";
 
-import PrivacyPolicyClient from "./PrivacyPolicyClient";
-
-export const metadata: Metadata = {
-  title: "Privacy Policy | Difference Integrated",
-  description:
-    "Learn how Difference Integrated collects, uses, stores, and protects personal information.",
+type PrivacyPolicyPageProps = {
+  params: Promise<{
+    lang: string;
+  }>;
 };
 
-export default function LocalizedPrivacyPolicyPage() {
-  return <PrivacyPolicyClient />;
+export default async function PrivacyPolicyPage({
+  params,
+}: PrivacyPolicyPageProps) {
+  const { lang } = await params;
+
+  return <PrivacyPolicyClient lang={lang} />;
 }

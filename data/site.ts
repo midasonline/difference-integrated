@@ -236,31 +236,101 @@ export const footerColumns = [
     heading: "Services",
     href: "/services",
     items: [
-      "Construction Logistics",
-      "Sand Transportation",
-      "Heavy Dumper Logistics",
-      "Logistics Coordination",
-      "Goods Transportation",
-      "Fuel & Tanker Transportation",
-      "Bulk Construction Material Transport",
-      "Fleet & Machinery",
-      "Aggregate & Construction Material Transportation",
-      "General Freight & Logistics Solutions",
-      "Cattle Transportation / Livestock Service",
-      "Agriculture Transportation",
-      "Vehicle Transportation",
+      {
+        text: "Construction Logistics",
+        href: "/services",
+      },
+      {
+        text: "Sand Transportation",
+        href: "/services",
+      },
+      {
+        text: "Heavy Dumper Logistics",
+        href: "/services",
+      },
+      {
+        text: "Logistics Coordination",
+        href: "/services",
+      },
+      {
+        text: "Goods Transportation",
+        href: "/services",
+      },
+      {
+        text: "Fuel & Tanker Transportation",
+        href: "/services",
+      },
+      {
+        text: "Bulk Construction Material Transport",
+        href: "/services",
+      },
+      {
+        text: "Fleet & Machinery",
+        href: "/services",
+      },
+      {
+        text: "Aggregate & Construction Material Transportation",
+        href: "/services",
+      },
+      {
+        text: "General Freight & Logistics Solutions",
+        href: "/services",
+      },
+      {
+        text: "Cattle Transportation / Livestock Service",
+        href: "/services",
+      },
+      {
+        text: "Agriculture Transportation",
+        href: "/services",
+      },
+      {
+        text: "Vehicle Transportation",
+        href: "/services",
+      },
     ],
   },
+
   {
     heading: "About Us",
     href: "/about",
-    items: ["Why Us?", "Our Main Goals", "Key Advantages"],
+    items: [
+      {
+        text: "Why Us?",
+        href: "/about",
+      },
+      {
+        text: "Our Main Goals",
+        href: "/about",
+      },
+      {
+        text: "Key Advantages",
+        href: "/about",
+      },
+      {
+        text: "Safety & Compliance",
+        href: "/safety-compliance",
+      },
+      {
+        text: "Vision 2030",
+        href: "/vision-2030",
+      },
+    ],
   },
 
   {
     heading: "Contacts",
     href: "/contact",
-    items: ["Our Contacts", "Contact Us"],
+    items: [
+      {
+        text: "Our Contacts",
+        href: "/contact",
+      },
+      {
+        text: "Contact Us",
+        href: "/contact",
+      },
+    ],
   },
 ];
 
