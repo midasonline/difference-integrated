@@ -166,14 +166,14 @@ const en = {
       {
         role: "Chief Executive Officer",
         name: "Asad Inam",
-        email: "test@gmail.com",
-        phone: "03000000000",
+        email: "info@differenceintegrated.sa",
+        // phone: "03000000000",
       },
       {
-        role: "General Manager Operations",
+        role: "Sales Executive",
         name: "Fazle Qadir Mirza",
-        email: "test@gmail.com",
-        phone: "03000000000",
+        email: "info@differenceintegrated.sa",
+        // phone: "03000000000",
       },
     ],
     form: {
