@@ -8,12 +8,16 @@ export const navItems = [
     href: "/about",
   },
   {
+    label: "Vision 2030",
+    href: "/vision-2030",
+  },
+  {
     label: "Services",
     href: "/services",
   },
 
   {
-    label: "Contacts",
+    label: "Our Team",
     href: "/contact",
   },
 ];

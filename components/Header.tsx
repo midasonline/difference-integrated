@@ -469,18 +469,22 @@ export function Header({
                     langOpen ? "header__lang-dropdown--open" : ""
                   }`}
                 >
-                  {locales.map((itemLocale) => (
-                    <button
-                      key={itemLocale}
-                      type="button"
-                      onClick={() => handleLanguageChange(itemLocale)}
-                      className={`header__lang-item ${
-                        itemLocale === locale ? "header__lang-item--active" : ""
-                      }`}
-                    >
-                      {localeDetails[itemLocale].code}
-                    </button>
-                  ))}
+                  {locales
+                    .filter((itemLocale) => itemLocale !== "ar")
+                    .map((itemLocale) => (
+                      <button
+                        key={itemLocale}
+                        type="button"
+                        onClick={() => handleLanguageChange(itemLocale)}
+                        className={`header__lang-item ${
+                          itemLocale === locale
+                            ? "header__lang-item--active"
+                            : ""
+                        }`}
+                      >
+                        {localeDetails[itemLocale].code}
+                      </button>
+                    ))}
                 </div>
               </div>
             </div>

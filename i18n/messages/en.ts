@@ -152,7 +152,7 @@ const en = {
         "Contact Difference Integrated for transportation, project logistics, fleet operations and logistics coordination across Saudi Arabia.",
     },
     hero: {
-      title: ["Our", "Contacts"],
+      title: ["Our", "Leadership"],
       phoneLabel: "Phone",
       phoneValue: "03000000000",
       whatsappLabel: "WhatsApp",

@@ -106,7 +106,7 @@ function ContactRow({
       </span>
 
       <span
-        className={`contact-page__contact-value min-w-0 break-words text-[30rem] font-bold leading-none tracking-[-.025em] text-[var(--di-primary)] transition-transform duration-500 max-[1400px]:text-[27rem] max-[1200px]:text-[max(16px,24rem)] max-[1025px]:text-[max(16px,22rem)] max-[600px]:text-[max(16px,19rem)] ${
+        className={`contact-page__contact-value min-w-0 break-words text-[30rem] font-bold leading-[1.05] tracking-[-.025em] text-[var(--di-primary)] transition-transform duration-500 max-[1400px]:text-[27rem] max-[1200px]:text-[max(16px,24rem)] max-[1025px]:text-[max(16px,22rem)] max-[600px]:text-[max(16px,19rem)] ${
           isRtl
             ? "group-hover:-translate-x-[6rem]"
             : "group-hover:translate-x-[6rem]"
@@ -126,19 +126,15 @@ function PersonCard({
   person,
   media,
   index,
-  labels,
   isRtl,
   onOpenProfile,
 }: {
   person: PersonCopy;
   media: PersonMedia;
   index: number;
-  labels: ContactPageCopy["labels"];
   isRtl: boolean;
   onOpenProfile: () => void;
 }) {
-  const hasRealEmail = person.email.includes("@");
-
   return (
     <article data-person-card className="min-w-0">
       <button
@@ -148,19 +144,19 @@ function PersonCard({
         className="group relative block h-[600rem] w-full cursor-pointer overflow-hidden rounded-[12rem] bg-[#f2f2f5] text-left max-[1500px]:h-[560rem] max-[1200px]:h-[500rem] max-[1025px]:h-[540rem] max-[700px]:h-[430rem]"
       >
         <div
-          className={`absolute top-[18rem] z-[3] min-w-[170rem] rounded-[4rem] bg-white px-[20rem] py-[16rem] shadow-[0_10px_30px_rgba(22,37,91,.04)] max-[700px]:top-[14rem] max-[700px]:min-w-[150rem] max-[700px]:px-[16rem] max-[700px]:py-[13rem] ${
+          className={`absolute top-[18rem] z-[3] min-w-[170rem] max-w-[calc(100%-40rem)] rounded-[4rem] bg-white px-[20rem] py-[16rem] shadow-[0_10px_30px_rgba(22,37,91,.04)] max-[700px]:top-[14rem] max-[700px]:min-w-[150rem] max-[700px]:px-[16rem] max-[700px]:py-[13rem] ${
             isRtl
               ? "right-[20rem] max-[700px]:right-[14rem]"
               : "left-[20rem] max-[700px]:left-[14rem]"
           }`}
         >
-          <span className="contact-person-role mb-[5rem] block font-['Inter'] text-[max(12px,10rem)] font-semibold uppercase leading-none tracking-[.03em] text-[var(--di-primary)]">
+          <span className="contact-person-role mb-[5rem] block break-words font-['Inter'] text-[max(12px,10rem)] font-semibold uppercase leading-[1.25] tracking-[.03em] text-[var(--di-primary)]">
             {person.role}
           </span>
 
           <span
             dir="ltr"
-            className={`contact-person-name block max-w-[180rem] text-[max(16px,17rem)] font-bold uppercase leading-[1.05] text-[var(--di-primary)] max-[700px]:text-[max(16px,15rem)] ${
+            className={`contact-person-name block max-w-[220rem] break-words text-[max(16px,17rem)] font-bold uppercase leading-[1.15] text-[var(--di-primary)] max-[700px]:text-[max(16px,15rem)] ${
               isRtl ? "text-right" : "text-left"
             }`}
           >
@@ -185,39 +181,15 @@ function PersonCard({
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(22,37,91,0)_58%,rgba(22,37,91,.08)_100%)]" />
 
         <div
-          className={`pointer-events-none absolute bottom-[20rem] z-[4] overflow-hidden ${
+          className={`pointer-events-none absolute bottom-[20rem] z-[4] ${
             isRtl ? "right-[20rem]" : "left-[20rem]"
           }`}
         >
-          <span className="block translate-y-[140%] bg-[var(--di-primary)] px-[16rem] py-[10rem] font-['Inter'] text-[11rem] font-semibold uppercase tracking-[.06em] text-white transition-transform duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover:translate-y-0">
+          <span className="block translate-y-[140%] bg-[var(--di-primary)] px-[16rem] py-[10rem] font-['Inter'] text-[11rem] font-semibold uppercase leading-[1.25] tracking-[.06em] text-white transition-transform duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover:translate-y-0">
             {isRtl ? "عرض الملف الشخصي" : "View Profile"}
           </span>
         </div>
       </button>
-
-      <div className="min-h-[88rem] border-b border-[var(--di-primary)]/15 py-[22rem] max-[1025px]:py-[18rem]">
-        <div>
-          <span className="mb-[4rem] block font-['Inter'] text-[max(12px,10rem)] font-semibold uppercase tracking-[.03em] text-[var(--di-primary)]">
-            {labels.email}:
-          </span>
-
-          {hasRealEmail ? (
-            <a
-              href={`mailto:${person.email}`}
-              dir="ltr"
-              className={`block break-words text-[max(16px,15rem)] font-bold uppercase leading-[1.15] text-[var(--di-primary)] transition-colors duration-300 hover:text-[var(--di-accent)] max-[700px]:text-[max(13px,13rem)] ${
-                isRtl ? "text-right" : "text-left"
-              }`}
-            >
-              {person.email}
-            </a>
-          ) : (
-            <span className="block break-words text-[max(16px,15rem)] font-bold uppercase leading-[1.15] text-[var(--di-primary)] max-[700px]:text-[max(13px,13rem)]">
-              {person.email}
-            </span>
-          )}
-        </div>
-      </div>
     </article>
   );
 }
@@ -348,13 +320,13 @@ function ProfileModal({
 
         <div className="profile-modal-content min-h-0 overflow-y-auto">
           <div className="px-[72rem] pb-[80rem] pt-[70rem] max-[1200px]:px-[48rem] max-[1024px]:px-[38rem] max-[700px]:px-[24rem] max-[700px]:pb-[55rem] max-[700px]:pt-[38rem]">
-            <span className="font-['Inter'] text-[12rem] font-semibold uppercase tracking-[.08em] text-[var(--di-accent)]">
+            <span className="block break-words font-['Inter'] text-[12rem] font-semibold uppercase leading-[1.3] tracking-[.08em] text-[var(--di-accent)]">
               {person.role}
             </span>
 
             <h2
               dir="ltr"
-              className={`mt-[13rem] max-w-[760rem] text-[70rem] font-bold uppercase leading-[.88] tracking-[-.035em] text-[var(--di-primary)] max-[1200px]:text-[58rem] max-[700px]:text-[42rem] ${
+              className={`mt-[13rem] max-w-[760rem] break-words pb-[8rem] text-[70rem] font-bold uppercase leading-[.96] tracking-[-.035em] text-[var(--di-primary)] max-[1200px]:text-[58rem] max-[700px]:text-[42rem] ${
                 isRtl ? "text-right" : "text-left"
               }`}
             >
@@ -363,7 +335,7 @@ function ProfileModal({
 
             <div className="mt-[35rem] h-[3rem] w-[55rem] bg-[var(--di-accent)]" />
 
-            <div className="mt-[40rem] space-y-[24rem] font-['Inter'] text-[16rem] font-normal leading-[1.75] text-[var(--di-primary)]/72 max-[700px]:mt-[30rem] max-[700px]:text-[15rem]">
+            <div className="mt-[40rem] space-y-[24rem] break-words font-['Inter'] text-[16rem] font-normal leading-[1.75] text-[var(--di-primary)]/72 max-[700px]:mt-[30rem] max-[700px]:text-[15rem]">
               {profile.paragraphs.map((paragraph, paragraphIndex) => (
                 <p key={`${person.name}-${paragraphIndex}`}>{paragraph}</p>
               ))}
@@ -385,6 +357,8 @@ export default function ContactPageClient() {
   const copy = dictionary.contactPage;
 
   const isRtl = locale === "ar";
+
+  const titleLines = isRtl ? copy.hero.title : ["Leadership"];
 
   useEffect(() => {
     if (selectedProfile === null) {
@@ -427,7 +401,7 @@ export default function ContactPageClient() {
         });
 
         gsap.set("[data-title-line]", {
-          yPercent: 110,
+          yPercent: 80,
           opacity: 0,
         });
 
@@ -534,12 +508,12 @@ export default function ContactPageClient() {
                     : "pr-[105rem] max-[1500px]:pr-[65rem] max-[1280px]:pr-[30rem]"
                 }`}
               >
-                <div className="max-w-[560rem] max-[1025px]:mb-[70rem] max-[700px]:mb-[50rem]">
-                  {copy.hero.title.map((line) => (
-                    <div key={line} className="overflow-hidden pb-[10rem]">
+                <div className="max-w-[590rem] pb-[20rem] max-[1025px]:mb-[70rem] max-[700px]:mb-[50rem]">
+                  {titleLines.map((line) => (
+                    <div key={line} className="pb-[14rem]">
                       <span
                         data-title-line
-                        className="contact-page__title block text-[clamp(90rem,7.2vw,145rem)] font-bold uppercase leading-[.82] tracking-[-.05em] text-[var(--di-primary)] max-[700px]:text-[70rem]"
+                        className="contact-page__title block max-w-full break-words pb-[6rem] text-[clamp(82rem,7.2vw,145rem)] font-bold uppercase leading-[.9] tracking-[-.045em] text-[var(--di-primary)] max-[700px]:text-[64rem]"
                       >
                         {line}
                       </span>
@@ -563,7 +537,6 @@ export default function ContactPageClient() {
                 person={copy.people[0]}
                 media={peopleMedia[0]}
                 index={0}
-                labels={copy.labels}
                 isRtl={isRtl}
                 onOpenProfile={() => setSelectedProfile(0)}
               />
@@ -572,7 +545,6 @@ export default function ContactPageClient() {
                 person={copy.people[1]}
                 media={peopleMedia[1]}
                 index={1}
-                labels={copy.labels}
                 isRtl={isRtl}
                 onOpenProfile={() => setSelectedProfile(1)}
               />
