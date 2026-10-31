@@ -23,8 +23,7 @@ const EMAIL = "info@differenceintegrated.sa";
 
 const WEBSITE = "https://differenceintegrated.sa";
 
-const LINKEDIN_URL =
-  "https://www.linkedin.com/company/difference-integrated/";
+const LINKEDIN_URL = "https://www.linkedin.com/company/difference-integrated/";
 
 const MAP_QUERY = encodeURIComponent(ADDRESS);
 
@@ -445,23 +444,14 @@ export default function ContactPage() {
                   href={`mailto:${EMAIL}`}
                 />
 
-                {LINKEDIN_URL ? (
-                  <ContactDetail
-                    icon={FiLinkedin}
-                    label="LinkedIn"
-                    value="Difference Integrated"
-                    description="Corporate updates, operations and company activity."
-                    href={LINKEDIN_URL}
-                    external
-                  />
-                ) : (
-                  <ContactDetail
-                    icon={FiLinkedin}
-                    label="LinkedIn"
-                    value="Difference Integrated"
-                    description="Corporate LinkedIn profile"
-                  />
-                )}
+                <ContactDetail
+                  icon={FiLinkedin}
+                  label="LinkedIn"
+                  value="Difference Integrated"
+                  description="Corporate updates, operations and company activity."
+                  href={LINKEDIN_URL}
+                  external
+                />
 
                 <ContactDetail
                   icon={FiGlobe}
@@ -562,13 +552,7 @@ export default function ContactPage() {
           position: relative;
 
           width: 100%;
-
           min-height: 100svh;
-
-          display: flex;
-          align-items: flex-end;
-
-          padding-top: 175rem;
 
           background: #fff;
         }
@@ -577,13 +561,24 @@ export default function ContactPage() {
           width: 90% !important;
           max-width: 1728px !important;
 
+          min-height: 100svh;
+
           margin-inline: auto;
 
+          padding-top: 145rem !important;
           padding-inline: 0 !important;
+
+          display: grid;
+
+          grid-template-rows:
+            minmax(0, 1fr)
+            auto;
         }
 
         .contact-hero__main {
           width: 100%;
+
+          align-self: center;
 
           display: grid;
 
@@ -595,7 +590,8 @@ export default function ContactPage() {
 
           gap: clamp(55rem, 5.5vw, 110rem);
 
-          padding-bottom: 82rem;
+          padding-top: 35rem;
+          padding-bottom: 55rem;
         }
 
         .contact-hero__heading {
@@ -1372,8 +1368,14 @@ export default function ContactPage() {
         @media (max-width: 1024px) {
           .contact-hero {
             min-height: auto;
+          }
 
-            padding-top: 155rem;
+          .contact-hero__container {
+            min-height: auto;
+
+            padding-top: 135rem !important;
+
+            display: block;
           }
 
           .contact-hero__main {
@@ -1381,7 +1383,8 @@ export default function ContactPage() {
 
             gap: 48rem;
 
-            padding-bottom: 62rem;
+            padding-top: 35rem;
+            padding-bottom: 58rem;
           }
 
           .contact-hero__heading {
@@ -1455,13 +1458,14 @@ export default function ContactPage() {
             width: 90% !important;
           }
 
-          .contact-hero {
-            padding-top: 125rem;
+          .contact-hero__container {
+            padding-top: 105rem !important;
           }
 
           .contact-hero__main {
-            gap: 36rem;
+            gap: 34rem;
 
+            padding-top: 28rem;
             padding-bottom: 45rem;
           }
 
