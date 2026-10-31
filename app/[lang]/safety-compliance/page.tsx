@@ -58,7 +58,7 @@ const pageCopy: Record<"en" | "ar", SafetyCopy> = {
         "Safe transportation requires disciplined operations, qualified personnel, reliable equipment, and strict adherence to regulations.",
         "Difference Integrated maintains a compliance-driven approach across its transportation operations.",
       ],
-      backgroundImage: "/assets/img/safety-compliance/hero-bg.webp",
+      backgroundImage: "/assets/img/safety-compliance/hero.webp",
     },
 
     compliance: {

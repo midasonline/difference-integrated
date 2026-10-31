@@ -489,7 +489,7 @@ export default function Vision2030Page() {
         {/* HERO */}
         <section className="vision-hero relative flex min-h-[100svh] items-end overflow-hidden bg-[var(--di-primary)] text-white">
           <img
-            src="/assets/img/about/plan-around/ksa.webp"
+            src="/assets/img/vision-2030.webp"
             alt=""
             aria-hidden="true"
             className="vision-hero-image pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
@@ -552,7 +552,7 @@ export default function Vision2030Page() {
                 </div>
 
                 <div className="vision-hero-meta mt-[38rem] flex items-center gap-[15rem]">
-                  <span className="h-[8rem] w-[8rem] rounded-full bg-[var(--di-accent)]" />
+                  {/* <span className="h-[8rem] w-[8rem] rounded-full bg-[var(--di-accent)]" /> */}
 
                   <span className="font-['Inter'] text-[12rem] font-medium uppercase tracking-[.13em] text-white/60">
                     {copy.hero.meta}

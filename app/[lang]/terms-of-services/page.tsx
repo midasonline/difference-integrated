@@ -1352,7 +1352,7 @@ export default function TermsOfServicesPage() {
         {/* HERO */}
         <section className="relative flex min-h-[100svh] items-end overflow-hidden bg-[var(--di-primary)] text-white">
           <img
-            src="/assets/img/about/about-hero.webp"
+            src="/assets/img/terms-of-services.webp"
             alt=""
             aria-hidden="true"
             className="terms-hero-image pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
