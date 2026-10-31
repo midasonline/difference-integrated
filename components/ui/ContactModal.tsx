@@ -75,7 +75,7 @@ export function ContactModal({ open, onClose }: ContactModalProps) {
           type="button"
           aria-label={copy.close}
           onClick={onClose}
-          className="contact-modal__close absolute right-[calc(100%_+_20rem)] top-1/2 flex h-[85rem] w-[85rem] -translate-y-1/2 items-center justify-center rounded-[5rem] bg-[#f4f4f7] text-[34rem] text-[#1f1f61] transition hover:bg-[#1f1f61] hover:text-white max-[1025px]:bottom-[calc(100%_+_10rem)] max-[1025px]:left-1/2 max-[1025px]:right-auto max-[1025px]:top-auto max-[1025px]:h-[65rem] max-[1025px]:w-[65rem] max-[1025px]:-translate-x-1/2 max-[1025px]:translate-y-0"
+          className="contact-modal__close absolute flex items-center justify-center rounded-[5rem] bg-[#f4f4f7] text-[34rem] text-[#1f1f61]"
         >
           ×
         </button>

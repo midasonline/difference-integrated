@@ -20,7 +20,7 @@ const DARK_HERO_ROUTES = [
   "/vision-2030",
 ];
 
-const LIGHT_HERO_ROUTES = ["/contact", "/contacts", "/blog"];
+const LIGHT_HERO_ROUTES = ["/team", "/contact", "/blog"];
 
 function normalizePath(value: string): string {
   if (!value) return "/";

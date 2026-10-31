@@ -347,7 +347,7 @@ function ProfileModal({
   );
 }
 
-export default function ContactPageClient() {
+export default function Teampage() {
   const rootRef = useRef<HTMLElement>(null);
 
   const [selectedProfile, setSelectedProfile] = useState<number | null>(null);
@@ -552,7 +552,6 @@ export default function ContactPageClient() {
           </div>
         </section>
 
-        <ContactPageForm />
       </main>
 
       {selectedProfile !== null && (

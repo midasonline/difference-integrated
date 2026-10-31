@@ -18,6 +18,10 @@ export const navItems = [
 
   {
     label: "Our Team",
+    href: "/team",
+  },
+  {
+    label: "Contact",
     href: "/contact",
   },
 ];
@@ -312,9 +316,14 @@ export const footerColumns = [
         href: "/about",
       },
       {
+        text: "Our Team",
+        href: "/team",
+      },
+      {
         text: "Safety & Compliance",
         href: "/safety-compliance",
       },
+
       {
         text: "Vision 2030",
         href: "/vision-2030",

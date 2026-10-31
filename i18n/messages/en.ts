@@ -10,7 +10,7 @@ const en = {
     header: {
       menu: "Menu",
       close: "Close",
-      contactUs: "Contact Us",
+      contactUs: "Get in Touch",
       language: "Language",
     },
     contactModal: {
