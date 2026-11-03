@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Header, type HeaderVariant } from "@/components/Header";
 import { BackToTop } from "@/components/ui/BackToTop";
 import { stripLocaleFromPathname } from "@/i18n/routing";
+import { HomeSectionNavigator } from "@/components/home/HomeSectionNavigator";
 
 const SITE_ENTRY_ROUTE_KEY = "di-site-entry-route-v1";
 
@@ -144,6 +145,7 @@ export function GlobalHeader() {
       </div>
 
       <BackToTop />
+      {isHome && <HomeSectionNavigator />}
 
       <style jsx global>{`
         .global-site-header ~ * .header {

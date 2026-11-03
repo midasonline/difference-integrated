@@ -12,7 +12,7 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import { PageTransition } from "@/components/ui/PageTransition";
 import type { Dictionary } from "@/i18n/dictionaries";
 
-const AUTO_SNAP_DELAY_MS = 500;
+const AUTO_SNAP_DELAY_MS = 120;
 
 type ServicePoint = {
   title: string;
@@ -1721,7 +1721,6 @@ export default function ServicesPageClient(): React.JSX.Element {
           }
 
           const trigger = masterTriggerRef.current;
-
           const currentScroll = window.scrollY;
 
           if (
@@ -1731,46 +1730,55 @@ export default function ServicesPageClient(): React.JSX.Element {
             return;
           }
 
-          const trackX = Number(gsap.getProperty(track, "x")) || 0;
+          /*
+           * Keep the original "dominant / more visible panel"
+           * behaviour.
+           *
+           * 0.49 => previous/current panel
+           * 0.51 => next panel
+           *
+           * The important change is that even a very small
+           * off-position scroll is no longer ignored.
+           */
+          const totalDuration = master.duration();
 
-          const panelPosition = Math.max(
+          const currentTimelineTime = Math.max(
             0,
-            Math.min(
-              servicePanels.length,
-
-              Math.abs(trackX) / Math.max(window.innerWidth, 1),
-            ),
+            Math.min(totalDuration, trigger.progress * totalDuration),
           );
 
-          const dominantPanel = Math.round(panelPosition);
+          const dominantPanel = Math.max(
+            0,
+            Math.min(servicePanels.length, Math.round(currentTimelineTime)),
+          );
 
-          const distanceFromAligned = Math.abs(panelPosition - dominantPanel);
+          const targetTime =
+            dominantPanel === 0
+              ? 0
+              : (serviceTargetTimesRef.current[dominantPanel - 1] ??
+                dominantPanel);
 
-          if (distanceFromAligned < 0.025) {
+          /*
+           * Only skip when we are effectively pixel-perfect
+           * on the snap point. Tiny user movement still snaps.
+           */
+          const SNAP_EPSILON = 0.0001;
+
+          if (Math.abs(currentTimelineTime - targetTime) <= SNAP_EPSILON) {
             return;
           }
 
-          let targetTime = 0;
-          let targetServiceIndex = -1;
-
-          if (dominantPanel > 0) {
-            targetServiceIndex = dominantPanel - 1;
-
-            targetTime =
-              serviceTargetTimesRef.current[targetServiceIndex] ??
-              dominantPanel;
-          }
+          const targetServiceIndex = dominantPanel > 0 ? dominantPanel - 1 : -1;
 
           const targetProgress = Math.min(
             1,
-            Math.max(0, targetTime / master.duration()),
+            Math.max(0, targetTime / totalDuration),
           );
 
           const targetScroll =
             trigger.start + (trigger.end - trigger.start) * targetProgress;
 
           jumpTweenRef.current?.kill();
-
           autoSnapTweenRef.current?.kill();
 
           const scrollState = {
@@ -1781,7 +1789,7 @@ export default function ServicesPageClient(): React.JSX.Element {
 
           autoSnapTweenRef.current = gsap.to(scrollState, {
             y: targetScroll,
-            duration: 0.82,
+            duration: 0.58,
             ease: "power3.inOut",
             overwrite: true,
 
@@ -1791,12 +1799,10 @@ export default function ServicesPageClient(): React.JSX.Element {
 
             onComplete: () => {
               autoSnapTweenRef.current = null;
-
               isAutoSnappingRef.current = false;
 
               if (targetServiceIndex >= 0) {
                 updateActiveService(targetServiceIndex);
-
                 playPanelReveal(targetServiceIndex);
               } else {
                 updateActiveService(-1);
@@ -1825,6 +1831,11 @@ export default function ServicesPageClient(): React.JSX.Element {
             return;
           }
 
+          /*
+           * Short debounce so the user can finish the wheel /
+           * trackpad gesture, then immediately settle to the
+           * dominant panel.
+           */
           autoSnapTimerRef.current = setTimeout(() => {
             snapToDominantPanel();
           }, AUTO_SNAP_DELAY_MS);

@@ -15,7 +15,12 @@ export function HomeExperience() {
   useMvpAnimations(rootRef);
 
   return (
-    <div ref={rootRef} className="home-page" data-intro-state="waiting">
+    <div
+      ref={rootRef}
+      className="home-page"
+      data-intro-state="waiting"
+      id="home"
+    >
       <Preloader />
 
       <PageTransition />

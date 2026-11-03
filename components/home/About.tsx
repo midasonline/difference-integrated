@@ -8,7 +8,10 @@ export function About() {
   const copy = dictionary.home.about;
 
   return (
-    <section className="py-[130rem] max-[1025px]:pb-[40rem] max-[1025px]:pt-[50rem]">
+    <section
+      className="py-[130rem] max-[1025px]:pb-[40rem] max-[1025px]:pt-[50rem]"
+      id="about"
+    >
       <div className="di-container">
         <div className="scale-block overflow-hidden rounded-[20rem] bg-[#e9511d] px-[40rem] pb-[20rem] pt-[45rem] text-white max-[1025px]:rounded-[10rem] max-[1025px]:px-[20rem] max-[1025px]:pb-[20rem] max-[1025px]:pt-[30rem]">
           <div className="opacity-block mb-[75rem] flex items-center justify-between border-b border-[#353571] pb-[10rem] uppercase max-[1025px]:mb-[80rem] max-[1025px]:pb-[5rem] max-[1025px]:text-[max(16px,15rem)]">

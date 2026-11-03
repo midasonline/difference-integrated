@@ -32,7 +32,10 @@ export function Advantages() {
   };
 
   return (
-    <section className="advantages relative max-h-screen bg-white pb-[50rem] pt-[140rem] after:absolute after:inset-x-0 after:bottom-[-1rem] after:h-[3rem] after:bg-white max-[1025px]:max-h-none max-[1025px]:py-[40rem]">
+    <section
+      id="why-us"
+      className="advantages relative max-h-screen bg-white pb-[50rem] pt-[140rem] after:absolute after:inset-x-0 after:bottom-[-1rem] after:h-[3rem] after:bg-white max-[1025px]:max-h-none max-[1025px]:py-[40rem]"
+    >
       <div className="di-container">
         <div className="flex items-start justify-between max-[1025px]:flex-col max-[1025px]:items-stretch">
           <div className="flex h-[760rem] flex-col justify-between max-[1025px]:h-auto">

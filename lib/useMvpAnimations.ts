@@ -8,7 +8,7 @@ import { SplitText } from "gsap/SplitText";
 import { stripLocaleFromPathname } from "@/i18n/routing";
 import { observeAnimationLayout } from "./animationLayout";
 
-const SERVICES_SNAP_DELAY = 1;
+const SERVICES_SNAP_DELAY = 0.5;
 
 const SITE_ENTRY_ROUTE_KEY = "di-site-entry-route-v1";
 const HOME_FULL_INTRO_PLAYED_KEY = "di-home-full-intro-played-v1";

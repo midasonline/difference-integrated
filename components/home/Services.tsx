@@ -111,7 +111,10 @@ export function Services() {
   const servicesHref = localePath("/services");
 
   return (
-    <section className="services bg-white py-[180rem] max-[1025px]:pb-[80rem] max-[1025px]:pt-[40rem]">
+    <section
+      className="services bg-white py-[180rem] max-[1025px]:pb-[80rem] max-[1025px]:pt-[40rem]"
+      id="services"
+    >
       <div className="di-container">
         <div className="services__container flex h-[920rem] gap-[10rem]">
           <div className="services__container-inner relative isolate flex min-w-0 flex-1 flex-col justify-between overflow-hidden rounded-[20rem] bg-primary px-[60rem] pb-[55rem] pt-[120rem] text-light max-[1025px]:w-full max-[1025px]:rounded-[10rem] max-[1025px]:px-[20rem] max-[1025px]:pb-[20rem] max-[1025px]:pt-[50rem]">
