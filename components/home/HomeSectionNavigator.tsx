@@ -49,11 +49,25 @@ const SECTIONS: SectionConfig[] = [
 export function HomeSectionNavigator() {
   const [activeSection, setActiveSection] = useState<SectionId>("home");
 
-  const [menuOpen, setMenuOpen] = useState(false);
-
   const triggersRef = useRef<ScrollTrigger[]>([]);
 
-  const navRef = useRef<HTMLElement>(null);
+  const getCurrentScrollY = () => {
+    const smoother = ScrollSmoother.get();
+
+    if (smoother) {
+      const smoothY = smoother.scrollTop();
+
+      if (Number.isFinite(smoothY)) {
+        return Math.max(0, smoothY);
+      }
+    }
+
+    return Math.max(
+      window.scrollY || 0,
+      document.documentElement.scrollTop || 0,
+      0,
+    );
+  };
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
@@ -72,6 +86,15 @@ export function HomeSectionNavigator() {
       killNavigationTriggers();
 
       SECTIONS.forEach((section) => {
+        /*
+         * Home state is managed
+         * separately from actual
+         * scroll position.
+         */
+        if (section.id === "home") {
+          return;
+        }
+
         const target = document.getElementById(section.id);
 
         if (!target) {
@@ -98,6 +121,21 @@ export function HomeSectionNavigator() {
       });
     };
 
+    const syncTopState = () => {
+      const scrollY = getCurrentScrollY();
+
+      /*
+       * Exact Home/top zone.
+       *
+       * This ensures the navigator
+       * returns to Home instead of
+       * keeping About active.
+       */
+      if (scrollY <= 60) {
+        setActiveSection("home");
+      }
+    };
+
     const setupNavigator = () => {
       requestAnimationFrame(() => {
         ScrollTrigger.refresh();
@@ -105,6 +143,8 @@ export function HomeSectionNavigator() {
         createNavigationTriggers();
 
         ScrollTrigger.refresh();
+
+        syncTopState();
       });
     };
 
@@ -114,50 +154,114 @@ export function HomeSectionNavigator() {
       setupNavigator();
     }, 1000);
 
+    window.addEventListener("scroll", syncTopState, {
+      passive: true,
+    });
+
     return () => {
       if (setupTimer) {
         clearTimeout(setupTimer);
       }
 
+      window.removeEventListener("scroll", syncTopState);
+
       killNavigationTriggers();
     };
   }, []);
-
-  useEffect(() => {
-    if (!menuOpen) {
-      return;
-    }
-
-    const handleOutsideClick = (event: PointerEvent) => {
-      const nav = navRef.current;
-
-      if (nav && event.target instanceof Node && !nav.contains(event.target)) {
-        setMenuOpen(false);
-      }
-    };
-
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setMenuOpen(false);
-      }
-    };
-
-    window.addEventListener("pointerdown", handleOutsideClick);
-
-    window.addEventListener("keydown", handleEscape);
-
-    return () => {
-      window.removeEventListener("pointerdown", handleOutsideClick);
-
-      window.removeEventListener("keydown", handleEscape);
-    };
-  }, [menuOpen]);
 
   const handleNavigation = (
     event: MouseEvent<HTMLAnchorElement>,
     sectionId: SectionId,
   ) => {
     event.preventDefault();
+
+    /*
+     * =====================================
+     * HOME — SPECIAL CASE
+     * =====================================
+     *
+     * Home must go to the REAL page top,
+     * not simply to the #home element.
+     *
+     * This is what restores:
+     * - Home active icon
+     * - transparent header
+     * - original header colour/logo state
+     */
+    if (sectionId === "home") {
+      setActiveSection("home");
+
+      window.history.replaceState(null, "", "#home");
+
+      const smoother = ScrollSmoother.get();
+
+      if (smoother?.paused()) {
+        smoother.paused(false);
+      }
+
+      ScrollTrigger.refresh();
+
+      if (smoother) {
+        smoother.scrollTo(0, true);
+      } else {
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: "smooth",
+        });
+      }
+
+      /*
+       * Keep checking until the
+       * smooth scroll has reached
+       * the actual top.
+       */
+      let frames = 0;
+
+      const syncHomeTop = () => {
+        const currentY = getCurrentScrollY();
+
+        if (currentY <= 2 || frames > 180) {
+          /*
+           * Ensure native scroll
+           * state is also exactly 0.
+           */
+          if (currentY <= 2) {
+            window.scrollTo(0, 0);
+          }
+
+          setActiveSection("home");
+
+          /*
+           * Header already listens
+           * to the scroll event.
+           *
+           * At y=0 this resets:
+           * scrolled -> false
+           * visible -> true
+           */
+          window.dispatchEvent(new Event("scroll"));
+
+          ScrollTrigger.update();
+
+          return;
+        }
+
+        frames += 1;
+
+        requestAnimationFrame(syncHomeTop);
+      };
+
+      requestAnimationFrame(syncHomeTop);
+
+      return;
+    }
+
+    /*
+     * =====================================
+     * OTHER SECTIONS
+     * =====================================
+     */
 
     const target = document.getElementById(sectionId);
 
@@ -168,8 +272,6 @@ export function HomeSectionNavigator() {
     }
 
     setActiveSection(sectionId);
-
-    setMenuOpen(false);
 
     window.history.replaceState(null, "", `#${sectionId}`);
 
@@ -215,18 +317,7 @@ export function HomeSectionNavigator() {
 
   return (
     <>
-      <nav
-        ref={navRef}
-        className={`home-section-nav ${
-          menuOpen ? "home-section-nav--open" : ""
-        }`}
-        aria-label="Homepage sections"
-        onClick={() => {
-          if (window.matchMedia("(hover: none)").matches) {
-            setMenuOpen(true);
-          }
-        }}
-      >
+      <nav className="home-section-nav" aria-label="Homepage sections">
         <div className="home-section-nav__inner">
           {SECTIONS.map((section) => {
             const active = activeSection === section.id;
@@ -327,7 +418,7 @@ export function HomeSectionNavigator() {
         }
 
         /* =========================================
-           ICONS
+           ICON
         ========================================= */
 
         .home-section-nav__icon {
@@ -342,8 +433,8 @@ export function HomeSectionNavigator() {
 
           transition:
             color 0.25s ease,
-            transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-            background-color 0.25s ease;
+            background-color 0.25s ease,
+            transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .home-section-nav__icon svg {
@@ -351,17 +442,6 @@ export function HomeSectionNavigator() {
           height: 19px;
 
           stroke-width: 1.8;
-        }
-
-        /*
-         * Only current section icon
-         * receives DI orange.
-         */
-
-        .home-section-nav__item--active .home-section-nav__icon {
-          color: var(--di-accent);
-
-          background: rgba(233, 81, 29, 0.055);
         }
 
         /* =========================================
@@ -396,8 +476,34 @@ export function HomeSectionNavigator() {
             color 0.25s ease;
         }
 
+        /* =========================================
+           ACTIVE
+        ========================================= */
+
+        .home-section-nav__item--active .home-section-nav__icon {
+          color: var(--di-accent);
+
+          background: rgba(233, 81, 29, 0.055);
+        }
+
         .home-section-nav__item--active .home-section-nav__label {
           color: var(--di-accent);
+        }
+
+        .home-section-nav__item--active::before {
+          content: "";
+
+          position: absolute;
+
+          top: 50%;
+          left: 0;
+
+          width: 2px;
+          height: 21px;
+
+          background: var(--di-accent);
+
+          transform: translateY(-50%);
         }
 
         /* =========================================
@@ -421,49 +527,10 @@ export function HomeSectionNavigator() {
             background: rgba(25, 37, 91, 0.045);
           }
 
-          .home-section-nav__item:hover .home-section-nav__icon {
-            color: var(--di-accent);
-          }
-
+          .home-section-nav__item:hover .home-section-nav__icon,
           .home-section-nav__item:hover .home-section-nav__label {
             color: var(--di-accent);
-
-            transform: translateX(2px);
           }
-        }
-
-        /* =========================================
-           TOUCH / MOBILE OPEN STATE
-        ========================================= */
-
-        .home-section-nav--open {
-          width: 205px;
-        }
-
-        .home-section-nav--open .home-section-nav__label {
-          opacity: 1;
-
-          transform: translateX(0);
-        }
-
-        /* =========================================
-           ACTIVE INDICATOR
-        ========================================= */
-
-        .home-section-nav__item--active::before {
-          content: "";
-
-          position: absolute;
-
-          top: 50%;
-          left: 0;
-
-          width: 2px;
-          height: 21px;
-
-          background: var(--di-accent);
-
-          transform: translateY(-50%);
         }
 
         /* =========================================
@@ -504,8 +571,14 @@ export function HomeSectionNavigator() {
             font-size: 10px;
           }
 
-          .home-section-nav--open {
+          .home-section-nav:focus-within {
             width: 190px;
+          }
+
+          .home-section-nav:focus-within .home-section-nav__label {
+            opacity: 1;
+
+            transform: translateX(0);
           }
         }
 
@@ -515,13 +588,9 @@ export function HomeSectionNavigator() {
 
         @media (max-width: 640px) {
           .home-section-nav {
-            top: 50%;
-
             right: 8px;
 
             width: 46px;
-
-            transform: translateY(-50%);
           }
 
           .home-section-nav__inner {
@@ -553,14 +622,10 @@ export function HomeSectionNavigator() {
             letter-spacing: 0.07em;
           }
 
-          .home-section-nav--open {
+          .home-section-nav:focus-within {
             width: 170px;
           }
         }
-
-        /* =========================================
-           SMALL MOBILE
-        ========================================= */
 
         @media (max-width: 380px) {
           .home-section-nav {
@@ -586,20 +651,7 @@ export function HomeSectionNavigator() {
             width: 42px;
             height: 44px;
           }
-
-          .home-section-nav__icon svg {
-            width: 16px;
-            height: 16px;
-          }
-
-          .home-section-nav--open {
-            width: 158px;
-          }
         }
-
-        /* =========================================
-           REDUCED MOTION
-        ========================================= */
 
         @media (prefers-reduced-motion: reduce) {
           .home-section-nav,
