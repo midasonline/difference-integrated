@@ -672,6 +672,7 @@ export function Header({
           line-height: 2 !important;
 
           white-space: nowrap;
+          border: 1px solid var(--color-di-primary);
         }
 
         /* =========================================
