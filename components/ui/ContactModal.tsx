@@ -86,9 +86,15 @@ export function ContactModal({ open, onClose }: ContactModalProps) {
           {copy.intro}
         </p>
         <form onSubmit={submit}>
-          <ModalField label={copy.fullName} required />
-          <ModalField label={copy.phone} required type="tel" />
+          <div
+            className="grid md:grid-cols-2 gap-[10rem] We will get back to you as soon as possible.
+"
+          >
+            <ModalField label={copy.fullName} required />
+            <ModalField label={copy.phone} required type="tel" />
+          </div>
           <ModalField label={copy.email} type="email" />
+          <ModalField label={copy.message} type="message" />
           <AnimatedButton type="submit" accent className="inline-flex w-full">
             {copy.submit}
           </AnimatedButton>

@@ -71,7 +71,7 @@ function AboutHero() {
             {copy.title}
           </h1>
 
-          <div className="hero-about__abb flex w-[1100rem] items-center justify-between text-[40rem] leading-[.9] max-[1025px]:w-full max-[1025px]:text-[max(16px,20rem)]">
+          {/* <div className="hero-about__abb flex w-[1100rem] items-center justify-between text-[40rem] leading-[.9] max-[1025px]:w-full max-[1025px]:text-[max(16px,20rem)]">
             <div
               dir="ltr"
               className="hero-about__abb-wrapper flex gap-[160rem] max-[1025px]:gap-[20rem]"
@@ -83,7 +83,7 @@ function AboutHero() {
             <span className="hero-about__abb-text text-[40rem] leading-[.9] uppercase max-[1025px]:text-[max(16px,20rem)]">
               {copy.eyebrow}
             </span>
-          </div>
+          </div> */}
 
           <span className="main-animated-line absolute bottom-0 left-0 h-[1rem] w-0 bg-white/20" />
         </div>
@@ -231,7 +231,7 @@ function Goals() {
                   dir="ltr"
                   className="text-[130rem] leading-none max-[1025px]:text-[80rem]"
                 >
-                  {String(index + 1).padStart(2, "0")}
+                  {/* {String(index + 1).padStart(2, "0")} */}
                 </span>
 
                 <div>

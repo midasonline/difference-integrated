@@ -143,13 +143,14 @@ export function Contact() {
               </div>
 
               <form onSubmit={submit} className="flex flex-col gap-[10rem]">
-                <div className="grid grid-cols-2 gap-[10rem] max-[700px]:grid-cols-1">
+                <div className="grid grid-cols-3 gap-[10rem] max-[700px]:grid-cols-1">
                   <Field label={copy.fullName} name="name" required />
 
                   <Field label={copy.phone} name="phone" type="tel" required />
+                  <Field label={copy.email} name="email" type="email" />
                 </div>
 
-                <Field label={copy.email} name="email" type="email" />
+                <Field label={copy.message} name="message" type="message" />
 
                 <AnimatedButton
                   type="submit"
