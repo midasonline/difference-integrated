@@ -1,6 +1,9 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
+
+import emailjs from "@emailjs/browser";
+
 import { AnimatedButton } from "@/components/ui/AnimatedButton";
 import { useI18n } from "@/components/i18n/I18nProvider";
 
@@ -9,11 +12,24 @@ type FieldProps = {
   name: string;
   type?: string;
   required?: boolean;
+  resetKey: number;
 };
 
-function Field({ label, name, type = "text", required = false }: FieldProps) {
+function Field({
+  label,
+  name,
+  type = "text",
+  required = false,
+  resetKey,
+}: FieldProps) {
   const [focused, setFocused] = useState(false);
+
   const [value, setValue] = useState("");
+
+  useEffect(() => {
+    setValue("");
+    setFocused(false);
+  }, [resetKey]);
 
   const raised = focused || value.length > 0;
 
@@ -45,12 +61,72 @@ function Field({ label, name, type = "text", required = false }: FieldProps) {
   );
 }
 
+type SubmitState = "idle" | "sending" | "success" | "error";
+
 export function Contact() {
   const { dictionary } = useI18n();
+
   const copy = dictionary.home.contact;
 
-  const submit = (event: FormEvent<HTMLFormElement>) => {
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const [submitState, setSubmitState] = useState<SubmitState>("idle");
+
+  const [resetKey, setResetKey] = useState(0);
+
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (submitState === "sending" || !formRef.current) {
+      return;
+    }
+
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      console.error("EmailJS configuration is missing.");
+
+      setSubmitState("error");
+
+      return;
+    }
+
+    try {
+      setSubmitState("sending");
+
+      await emailjs.sendForm(serviceId, templateId, formRef.current, {
+        publicKey,
+      });
+
+      setSubmitState("success");
+
+      /*
+       * Reset native form values.
+       */
+      formRef.current.reset();
+
+      /*
+       * Reset controlled Field
+       * components as well.
+       */
+      setResetKey((current) => current + 1);
+
+      /*
+       * Return to normal status
+       * after showing confirmation.
+       */
+      window.setTimeout(() => {
+        setSubmitState("idle");
+      }, 5000);
+    } catch (error) {
+      console.error("EmailJS submission failed:", error);
+
+      setSubmitState("error");
+    }
   };
 
   return (
@@ -142,28 +218,83 @@ export function Contact() {
                 </span>
               </div>
 
-              <form onSubmit={submit} className="flex flex-col gap-[10rem]">
-                <div className="grid grid-cols-3 gap-[10rem] max-[700px]:grid-cols-1">
-                  <Field label={copy.fullName} name="name" required />
+              <form
+                ref={formRef}
+                onSubmit={submit}
+                className="flex flex-col gap-[10rem]"
+              >
+                {/*
+                  Keep recipient fixed inside
+                  the EmailJS template itself:
+                  info@differenceintegrated.sa
+                */}
 
-                  <Field label={copy.phone} name="phone" type="tel" required />
-                  <Field label={copy.email} name="email" type="email" />
+                <input
+                  type="hidden"
+                  name="source"
+                  value="Difference Integrated Website"
+                />
+
+                <div className="grid grid-cols-3 gap-[10rem] max-[700px]:grid-cols-1">
+                  <Field
+                    label={copy.fullName}
+                    name="name"
+                    required
+                    resetKey={resetKey}
+                  />
+
+                  <Field
+                    label={copy.phone}
+                    name="phone"
+                    type="tel"
+                    required
+                    resetKey={resetKey}
+                  />
+
+                  <Field
+                    label={copy.email}
+                    name="email"
+                    type="email"
+                    resetKey={resetKey}
+                  />
                 </div>
 
-                <Field label={copy.message} name="message" type="message" />
+                <Field
+                  label={copy.message}
+                  name="message"
+                  resetKey={resetKey}
+                />
 
                 <AnimatedButton
                   type="submit"
                   accent
-                  className="mt-[4rem] w-full"
+                  disabled={submitState === "sending"}
+                  className="mt-[4rem] w-full disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  {copy.submit}
+                  {submitState === "sending" ? "SENDING..." : copy.submit}
                 </AnimatedButton>
               </form>
 
-              <p className="mt-[16rem] font-['Inter'] text-[max(12px,11rem)] font-normal leading-[1.4] text-light/40">
-                {copy.responseNote}
-              </p>
+              {submitState === "success" ? (
+                <p
+                  className="mt-[16rem] font-['Inter'] text-[max(12px,12rem)] font-medium leading-[1.4] text-light"
+                  role="status"
+                  aria-live="polite"
+                >
+                  Thank you. Your enquiry has been sent successfully.
+                </p>
+              ) : submitState === "error" ? (
+                <p
+                  className="mt-[16rem] font-['Inter'] text-[max(12px,12rem)] font-medium leading-[1.4] text-accent"
+                  role="alert"
+                >
+                  We could not send your enquiry. Please try again.
+                </p>
+              ) : (
+                <p className="mt-[16rem] font-['Inter'] text-[max(12px,11rem)] font-normal leading-[1.4] text-light/40">
+                  {copy.responseNote}
+                </p>
+              )}
             </div>
           </div>
         </div>

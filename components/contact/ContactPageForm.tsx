@@ -1,6 +1,7 @@
 "use client";
 
-import { FormEvent, useLayoutEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useLayoutEffect, useRef, useState } from "react";
+import emailjs from "@emailjs/browser";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -29,6 +30,7 @@ type FieldProps = {
   required?: boolean;
   autoComplete?: string;
   isRtl: boolean;
+  resetKey: number;
 };
 
 function Field({
@@ -38,9 +40,15 @@ function Field({
   required = false,
   autoComplete,
   isRtl,
+  resetKey,
 }: FieldProps) {
   const [focused, setFocused] = useState(false);
   const [value, setValue] = useState("");
+
+  useEffect(() => {
+    setValue("");
+    setFocused(false);
+  }, [resetKey]);
 
   const raised = focused || value.length > 0;
 
@@ -89,13 +97,20 @@ function SelectField({
   label,
   serviceLabels,
   isRtl,
+  resetKey,
 }: {
   label: string;
   serviceLabels: ContactFormCopy["services"];
   isRtl: boolean;
+  resetKey: number;
 }) {
   const [focused, setFocused] = useState(false);
   const [value, setValue] = useState("");
+
+  useEffect(() => {
+    setValue("");
+    setFocused(false);
+  }, [resetKey]);
 
   const raised = focused || value.length > 0;
 
@@ -160,6 +175,8 @@ function SelectField({
   );
 }
 
+type SubmitState = "idle" | "sending" | "success" | "error";
+
 function ArrowIcon({ isRtl = false }: { isRtl?: boolean }) {
   return (
     <svg
@@ -181,11 +198,13 @@ function ArrowIcon({ isRtl = false }: { isRtl?: boolean }) {
 
 export default function ContactPageForm() {
   const sectionRef = useRef<HTMLElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const { dictionary, locale } = useI18n();
   const copy = dictionary.contactPage.form;
   const isRtl = locale === "ar";
 
-  const [status, setStatus] = useState<"idle" | "success">("idle");
+  const [status, setStatus] = useState<SubmitState>("idle");
+  const [resetKey, setResetKey] = useState(0);
 
   useLayoutEffect(() => {
     if (!sectionRef.current) return;
@@ -253,8 +272,10 @@ export default function ContactPageForm() {
     return () => ctx.revert();
   }, [locale]);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (status === "sending") return;
 
     const form = event.currentTarget;
 
@@ -263,13 +284,34 @@ export default function ContactPageForm() {
       return;
     }
 
-    setStatus("success");
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_CONTACT_TEMPLATE_ID;
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
 
-    form.reset();
+    if (!serviceId || !templateId || !publicKey) {
+      console.error("EmailJS contact form configuration is missing.");
+      setStatus("error");
+      return;
+    }
 
-    window.setTimeout(() => {
-      setStatus("idle");
-    }, 4500);
+    try {
+      setStatus("sending");
+
+      await emailjs.sendForm(serviceId, templateId, form, {
+        publicKey,
+      });
+
+      setStatus("success");
+      form.reset();
+      setResetKey((current) => current + 1);
+
+      window.setTimeout(() => {
+        setStatus("idle");
+      }, 5000);
+    } catch (error) {
+      console.error("EmailJS contact form submission failed:", error);
+      setStatus("error");
+    }
   };
 
   return (
@@ -330,7 +372,9 @@ export default function ContactPageForm() {
               </span>
             </div>
 
-            <form onSubmit={handleSubmit}>
+            <form ref={formRef} onSubmit={handleSubmit}>
+              <input type="hidden" name="source" value="Contact Page" />
+              <input type="hidden" name="locale" value={locale} />
               <div className="grid grid-cols-2 gap-x-[38rem] gap-y-[5rem] max-[700px]:grid-cols-1">
                 <Field
                   label={copy.fields.fullName}
@@ -338,6 +382,7 @@ export default function ContactPageForm() {
                   required
                   autoComplete="name"
                   isRtl={isRtl}
+                  resetKey={resetKey}
                 />
 
                 <Field
@@ -345,6 +390,7 @@ export default function ContactPageForm() {
                   name="company"
                   autoComplete="organization"
                   isRtl={isRtl}
+                  resetKey={resetKey}
                 />
 
                 <Field
@@ -354,6 +400,7 @@ export default function ContactPageForm() {
                   required
                   autoComplete="tel"
                   isRtl={isRtl}
+                  resetKey={resetKey}
                 />
 
                 <Field
@@ -363,30 +410,35 @@ export default function ContactPageForm() {
                   required
                   autoComplete="email"
                   isRtl={isRtl}
+                  resetKey={resetKey}
                 />
 
                 <SelectField
                   label={copy.fields.serviceRequired}
                   serviceLabels={copy.services}
                   isRtl={isRtl}
+                  resetKey={resetKey}
                 />
 
                 <Field
                   label={copy.fields.projectLocation}
                   name="project_location"
                   isRtl={isRtl}
+                  resetKey={resetKey}
                 />
 
                 <Field
                   label={copy.fields.material}
                   name="material"
                   isRtl={isRtl}
+                  resetKey={resetKey}
                 />
 
                 <Field
                   label={copy.fields.timeline}
                   name="timeline"
                   isRtl={isRtl}
+                  resetKey={resetKey}
                 />
               </div>
 
@@ -420,9 +472,12 @@ export default function ContactPageForm() {
 
                 <button
                   type="submit"
-                  className="group flex h-[64rem] min-w-[220rem] items-center justify-between gap-[30rem] rounded-[5rem] bg-[var(--di-accent)] px-[24rem] text-[max(14px,14rem)] font-bold uppercase tracking-[.06em] text-white transition-colors duration-500 hover:bg-[var(--di-primary)] max-[700px]:w-full"
+                  disabled={status === "sending"}
+                  className="group flex h-[64rem] min-w-[220rem] items-center justify-between gap-[30rem] rounded-[5rem] bg-[var(--di-accent)] px-[24rem] text-[max(14px,14rem)] font-bold uppercase tracking-[.06em] text-white transition-colors duration-500 hover:bg-[var(--di-primary)] disabled:cursor-not-allowed disabled:opacity-60 max-[700px]:w-full"
                 >
-                  <span>{copy.submit}</span>
+                  <span>
+                    {status === "sending" ? "Sending..." : copy.submit}
+                  </span>
 
                   <span
                     className={`transition-transform duration-500 ${
@@ -439,14 +494,23 @@ export default function ContactPageForm() {
               <div
                 aria-live="polite"
                 className={`grid transition-all duration-500 ${
-                  status === "success"
+                  status === "success" || status === "error"
                     ? "mt-[25rem] grid-rows-[1fr] opacity-100"
                     : "grid-rows-[0fr] opacity-0"
                 }`}
               >
                 <div className="overflow-hidden">
-                  <div className="rounded-[5rem] bg-[var(--di-primary)] px-[18rem] py-[14rem] font-['Inter'] text-[max(13px,13rem)] text-white">
-                    {copy.success}
+                  <div
+                    className={`rounded-[5rem] px-[18rem] py-[14rem] font-['Inter'] text-[max(13px,13rem)] text-white ${
+                      status === "error"
+                        ? "bg-[var(--di-accent)]"
+                        : "bg-[var(--di-primary)]"
+                    }`}
+                    role={status === "error" ? "alert" : "status"}
+                  >
+                    {status === "error"
+                      ? "We could not send your requirement. Please try again."
+                      : copy.success}
                   </div>
                 </div>
               </div>

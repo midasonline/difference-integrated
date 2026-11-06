@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useLayoutEffect, useRef, useState } from "react";
+import emailjs from "@emailjs/browser";
+import { useLayoutEffect, useRef, useState, type FormEvent } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
@@ -405,6 +406,71 @@ function ServicesInquiryForm({
   copy: ServicesPageCopy["inquiry"];
   isRtl: boolean;
 }): React.JSX.Element {
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const [submitState, setSubmitState] = useState<
+    "idle" | "sending" | "success" | "error"
+  >("idle");
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (submitState === "sending" || !formRef.current) {
+      return;
+    }
+
+    const form = formRef.current;
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_CONTACT_TEMPLATE_ID;
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      console.error("EmailJS Services form configuration is missing.");
+      setSubmitState("error");
+      return;
+    }
+
+    try {
+      setSubmitState("sending");
+
+      await emailjs.sendForm(serviceId, templateId, form, {
+        publicKey,
+      });
+
+      setSubmitState("success");
+
+      form.reset();
+
+      window.setTimeout(() => {
+        setSubmitState("idle");
+      }, 5000);
+    } catch (error) {
+      console.error("EmailJS Services form submission failed:", error);
+      setSubmitState("error");
+    }
+  };
+
+  const buttonLabel =
+    submitState === "sending"
+      ? isRtl
+        ? "جارٍ الإرسال..."
+        : "Sending..."
+      : copy.submit;
+
+  const successMessage = isRtl
+    ? "شكرًا لك. تم إرسال طلبك بنجاح."
+    : "Thank you. Your request has been sent successfully.";
+
+  const errorMessage = isRtl
+    ? "تعذر إرسال طلبك. يرجى المحاولة مرة أخرى."
+    : "We could not send your request. Please try again.";
+
   return (
     <section
       dir={isRtl ? "rtl" : "ltr"}
@@ -430,9 +496,16 @@ function ServicesInquiryForm({
           </div>
 
           <form
+            ref={formRef}
             className="services-inquiry-form mt-[58rem] grid grid-cols-2 gap-x-[55rem] gap-y-[38rem] max-[760px]:mt-[42rem] max-[760px]:grid-cols-1 max-[760px]:gap-y-[30rem]"
-            onSubmit={(event) => event.preventDefault()}
+            onSubmit={handleSubmit}
           >
+            <input
+              type="hidden"
+              name="source"
+              value="Difference Integrated Services Page"
+            />
+
             <label className="service-form-field group relative flex flex-col gap-[10rem] overflow-hidden pb-[4rem]">
               <span className="service-form-label font-['Inter'] text-[max(14px,14rem)] font-semibold uppercase tracking-[.08em] text-[var(--di-primary)]/65">
                 {copy.fullName}{" "}
@@ -441,7 +514,7 @@ function ServicesInquiryForm({
 
               <input
                 type="text"
-                name="fullName"
+                name="full_name"
                 required
                 className="service-form-control h-[58rem] border-0 bg-transparent px-0 font-['Inter'] text-[max(16px,20rem)] font-normal text-[var(--di-primary)] outline-none placeholder:text-[var(--di-primary)]/30"
                 placeholder={copy.fullNamePlaceholder}
@@ -465,7 +538,7 @@ function ServicesInquiryForm({
 
               <input
                 type="text"
-                name="companyName"
+                name="company"
                 className="service-form-control h-[58rem] border-0 bg-transparent px-0 font-['Inter'] text-[max(16px,20rem)] font-normal text-[var(--di-primary)] outline-none placeholder:text-[var(--di-primary)]/30"
                 placeholder={copy.companyNamePlaceholder}
               />
@@ -567,7 +640,7 @@ function ServicesInquiryForm({
               </span>
 
               <textarea
-                name="requirement"
+                name="message"
                 rows={5}
                 className="service-form-control min-h-[145rem] resize-y border-0 bg-transparent px-0 py-[16rem] font-['Inter'] text-[max(16px,20rem)] font-normal leading-[1.45] text-[var(--di-primary)] outline-none placeholder:text-[var(--di-primary)]/30"
                 placeholder={copy.requirementPlaceholder}
@@ -587,19 +660,38 @@ function ServicesInquiryForm({
             <div className="service-form-submit-wrap col-span-2 mt-[14rem] max-[760px]:col-span-1">
               <button
                 type="submit"
-                className="di-btn di-btn-accent text-hover w-[390rem] max-w-full max-[640px]:w-full"
+                disabled={submitState === "sending"}
+                className="di-btn di-btn-accent text-hover w-[390rem] max-w-full disabled:cursor-not-allowed disabled:opacity-60 max-[640px]:w-full"
               >
                 <span className="di-btn-inner text-hover-inner">
                   <span className="text-hover-elem text-hover-elem-1">
-                    {copy.submit}
+                    {buttonLabel}
                   </span>
 
                   <span className="text-hover-elem text-hover-elem-2">
-                    {copy.submit}
+                    {buttonLabel}
                   </span>
                 </span>
               </button>
             </div>
+
+            {submitState === "success" ? (
+              <div
+                className="col-span-2 max-[760px]:col-span-1"
+                role="status"
+                aria-live="polite"
+              >
+                <div className="border-l-[3rem] border-[var(--di-accent)] bg-white/65 px-[18rem] py-[14rem] font-['Inter'] text-[max(13px,13rem)] font-medium text-[var(--di-primary)]">
+                  {successMessage}
+                </div>
+              </div>
+            ) : submitState === "error" ? (
+              <div className="col-span-2 max-[760px]:col-span-1" role="alert">
+                <div className="border-l-[3rem] border-[var(--di-accent)] bg-white/65 px-[18rem] py-[14rem] font-['Inter'] text-[max(13px,13rem)] font-medium text-[var(--di-accent)]">
+                  {errorMessage}
+                </div>
+              </div>
+            ) : null}
           </form>
         </div>
       </div>
