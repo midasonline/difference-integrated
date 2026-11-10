@@ -356,8 +356,8 @@ export function Header({
   const useLightContent = variant === "dark" && !scrolled;
 
   const logoSrc = useLightContent
-    ? "/assets/img/DI-Logo-WO.svg"
-    : "/assets/img/DI-Logo-Color.svg";
+    ? "/assets/img/DI-logo-white-new.svg"
+    : "/assets/img/DI-logo-blue-new.svg";
 
   const headerStyle: HeaderStyle = {
     visibility: headerEntered ? "visible" : "hidden",

@@ -25,7 +25,7 @@ export function Footer() {
                 aria-label="Difference Integrated Logistics"
               >
                 <img
-                  src="/assets/img/DI-Logo-WO.svg"
+                  src="/assets/img/DI-logo-white-new.svg"
                   alt="Difference Integrated Logistics"
                   className="di-footer__logo"
                 />
