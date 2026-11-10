@@ -266,10 +266,13 @@ export function Contact() {
                 />
 
                 <AnimatedButton
+                  // type="submit"
+                  // accent
+                  // disabled={submitState === "sending"}
+                  // className="mt-[4rem] w-full disabled:cursor-not-allowed disabled:opacity-60"
                   type="submit"
                   accent
-                  disabled={submitState === "sending"}
-                  className="mt-[4rem] w-full disabled:cursor-not-allowed disabled:opacity-60"
+                  className="mt-[4rem] w-full"
                 >
                   {submitState === "sending" ? "SENDING..." : copy.submit}
                 </AnimatedButton>
