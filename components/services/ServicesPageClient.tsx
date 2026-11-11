@@ -13,7 +13,17 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import { PageTransition } from "@/components/ui/PageTransition";
 import type { Dictionary } from "@/i18n/dictionaries";
 
-const AUTO_SNAP_DELAY_MS = 120;
+/*
+ * Desktop Services wheel / trackpad tuning.
+ *
+ * A gesture triggers as soon as the threshold is crossed, then stays locked
+ * until both the slide transition is complete AND wheel momentum has been
+ * quiet for a short period. This prevents Safari / Mac trackpad momentum from
+ * advancing multiple services from one physical gesture.
+ */
+const SERVICE_WHEEL_THRESHOLD = 24;
+const SERVICE_SLIDE_DURATION = 0.72;
+const SERVICE_GESTURE_QUIET_MS = 220;
 
 type ServicePoint = {
   title: string;
@@ -723,10 +733,6 @@ export default function ServicesPageClient(): React.JSX.Element {
   const serviceTargetTimesRef = useRef<number[]>([]);
   const activeServiceIndexRef = useRef(-1);
   const jumpTweenRef = useRef<gsap.core.Tween | null>(null);
-  const autoSnapTweenRef = useRef<gsap.core.Tween | null>(null);
-  const autoSnapTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const isAutoSnappingRef = useRef(false);
-  const serviceFullTargetTimesRef = useRef<number[]>([]);
 
   const [activeServiceIndex, setActiveServiceIndex] = useState(-1);
 
@@ -1726,8 +1732,6 @@ export default function ServicesPageClient(): React.JSX.Element {
 
         serviceTargetTimesRef.current = serviceTargetTimes;
 
-        serviceFullTargetTimesRef.current = serviceTargetTimes;
-
         masterTimelineRef.current = master;
 
         const masterTrigger = ScrollTrigger.create({
@@ -1741,7 +1745,7 @@ export default function ServicesPageClient(): React.JSX.Element {
             )}`,
 
           pin: true,
-          scrub: 0.55,
+          scrub: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           animation: master,
@@ -1778,110 +1782,109 @@ export default function ServicesPageClient(): React.JSX.Element {
 
         masterTriggerRef.current = masterTrigger;
 
-        const clearAutoSnapTimer = () => {
-          if (!autoSnapTimerRef.current) {
-            return;
-          }
+        /*
+         * SAFARI-SAFE DESKTOP WHEEL CONTROL
+         * ---------------------------------
+         * We do NOT let raw wheel momentum directly scrub through several
+         * services. Instead:
+         *
+         * 1. Native scrolling remains untouched outside the pinned section.
+         * 2. Inside the pinned section we accumulate wheel / trackpad delta.
+         * 3. As soon as the threshold is crossed, exactly one neighbouring
+         *    panel is selected.
+         * 4. The same physical gesture remains locked until its momentum tail
+         *    has been quiet for SERVICE_GESTURE_QUIET_MS.
+         *
+         * This avoids the common Safari / MacBook issue where momentum wheel
+         * events keep firing after the user's fingers have already stopped.
+         */
+        let wheelAccumulator = 0;
+        let slideLocked = false;
+        let transitionComplete = true;
 
-          clearTimeout(autoSnapTimerRef.current);
+        let quietTimer: ReturnType<typeof setTimeout> | null = null;
 
-          autoSnapTimerRef.current = null;
+        const clearQuietTimer = () => {
+          if (!quietTimer) return;
+
+          clearTimeout(quietTimer);
+          quietTimer = null;
         };
 
-        const cancelAutoSnapTween = () => {
-          if (!isAutoSnappingRef.current) {
-            return;
-          }
+        const maybeReleaseWheelLock = () => {
+          clearQuietTimer();
 
-          autoSnapTweenRef.current?.kill();
+          quietTimer = setTimeout(() => {
+            if (!transitionComplete) {
+              maybeReleaseWheelLock();
+              return;
+            }
 
-          autoSnapTweenRef.current = null;
-
-          isAutoSnappingRef.current = false;
+            slideLocked = false;
+            wheelAccumulator = 0;
+            quietTimer = null;
+          }, SERVICE_GESTURE_QUIET_MS);
         };
 
-        const snapToDominantPanel = () => {
-          autoSnapTimerRef.current = null;
+        /*
+         * Returns:
+         * -1 => Hero
+         *  0 => Service 01
+         *  1 => Service 02
+         * ...
+         *
+         * We calculate this from the actual master timeline instead of relying
+         * only on React state, so navigator clicks and browser restoration
+         * cannot put the wheel controller out of sync.
+         */
+        const getNearestPanelIndex = () => {
+          const currentTime = master.time();
 
-          if (
-            isAutoSnappingRef.current ||
-            window.innerWidth <= 1024 ||
-            !masterTriggerRef.current ||
-            master.duration() <= 0
-          ) {
-            return;
-          }
+          let nearestIndex = -1;
+          let nearestDistance = Math.abs(currentTime);
 
-          const trigger = masterTriggerRef.current;
-          const currentScroll = window.scrollY;
+          serviceTargetTimes.forEach((targetTime, index) => {
+            const distance = Math.abs(currentTime - targetTime);
 
-          if (
-            currentScroll < trigger.start - 2 ||
-            currentScroll > trigger.end + 2
-          ) {
-            return;
-          }
+            if (distance < nearestDistance) {
+              nearestDistance = distance;
+              nearestIndex = index;
+            }
+          });
 
-          /*
-           * Keep the original "dominant / more visible panel"
-           * behaviour.
-           *
-           * 0.49 => previous/current panel
-           * 0.51 => next panel
-           *
-           * The important change is that even a very small
-           * off-position scroll is no longer ignored.
-           */
-          const totalDuration = master.duration();
+          return nearestIndex;
+        };
 
-          const currentTimelineTime = Math.max(
-            0,
-            Math.min(totalDuration, trigger.progress * totalDuration),
-          );
+        const tweenWindowScroll = (
+          targetScroll: number,
+          targetServiceIndex: number,
+          leavingPinnedSection = false,
+        ) => {
+          if (slideLocked) return;
 
-          const dominantPanel = Math.max(
-            0,
-            Math.min(servicePanels.length, Math.round(currentTimelineTime)),
-          );
+          slideLocked = true;
+          transitionComplete = false;
+          wheelAccumulator = 0;
 
-          const targetTime =
-            dominantPanel === 0
-              ? 0
-              : (serviceTargetTimesRef.current[dominantPanel - 1] ??
-                dominantPanel);
-
-          /*
-           * Only skip when we are effectively pixel-perfect
-           * on the snap point. Tiny user movement still snaps.
-           */
-          const SNAP_EPSILON = 0.0001;
-
-          if (Math.abs(currentTimelineTime - targetTime) <= SNAP_EPSILON) {
-            return;
-          }
-
-          const targetServiceIndex = dominantPanel > 0 ? dominantPanel - 1 : -1;
-
-          const targetProgress = Math.min(
-            1,
-            Math.max(0, targetTime / totalDuration),
-          );
-
-          const targetScroll =
-            trigger.start + (trigger.end - trigger.start) * targetProgress;
+          clearQuietTimer();
 
           jumpTweenRef.current?.kill();
-          autoSnapTweenRef.current?.kill();
+
+          if (!leavingPinnedSection) {
+            updateActiveService(targetServiceIndex);
+
+            if (targetServiceIndex >= 0) {
+              playPanelReveal(targetServiceIndex);
+            }
+          }
 
           const scrollState = {
             y: window.scrollY,
           };
 
-          isAutoSnappingRef.current = true;
-
-          autoSnapTweenRef.current = gsap.to(scrollState, {
+          jumpTweenRef.current = gsap.to(scrollState, {
             y: targetScroll,
-            duration: 0.58,
+            duration: SERVICE_SLIDE_DURATION,
             ease: "power3.inOut",
             overwrite: true,
 
@@ -1890,93 +1893,196 @@ export default function ServicesPageClient(): React.JSX.Element {
             },
 
             onComplete: () => {
-              autoSnapTweenRef.current = null;
-              isAutoSnappingRef.current = false;
+              jumpTweenRef.current = null;
+              transitionComplete = true;
 
-              if (targetServiceIndex >= 0) {
-                updateActiveService(targetServiceIndex);
-                playPanelReveal(targetServiceIndex);
-              } else {
-                updateActiveService(-1);
-              }
+              /*
+               * Do not unlock immediately. Safari / trackpads often keep
+               * sending momentum wheel events after the tween has completed.
+               */
+              maybeReleaseWheelLock();
             },
           });
         };
 
-        const scheduleAutoSnap = () => {
-          clearAutoSnapTimer();
+        const goToPanel = (panelIndex: number) => {
+          const trigger = masterTriggerRef.current;
 
-          if (isAutoSnappingRef.current || window.innerWidth <= 1024) {
+          if (!trigger || master.duration() <= 0) {
+            return;
+          }
+
+          /*
+           * Hero.
+           */
+          if (panelIndex === -1) {
+            tweenWindowScroll(trigger.start, -1);
+            return;
+          }
+
+          const targetTime = serviceTargetTimes[panelIndex];
+
+          if (typeof targetTime !== "number") {
+            return;
+          }
+
+          const targetProgress = Math.min(
+            1,
+            Math.max(0, targetTime / master.duration()),
+          );
+
+          const targetScroll =
+            trigger.start + (trigger.end - trigger.start) * targetProgress;
+
+          tweenWindowScroll(targetScroll, panelIndex);
+        };
+
+        const leavePinnedServices = (direction: 1 | -1) => {
+          const trigger = masterTriggerRef.current;
+
+          if (!trigger) return;
+
+          const boundaryOffset = 8;
+
+          const targetScroll =
+            direction > 0
+              ? trigger.end + boundaryOffset
+              : Math.max(0, trigger.start - boundaryOffset);
+
+          tweenWindowScroll(
+            targetScroll,
+            direction > 0 ? servicePanels.length - 1 : -1,
+            true,
+          );
+        };
+
+        const moveOnePanel = (direction: 1 | -1) => {
+          const currentPanelIndex = getNearestPanelIndex();
+
+          if (direction > 0) {
+            /*
+             * Hero -> 01 -> 02 -> ... -> 13 -> Inquiry
+             */
+            if (currentPanelIndex < servicePanels.length - 1) {
+              goToPanel(currentPanelIndex + 1);
+              return;
+            }
+
+            leavePinnedServices(1);
+            return;
+          }
+
+          /*
+           * Inquiry direction reversed:
+           * 13 -> ... -> 02 -> 01 -> Hero -> previous page section
+           */
+          if (currentPanelIndex >= 0) {
+            goToPanel(currentPanelIndex - 1);
+            return;
+          }
+
+          leavePinnedServices(-1);
+        };
+
+        const normaliseWheelDelta = (event: WheelEvent) => {
+          /*
+           * Safari / Firefox may report deltas as pixels, lines or pages.
+           * Convert them into a roughly pixel-like value before thresholding.
+           */
+          const modeMultiplier =
+            event.deltaMode === WheelEvent.DOM_DELTA_LINE
+              ? 16
+              : event.deltaMode === WheelEvent.DOM_DELTA_PAGE
+                ? window.innerHeight
+                : 1;
+
+          /*
+           * Vertical is normally dominant, but some laptop trackpads generate
+           * a diagonal delta. Use the dominant axis so the gesture is not lost.
+           */
+          const rawDelta =
+            Math.abs(event.deltaY) >= Math.abs(event.deltaX)
+              ? event.deltaY
+              : event.deltaX;
+
+          return rawDelta * modeMultiplier;
+        };
+
+        const handleControlledWheel = (event: WheelEvent) => {
+          /*
+           * Safari uses ctrl + wheel for pinch zoom. Never hijack that.
+           */
+          if (event.ctrlKey) {
             return;
           }
 
           const trigger = masterTriggerRef.current;
 
-          if (!trigger) return;
-
-          const currentScroll = window.scrollY;
-
-          if (
-            currentScroll < trigger.start - 2 ||
-            currentScroll > trigger.end + 2
-          ) {
+          if (!trigger || window.innerWidth <= 1024) {
             return;
           }
 
-          /*
-           * Short debounce so the user can finish the wheel /
-           * trackpad gesture, then immediately settle to the
-           * dominant panel.
-           */
-          autoSnapTimerRef.current = setTimeout(() => {
-            snapToDominantPanel();
-          }, AUTO_SNAP_DELAY_MS);
-        };
+          const currentScroll = window.scrollY;
 
-        const handleUserInterrupt = () => {
-          if (isAutoSnappingRef.current) {
-            cancelAutoSnapTween();
+          const insidePinnedServices =
+            currentScroll >= trigger.start - 2 &&
+            currentScroll <= trigger.end + 2;
+
+          /*
+           * Native wheel remains completely untouched outside the pinned area.
+           * If we're currently finishing an exit tween, keep swallowing only
+           * the remaining momentum from that same gesture.
+           */
+          if (!insidePinnedServices && !slideLocked) {
+            return;
           }
 
-          clearAutoSnapTimer();
+          if (event.cancelable) {
+            event.preventDefault();
+          }
+
+          /*
+           * Every event in the momentum tail pushes the release point further
+           * out. This is the important part for Safari / MacBook trackpads.
+           */
+          if (slideLocked) {
+            maybeReleaseWheelLock();
+            return;
+          }
+
+          const delta = normaliseWheelDelta(event);
+
+          if (!Number.isFinite(delta) || delta === 0) {
+            return;
+          }
+
+          wheelAccumulator += delta;
+
+          if (Math.abs(wheelAccumulator) < SERVICE_WHEEL_THRESHOLD) {
+            return;
+          }
+
+          const direction: 1 | -1 = wheelAccumulator > 0 ? 1 : -1;
+
+          moveOnePanel(direction);
         };
 
-        window.addEventListener("scroll", scheduleAutoSnap, {
-          passive: true,
-        });
-
-        window.addEventListener("wheel", handleUserInterrupt, {
-          passive: true,
-        });
-
-        window.addEventListener("touchstart", handleUserInterrupt, {
-          passive: true,
-        });
-
-        window.addEventListener("pointerdown", handleUserInterrupt, {
-          passive: true,
+        window.addEventListener("wheel", handleControlledWheel, {
+          passive: false,
         });
 
         return () => {
-          window.removeEventListener("scroll", scheduleAutoSnap);
+          window.removeEventListener("wheel", handleControlledWheel);
 
-          window.removeEventListener("wheel", handleUserInterrupt);
+          clearQuietTimer();
 
-          window.removeEventListener("touchstart", handleUserInterrupt);
-
-          window.removeEventListener("pointerdown", handleUserInterrupt);
-
-          clearAutoSnapTimer();
-          cancelAutoSnapTween();
+          jumpTweenRef.current?.kill();
+          jumpTweenRef.current = null;
 
           if (masterTriggerRef.current === masterTrigger) {
             masterTriggerRef.current = null;
-
             masterTimelineRef.current = null;
-
             serviceTargetTimesRef.current = [];
-
-            serviceFullTargetTimesRef.current = [];
           }
 
           panelRevealTimelines.forEach((timeline) => {
@@ -2607,18 +2713,6 @@ export default function ServicesPageClient(): React.JSX.Element {
 
       jumpTweenRef.current?.kill();
       jumpTweenRef.current = null;
-
-      if (autoSnapTimerRef.current) {
-        clearTimeout(autoSnapTimerRef.current);
-
-        autoSnapTimerRef.current = null;
-      }
-
-      autoSnapTweenRef.current?.kill();
-
-      autoSnapTweenRef.current = null;
-
-      isAutoSnappingRef.current = false;
 
       listeners.forEach((cleanup) => cleanup());
 
