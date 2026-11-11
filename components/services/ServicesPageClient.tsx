@@ -785,7 +785,7 @@ export default function ServicesPageClient(): React.JSX.Element {
 
     jumpTweenRef.current = gsap.to(scrollState, {
       y: targetScroll,
-      duration: 0.9,
+      duration: SERVICE_SLIDE_DURATION,
       ease: "power3.inOut",
       overwrite: true,
 
@@ -1068,95 +1068,6 @@ export default function ServicesPageClient(): React.JSX.Element {
         });
       });
 
-      const setupPanelSplits = (panel: HTMLElement) => {
-        const localSplits: SplitText[] = [];
-
-        const imageTitle = panel.querySelector<HTMLElement>(
-          ".service-image-title",
-        );
-
-        const tagline = panel.querySelector<HTMLElement>(".service-tagline");
-
-        const description = panel.querySelector<HTMLElement>(
-          ".service-description",
-        );
-
-        const supporting = panel.querySelector<HTMLElement>(
-          ".service-supporting",
-        );
-
-        let imageTitleWords: HTMLElement[] = [];
-        let taglineWords: HTMLElement[] = [];
-        let descriptionLines: HTMLElement[] = [];
-        let supportingLines: HTMLElement[] = [];
-
-        if (imageTitle) {
-          const split = new SplitText(imageTitle, {
-            type: "lines,words",
-            linesClass: "service-mask-line",
-            wordsClass: "word",
-          });
-
-          localSplits.push(split);
-
-          imageTitleWords = split.words as HTMLElement[];
-
-          gsap.set(split.lines, {
-            overflow: "hidden",
-            perspective: 900,
-          });
-        }
-
-        if (tagline) {
-          const split = new SplitText(tagline, {
-            type: "lines,words",
-            linesClass: "service-mask-line",
-            wordsClass: "word",
-          });
-
-          localSplits.push(split);
-
-          taglineWords = split.words as HTMLElement[];
-
-          gsap.set(split.lines, {
-            overflow: "hidden",
-            perspective: 900,
-          });
-        }
-
-        /*
-         * SAFARI FIX
-         * ----------
-         * Body copy must keep its native browser wrapping.
-         *
-         * Previously these two paragraphs were passed through:
-         *
-         * new SplitText(element, { type: "lines" })
-         *
-         * Safari and Chromium calculate font and line metrics slightly
-         * differently. That meant Safari could permanently wrap short
-         * fragments such as "receiving" or "control" onto their own lines.
-         *
-         * We now keep the actual paragraph untouched and simply use the
-         * paragraph element itself as the GSAP animation target.
-         */
-        if (description) {
-          descriptionLines = [description];
-        }
-
-        if (supporting) {
-          supportingLines = [supporting];
-        }
-
-        return {
-          localSplits,
-          imageTitleWords,
-          taglineWords,
-          descriptionLines,
-          supportingLines,
-        };
-      };
-
       mm.add("(min-width: 1025px)", () => {
         const servicePanels = gsap.utils.toArray<HTMLElement>(
           "[data-service-panel]",
@@ -1164,17 +1075,9 @@ export default function ServicesPageClient(): React.JSX.Element {
         );
 
         /*
-         * Keep the horizontal motion system physically LTR for every locale.
-         * The track itself is dir="ltr", while Arabic text/panels remain RTL.
+         * Service panel content stays fully visible.
+         * Only horizontal slide movement animates.
          */
-        const reducedMotion = window.matchMedia(
-          "(prefers-reduced-motion: reduce)",
-        ).matches;
-
-        const panelSplits: SplitText[] = [];
-        const panelRevealTimelines: gsap.core.Timeline[] = [];
-        const revealedPanels = new Set<number>();
-
         gsap.set(track, {
           x: 0,
         });
@@ -1189,180 +1092,14 @@ export default function ServicesPageClient(): React.JSX.Element {
           opacity: 1,
         });
 
-        const setPanelFinalState = (panel: HTMLElement) => {
-          const visualShell = panel.querySelector<HTMLElement>(
-            ".service-visual-shell",
-          );
-
-          const visualImage = panel.querySelector<HTMLElement>(
-            ".service-visual-image",
-          );
-
-          const visualOverlay = panel.querySelector<HTMLElement>(
-            ".service-visual-overlay",
-          );
-
-          const numberWrap = panel.querySelector<HTMLElement>(
-            ".service-number-wrap",
-          );
-
-          const imageTitleWords = panel.querySelectorAll<HTMLElement>(
-            ".service-image-title .word",
-          );
-
-          const copyInner = panel.querySelector<HTMLElement>(
-            ".service-copy-inner",
-          );
-
-          const contentSweep = panel.querySelector<HTMLElement>(
+        gsap.set(
+          servicesSection.querySelectorAll<HTMLElement>(
             ".service-content-sweep",
-          );
-
-          const taglineWords = panel.querySelectorAll<HTMLElement>(
-            ".service-tagline .word",
-          );
-
-          const descriptionLines = panel.querySelectorAll<HTMLElement>(
-            ".service-description",
-          );
-
-          const keypointLabel = panel.querySelector<HTMLElement>(
-            ".service-keypoints-label",
-          );
-
-          const keypointRows = panel.querySelectorAll<HTMLElement>(
-            ".service-keypoint-row",
-          );
-
-          const supportingLines = panel.querySelectorAll<HTMLElement>(
-            ".service-supporting",
-          );
-
-          const cta = panel.querySelector<HTMLElement>(".service-cta");
-
-          if (visualShell) {
-            gsap.set(visualShell, {
-              clipPath: "inset(0 0% 0 0 round 0px)",
-            });
-          }
-
-          if (visualImage) {
-            gsap.set(visualImage, {
-              scale: 1,
-              xPercent: 0,
-              rotateZ: 0,
-            });
-          }
-
-          if (visualOverlay) {
-            gsap.set(visualOverlay, {
-              opacity: 1,
-            });
-          }
-
-          if (numberWrap) {
-            gsap.set(numberWrap, {
-              xPercent: 0,
-              y: 0,
-              opacity: 1,
-              skewX: 0,
-              rotateZ: 0,
-            });
-          }
-
-          if (imageTitleWords.length) {
-            gsap.set(imageTitleWords, {
-              yPercent: 0,
-              rotateX: 0,
-              rotateZ: 0,
-              opacity: 1,
-            });
-          }
-
-          if (copyInner) {
-            gsap.set(copyInner, {
-              x: 0,
-              y: 0,
-              opacity: 1,
-            });
-          }
-
-          if (contentSweep) {
-            gsap.set(contentSweep, {
-              scaleY: 0,
-            });
-          }
-
-          if (taglineWords.length) {
-            gsap.set(taglineWords, {
-              yPercent: 0,
-              rotateX: 0,
-              rotateZ: 0,
-              opacity: 1,
-            });
-          }
-
-          if (descriptionLines.length) {
-            gsap.set(descriptionLines, {
-              x: 0,
-              y: 0,
-              opacity: 1,
-            });
-          }
-
-          if (keypointLabel) {
-            gsap.set(keypointLabel, {
-              x: 0,
-              y: 0,
-              opacity: 1,
-            });
-          }
-
-          if (keypointRows.length) {
-            gsap.set(keypointRows, {
-              x: 0,
-              y: 0,
-              opacity: 1,
-            });
-          }
-
-          if (supportingLines.length) {
-            gsap.set(supportingLines, {
-              y: 0,
-              opacity: 1,
-            });
-          }
-
-          if (cta) {
-            gsap.set(cta, {
-              x: 0,
-              y: 0,
-              opacity: 1,
-              scale: 1,
-            });
-          }
-        };
-
-        const playPanelReveal = (index: number) => {
-          if (index < 0 || index >= servicePanels.length) {
-            return;
-          }
-
-          if (revealedPanels.has(index)) {
-            return;
-          }
-
-          revealedPanels.add(index);
-
-          const panel = servicePanels[index];
-
-          if (reducedMotion) {
-            setPanelFinalState(panel);
-            return;
-          }
-
-          panelRevealTimelines[index]?.play(0);
-        };
+          ),
+          {
+            scaleY: 0,
+          },
+        );
 
         const master = gsap.timeline({
           paused: true,
@@ -1371,362 +1108,22 @@ export default function ServicesPageClient(): React.JSX.Element {
         const serviceTargetTimes: number[] = [];
         const serviceActivationTimes: number[] = [];
 
-        servicePanels.forEach((panel, index) => {
-          const visualShell = panel.querySelector<HTMLElement>(
-            ".service-visual-shell",
-          );
-
-          const visualImage = panel.querySelector<HTMLElement>(
-            ".service-visual-image",
-          );
-
-          const visualOverlay = panel.querySelector<HTMLElement>(
-            ".service-visual-overlay",
-          );
-
-          const numberWrap = panel.querySelector<HTMLElement>(
-            ".service-number-wrap",
-          );
-
-          const copyInner = panel.querySelector<HTMLElement>(
-            ".service-copy-inner",
-          );
-
-          const contentSweep = panel.querySelector<HTMLElement>(
-            ".service-content-sweep",
-          );
-
-          const keypointRows = panel.querySelectorAll<HTMLElement>(
-            ".service-keypoint-row",
-          );
-
-          const keypointLabel = panel.querySelector<HTMLElement>(
-            ".service-keypoints-label",
-          );
-
-          const cta = panel.querySelector<HTMLElement>(".service-cta");
-
-          const {
-            localSplits,
-            imageTitleWords,
-            taglineWords,
-            descriptionLines,
-            supportingLines,
-          } = setupPanelSplits(panel);
-
-          panelSplits.push(...localSplits);
-
-          if (!reducedMotion) {
-            if (visualShell) {
-              gsap.set(visualShell, {
-                clipPath: "inset(0 9% 0 0 round 0px)",
-                transformOrigin: "left center",
-              });
-            }
-
-            if (visualImage) {
-              gsap.set(visualImage, {
-                scale: 1.055,
-                xPercent: 0,
-                rotateZ: 0,
-                transformOrigin: "50% 50%",
-              });
-            }
-
-            if (visualOverlay) {
-              gsap.set(visualOverlay, {
-                opacity: 0.6,
-              });
-            }
-
-            if (numberWrap) {
-              gsap.set(numberWrap, {
-                y: 22,
-                opacity: 0,
-              });
-            }
-
-            if (imageTitleWords.length) {
-              gsap.set(imageTitleWords, {
-                yPercent: 38,
-                opacity: 0,
-                transformOrigin: "50% 100%",
-              });
-            }
-
-            if (copyInner) {
-              gsap.set(copyInner, {
-                y: 22,
-                opacity: 0,
-              });
-            }
-
-            if (contentSweep) {
-              gsap.set(contentSweep, {
-                scaleY: 0,
-                transformOrigin: "top center",
-              });
-            }
-
-            if (taglineWords.length) {
-              gsap.set(taglineWords, {
-                yPercent: 42,
-                opacity: 0,
-                transformOrigin: "50% 100%",
-              });
-            }
-
-            if (descriptionLines.length) {
-              gsap.set(descriptionLines, {
-                y: 20,
-                opacity: 0,
-              });
-            }
-
-            if (keypointLabel) {
-              gsap.set(keypointLabel, {
-                x: 22,
-                opacity: 0,
-              });
-            }
-
-            if (keypointRows.length) {
-              gsap.set(keypointRows, {
-                x: 34,
-                opacity: 0,
-              });
-            }
-
-            if (supportingLines.length) {
-              gsap.set(supportingLines, {
-                y: 18,
-                opacity: 0,
-              });
-            }
-
-            if (cta) {
-              gsap.set(cta, {
-                y: 28,
-                opacity: 0,
-                scale: 0.975,
-                transformOrigin: "left center",
-              });
-            }
-
-            const reveal = gsap.timeline({
-              paused: true,
-
-              defaults: {
-                overwrite: "auto",
-              },
-            });
-
-            if (visualShell) {
-              reveal.to(
-                visualShell,
-                {
-                  clipPath: "inset(0 0% 0 0 round 0px)",
-                  duration: 0.48,
-                  ease: "power4.out",
-                },
-                0,
-              );
-            }
-
-            if (visualImage) {
-              reveal.to(
-                visualImage,
-                {
-                  scale: 1,
-                  duration: 0.75,
-                  ease: "power3.out",
-                },
-                0,
-              );
-            }
-
-            if (visualOverlay) {
-              reveal.to(
-                visualOverlay,
-                {
-                  opacity: 1,
-                  duration: 0.45,
-                  ease: "power2.out",
-                },
-                0,
-              );
-            }
-
-            if (numberWrap) {
-              reveal.to(
-                numberWrap,
-                {
-                  y: 0,
-                  opacity: 1,
-                  duration: 0.36,
-                  ease: "power3.out",
-                },
-                0.05,
-              );
-            }
-
-            if (imageTitleWords.length) {
-              reveal.to(
-                imageTitleWords,
-                {
-                  yPercent: 0,
-                  opacity: 1,
-                  duration: 0.42,
-                  stagger: 0.016,
-                  ease: "power3.out",
-                },
-                0.08,
-              );
-            }
-
-            if (copyInner) {
-              reveal.to(
-                copyInner,
-                {
-                  y: 0,
-                  opacity: 1,
-                  duration: 0.34,
-                  ease: "power2.out",
-                },
-                0.66,
-              );
-            }
-
-            if (contentSweep) {
-              reveal
-                .to(
-                  contentSweep,
-                  {
-                    scaleY: 1,
-                    duration: 0.14,
-                    ease: "power3.in",
-                  },
-                  0.34,
-                )
-                .to(
-                  contentSweep,
-                  {
-                    scaleY: 0,
-                    transformOrigin: "bottom center",
-                    duration: 0.22,
-                    ease: "power3.out",
-                  },
-                  0.47,
-                );
-            }
-
-            if (taglineWords.length) {
-              reveal.to(
-                taglineWords,
-                {
-                  yPercent: 0,
-                  opacity: 1,
-                  duration: 0.45,
-                  stagger: 0.014,
-                  ease: "power4.out",
-                },
-                0.35,
-              );
-            }
-
-            if (descriptionLines.length) {
-              reveal.to(
-                descriptionLines,
-                {
-                  y: 0,
-                  opacity: 1,
-                  duration: 0.4,
-                  ease: "power3.out",
-                },
-                0.32,
-              );
-            }
-
-            if (keypointLabel) {
-              reveal.to(
-                keypointLabel,
-                {
-                  x: 0,
-                  opacity: 1,
-                  duration: 0.3,
-                  ease: "power3.out",
-                },
-                0.5,
-              );
-            }
-
-            if (keypointRows.length) {
-              reveal.to(
-                keypointRows,
-                {
-                  x: 0,
-                  opacity: 1,
-                  duration: 0.38,
-                  stagger: 0.065,
-                  ease: "power3.out",
-                },
-                0.72,
-              );
-            }
-
-            if (supportingLines.length) {
-              reveal.to(
-                supportingLines,
-                {
-                  y: 0,
-                  opacity: 1,
-                  duration: 0.34,
-                  ease: "power3.out",
-                },
-                1,
-              );
-            }
-
-            if (cta) {
-              reveal.to(
-                cta,
-                {
-                  y: 0,
-                  opacity: 1,
-                  scale: 1,
-                  duration: 0.42,
-                  ease: "back.out(1.35)",
-                },
-                1.1,
-              );
-            }
-
-            panelRevealTimelines[index] = reveal;
-          } else {
-            setPanelFinalState(panel);
-          }
-
+        servicePanels.forEach((_panel, index) => {
           const moveStart = master.duration();
 
           master.to(
             track,
             {
               x: () => -(index + 1) * window.innerWidth,
-
               duration: 1,
-              ease: "power2.inOut",
+              ease: "none",
             },
             moveStart,
           );
 
           const landingTime = moveStart + 1;
 
-          /*
-           * Content animation is NOT tied to extra scroll.
-           * Start reveal while the service is moving into view.
-           */
           serviceActivationTimes[index] = moveStart + 0.18;
-
           serviceTargetTimes[index] = landingTime;
         });
 
@@ -1773,10 +1170,6 @@ export default function ServicesPageClient(): React.JSX.Element {
             });
 
             updateActiveService(nextActiveIndex);
-
-            if (nextActiveIndex >= 0) {
-              playPanelReveal(nextActiveIndex);
-            }
           },
         });
 
@@ -1872,10 +1265,6 @@ export default function ServicesPageClient(): React.JSX.Element {
 
           if (!leavingPinnedSection) {
             updateActiveService(targetServiceIndex);
-
-            if (targetServiceIndex >= 0) {
-              playPanelReveal(targetServiceIndex);
-            }
           }
 
           const scrollState = {
@@ -2085,47 +1474,16 @@ export default function ServicesPageClient(): React.JSX.Element {
             serviceTargetTimesRef.current = [];
           }
 
-          panelRevealTimelines.forEach((timeline) => {
-            timeline?.kill();
-          });
-
           masterTrigger.kill();
           master.kill();
-
-          panelSplits.forEach((split) => {
-            split.revert();
-          });
         };
       });
 
       mm.add("(max-width: 1024px)", () => {
-        const servicePanels = gsap.utils.toArray<HTMLElement>(
-          "[data-service-panel]",
-          servicesSection,
-        );
-
         /*
-         * Keep Arabic service content in its natural visible state on mobile.
+         * Mobile services stay fully visible too.
+         * Native vertical scrolling is preserved.
          */
-        if (isRtl) {
-          gsap.set(track, {
-            clearProps: "transform",
-          });
-
-          gsap.set(progressWrap, {
-            display: "none",
-          });
-
-          return;
-        }
-
-        const reducedMotion = window.matchMedia(
-          "(prefers-reduced-motion: reduce)",
-        ).matches;
-
-        const mobileTimelines: gsap.core.Timeline[] = [];
-        const mobileSplits: SplitText[] = [];
-
         gsap.set(track, {
           clearProps: "transform",
         });
@@ -2134,324 +1492,14 @@ export default function ServicesPageClient(): React.JSX.Element {
           display: "none",
         });
 
-        servicePanels.forEach((panel) => {
-          const visualShell = panel.querySelector<HTMLElement>(
-            ".service-visual-shell",
-          );
-
-          const visualImage = panel.querySelector<HTMLElement>(
-            ".service-visual-image",
-          );
-
-          const numberWrap = panel.querySelector<HTMLElement>(
-            ".service-number-wrap",
-          );
-
-          const copyPanel = panel.querySelector<HTMLElement>(
-            ".service-copy-panel",
-          );
-
-          const contentSweep = panel.querySelector<HTMLElement>(
+        gsap.set(
+          servicesSection.querySelectorAll<HTMLElement>(
             ".service-content-sweep",
-          );
-
-          const keypointRows = panel.querySelectorAll<HTMLElement>(
-            ".service-keypoint-row",
-          );
-
-          const keypointLabel = panel.querySelector<HTMLElement>(
-            ".service-keypoints-label",
-          );
-
-          const cta = panel.querySelector<HTMLElement>(".service-cta");
-
-          const {
-            localSplits,
-            imageTitleWords,
-            taglineWords,
-            descriptionLines,
-            supportingLines,
-          } = setupPanelSplits(panel);
-
-          mobileSplits.push(...localSplits);
-
-          if (reducedMotion) return;
-
-          if (visualShell) {
-            gsap.set(visualShell, {
-              clipPath: "inset(0 0 22% 0)",
-            });
-          }
-
-          if (visualImage) {
-            gsap.set(visualImage, {
-              scale: 1.12,
-              yPercent: 5,
-            });
-          }
-
-          if (numberWrap) {
-            gsap.set(numberWrap, {
-              xPercent: -45,
-              opacity: 0,
-            });
-          }
-
-          if (imageTitleWords.length) {
-            gsap.set(imageTitleWords, {
-              yPercent: 125,
-              rotateX: -55,
-              opacity: 0,
-              transformPerspective: 800,
-            });
-          }
-
-          if (taglineWords.length) {
-            gsap.set(taglineWords, {
-              yPercent: 120,
-              rotateX: -50,
-              opacity: 0,
-              transformPerspective: 800,
-            });
-          }
-
-          if (descriptionLines.length) {
-            gsap.set(descriptionLines, {
-              y: 24,
-              opacity: 0,
-            });
-          }
-
-          if (keypointLabel) {
-            gsap.set(keypointLabel, {
-              x: 28,
-              opacity: 0,
-            });
-          }
-
-          if (keypointRows.length) {
-            gsap.set(keypointRows, {
-              x: 45,
-              opacity: 0,
-            });
-          }
-
-          if (supportingLines.length) {
-            gsap.set(supportingLines, {
-              y: 20,
-              opacity: 0,
-            });
-          }
-
-          if (cta) {
-            gsap.set(cta, {
-              y: 30,
-              opacity: 0,
-            });
-          }
-
-          if (contentSweep) {
-            gsap.set(contentSweep, {
-              scaleX: 0,
-              transformOrigin: "left center",
-            });
-          }
-
-          if (visualShell) {
-            const visualTimeline = gsap.timeline({
-              scrollTrigger: {
-                trigger: visualShell,
-
-                start: "top 90%",
-                end: "top 42%",
-                scrub: 0.7,
-              },
-            });
-
-            visualTimeline.to(
-              visualShell,
-              {
-                clipPath: "inset(0 0 0% 0)",
-
-                duration: 1,
-                ease: "power3.inOut",
-              },
-              0,
-            );
-
-            if (visualImage) {
-              visualTimeline.to(
-                visualImage,
-                {
-                  scale: 1,
-                  yPercent: 0,
-                  duration: 1.15,
-                  ease: "power3.out",
-                },
-                0,
-              );
-            }
-
-            if (numberWrap) {
-              visualTimeline.to(
-                numberWrap,
-                {
-                  xPercent: 0,
-                  opacity: 1,
-                  duration: 0.5,
-                  ease: "power4.out",
-                },
-                0.22,
-              );
-            }
-
-            if (imageTitleWords.length) {
-              visualTimeline.to(
-                imageTitleWords,
-                {
-                  yPercent: 0,
-                  rotateX: 0,
-                  opacity: 1,
-                  duration: 0.65,
-                  stagger: 0.035,
-                  ease: "power4.out",
-                },
-                0.25,
-              );
-            }
-
-            mobileTimelines.push(visualTimeline);
-          }
-
-          if (copyPanel) {
-            const copyTimeline = gsap.timeline({
-              scrollTrigger: {
-                trigger: copyPanel,
-                start: "top 88%",
-                end: "top 38%",
-                scrub: 0.7,
-              },
-            });
-
-            if (contentSweep) {
-              copyTimeline
-                .to(
-                  contentSweep,
-                  {
-                    scaleX: 1,
-                    duration: 0.2,
-                    ease: "power3.in",
-                  },
-                  0,
-                )
-                .to(
-                  contentSweep,
-                  {
-                    scaleX: 0,
-                    transformOrigin: "right center",
-
-                    duration: 0.3,
-                    ease: "power3.out",
-                  },
-                  0.24,
-                );
-            }
-
-            if (taglineWords.length) {
-              copyTimeline.to(
-                taglineWords,
-                {
-                  yPercent: 0,
-                  rotateX: 0,
-                  opacity: 1,
-                  duration: 0.65,
-                  stagger: 0.025,
-                  ease: "power4.out",
-                },
-                0.12,
-              );
-            }
-
-            if (descriptionLines.length) {
-              copyTimeline.to(
-                descriptionLines,
-                {
-                  y: 0,
-                  opacity: 1,
-                  duration: 0.45,
-                  ease: "power3.out",
-                },
-                0.3,
-              );
-            }
-
-            if (keypointLabel) {
-              copyTimeline.to(
-                keypointLabel,
-                {
-                  x: 0,
-                  opacity: 1,
-                  duration: 0.35,
-                  ease: "power3.out",
-                },
-                0.43,
-              );
-            }
-
-            if (keypointRows.length) {
-              copyTimeline.to(
-                keypointRows,
-                {
-                  x: 0,
-                  opacity: 1,
-                  duration: 0.5,
-                  stagger: 0.06,
-                  ease: "power3.out",
-                },
-                0.48,
-              );
-            }
-
-            if (supportingLines.length) {
-              copyTimeline.to(
-                supportingLines,
-                {
-                  y: 0,
-                  opacity: 1,
-                  duration: 0.42,
-                  ease: "power3.out",
-                },
-                0.68,
-              );
-            }
-
-            if (cta) {
-              copyTimeline.to(
-                cta,
-                {
-                  y: 0,
-                  opacity: 1,
-                  duration: 0.42,
-                  ease: "back.out(1.4)",
-                },
-                0.76,
-              );
-            }
-
-            mobileTimelines.push(copyTimeline);
-          }
-        });
-
-        return () => {
-          mobileTimelines.forEach((timeline) => {
-            timeline.scrollTrigger?.kill();
-            timeline.kill();
-          });
-
-          mobileSplits.forEach((split) => {
-            split.revert();
-          });
-        };
+          ),
+          {
+            scaleY: 0,
+          },
+        );
       });
 
       const inquirySection = root.querySelector<HTMLElement>(
