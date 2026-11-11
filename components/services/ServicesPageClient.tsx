@@ -21,9 +21,9 @@ import type { Dictionary } from "@/i18n/dictionaries";
  * quiet for a short period. This prevents Safari / Mac trackpad momentum from
  * advancing multiple services from one physical gesture.
  */
-const SERVICE_WHEEL_THRESHOLD = 24;
-const SERVICE_SLIDE_DURATION = 0.72;
-const SERVICE_GESTURE_QUIET_MS = 220;
+const SERVICE_WHEEL_THRESHOLD = 7;
+const SERVICE_SLIDE_DURATION = 0.62;
+const SERVICE_GESTURE_QUIET_MS = 130;
 
 type ServicePoint = {
   title: string;
