@@ -33,7 +33,7 @@ type Service = {
 const serviceMedia = [
   {
     number: "01",
-    image: "/assets/img/services-page/construction-logistics.webp",
+    image: "/assets/img/services-page/heavy-dumper-logistics.webp",
   },
   {
     number: "02",
@@ -49,7 +49,7 @@ const serviceMedia = [
   },
   {
     number: "05",
-    image: "/assets/img/services-page/heavy-dumper-logistics.webp",
+    image: "/assets/img/services-page/construction-logistics.webp",
   },
   {
     number: "06",

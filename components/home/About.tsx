@@ -14,8 +14,8 @@ export function About() {
     >
       <div className="di-container">
         <div className="scale-block overflow-hidden rounded-[20rem] bg-[#e9511d] px-[40rem] pb-[20rem] pt-[45rem] text-white max-[1025px]:rounded-[10rem] max-[1025px]:px-[20rem] max-[1025px]:pb-[20rem] max-[1025px]:pt-[30rem]">
-          <div className="opacity-block mb-[75rem] flex items-center justify-between border-b border-[#353571] pb-[10rem] uppercase max-[1025px]:mb-[80rem] max-[1025px]:pb-[5rem] max-[1025px]:text-[max(16px,15rem)]">
-            <span>{copy.label}</span>
+          <div className="  mb-[75rem] flex items-center justify-between border-b border-[#353571] pb-[10rem] uppercase max-[1025px]:mb-[80rem] max-[1025px]:pb-[5rem]">
+            <div className="text-[3vw]">{copy.label}</div>
             <span>{copy.brand}</span>
           </div>
           <div className="home-about__copy mb-[90rem] ms-[700rem] mt-[75rem] max-[1025px]:mb-0 max-[1025px]:ms-0 max-[1025px]:mt-0">
@@ -34,7 +34,7 @@ export function About() {
               </AnimatedButton>
             </div>
           </div>
-          <div className="border-t border-[#353571] pt-[15rem] text-center text-[235rem] font-normal leading-none tracking-[-.03em] text-white/5 uppercase max-[1025px]:hidden">
+          <div className="border-t border-[#353571] pt-[15rem] text-center text-[235rem] font-normal leading-none tracking-[-.03em] text-white/30 uppercase max-[1025px]:hidden">
             <div className="ticker">
               <span className="ticker-item">{copy.tickerPrimary}</span>
               <span className="ticker-item">{copy.tickerSecondary}</span>

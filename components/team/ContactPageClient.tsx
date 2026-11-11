@@ -1,12 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef } from "react";
+
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { FiX } from "react-icons/fi";
 
-import ContactPageForm from "@/components/contact/ContactPageForm";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { PageTransition } from "@/components/ui/PageTransition";
 import type { Dictionary } from "@/i18n/dictionaries";
@@ -99,9 +98,9 @@ function ContactRow({
     <a
       href={href}
       data-contact-row
-      className="group grid grid-cols-[120rem_1fr_42rem] items-center gap-[18rem] border-t border-[var(--di-primary)]/15 py-[22rem] max-[1025px]:grid-cols-[90rem_1fr_42rem] max-[1025px]:gap-[12rem] max-[1025px]:py-[18rem]"
+      className="group grid grid-cols-[120rem_1fr_42rem] items-center gap-[18rem] border-t border-[var(--di-primary)]/15 py-[22rem] max-[1025px]:grid-cols-[90rem_1fr_42rem] max-[1025px]:gap-[12rem] max-[1025px]:py-[18rem] max-[600px]:grid-cols-[1fr_42rem]"
     >
-      <span className="font-['Inter'] text-[max(12px,12rem)] font-semibold uppercase tracking-[.03em] text-[var(--di-primary)] max-[1025px]:text-[max(12px,10rem)]">
+      <span className="font-['Inter'] text-[max(12px,12rem)] font-semibold uppercase tracking-[.03em] text-[var(--di-primary)] max-[600px]:hidden">
         {label}:
       </span>
 
@@ -122,235 +121,83 @@ function ContactRow({
   );
 }
 
-function PersonCard({
+function LeadershipProfile({
   person,
   media,
+  profile,
   index,
   isRtl,
-  onOpenProfile,
 }: {
   person: PersonCopy;
   media: PersonMedia;
+  profile: ProfileContent;
   index: number;
   isRtl: boolean;
-  onOpenProfile: () => void;
 }) {
+  const imageOnLeft = index % 2 === 0;
+
   return (
-    <article data-person-card className="min-w-0">
-      <button
-        type="button"
-        onClick={onOpenProfile}
-        aria-label={`View ${person.name} profile`}
-        className="group relative block h-[600rem] w-full cursor-pointer overflow-hidden rounded-[12rem] bg-[#f2f2f5] text-left max-[1500px]:h-[560rem] max-[1200px]:h-[500rem] max-[1025px]:h-[540rem] max-[700px]:h-[430rem]"
+    <article
+      data-profile-section
+      className="border-t border-[var(--di-primary)]/15 py-[95rem] max-[1200px]:py-[80rem] max-[1025px]:py-[65rem] max-[700px]:py-[50rem]"
+    >
+      <div
+        className={`grid grid-cols-[minmax(0,.92fr)_minmax(0,1.08fr)] items-start gap-[90rem] max-[1400px]:gap-[65rem] max-[1200px]:gap-[50rem] max-[900px]:grid-cols-1 max-[900px]:gap-[38rem] ${
+          isRtl ? "direction-rtl" : ""
+        }`}
       >
         <div
-          className={`absolute top-[18rem] z-[3] min-w-[170rem] max-w-[calc(100%-40rem)] rounded-[4rem] bg-white px-[20rem] py-[16rem] shadow-[0_10px_30px_rgba(22,37,91,.04)] max-[700px]:top-[14rem] max-[700px]:min-w-[150rem] max-[700px]:px-[16rem] max-[700px]:py-[13rem] ${
-            isRtl
-              ? "right-[20rem] max-[700px]:right-[14rem]"
-              : "left-[20rem] max-[700px]:left-[14rem]"
+          data-profile-image
+          className={`relative h-[760rem] min-h-[620rem] overflow-hidden rounded-[12rem] bg-[#eef0f4] max-[1400px]:h-[700rem] max-[1200px]:h-[640rem] max-[900px]:order-1 max-[900px]:h-[620rem] max-[700px]:h-[500rem] max-[500px]:h-[430rem] ${
+            imageOnLeft ? "order-1" : "order-2"
           }`}
-        >
-          <span className="contact-person-role mb-[5rem] block break-words font-['Inter'] text-[max(12px,10rem)] font-semibold uppercase leading-[1.25] tracking-[.03em] text-[var(--di-primary)]">
-            {person.role}
-          </span>
-
-          <span
-            dir="ltr"
-            className={`contact-person-name block max-w-[220rem] break-words text-[max(16px,17rem)] font-bold uppercase leading-[1.15] text-[var(--di-primary)] max-[700px]:text-[max(16px,15rem)] ${
-              isRtl ? "text-right" : "text-left"
-            }`}
-          >
-            {person.name}
-          </span>
-        </div>
-
-        <div
-          data-person-image-wrapper
-          className="absolute inset-0 overflow-hidden"
         >
           <Image
             src={media.image}
             alt={`${person.name} — ${person.role}`}
             fill
             priority={index === 0}
-            sizes="(max-width: 700px) 100vw, (max-width: 1024px) 50vw, 32vw"
-            className="object-cover object-center transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.025]"
+            sizes="(max-width: 900px) 100vw, 48vw"
+            className="object-cover object-center"
           />
-        </div>
 
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(22,37,91,0)_58%,rgba(22,37,91,.08)_100%)]" />
+          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(22,37,91,0)_62%,rgba(22,37,91,.12)_100%)]" />
+        </div>
 
         <div
-          className={`pointer-events-none absolute bottom-[20rem] z-[4] ${
-            isRtl ? "right-[20rem]" : "left-[20rem]"
+          data-profile-content
+          className={`min-w-0 pt-[18rem] max-[900px]:order-2 max-[900px]:pt-0 ${
+            imageOnLeft ? "order-2" : "order-1"
           }`}
         >
-          <span className="block translate-y-[140%] bg-[var(--di-primary)] px-[16rem] py-[10rem] font-['Inter'] text-[11rem] font-semibold uppercase leading-[1.25] tracking-[.06em] text-white transition-transform duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover:translate-y-0">
-            {isRtl ? "عرض الملف الشخصي" : "View Profile"}
-          </span>
-        </div>
-      </button>
-    </article>
-  );
-}
-
-function ProfileModal({
-  person,
-  media,
-  profile,
-  isRtl,
-  onClose,
-}: {
-  person: PersonCopy;
-  media: PersonMedia;
-  profile: ProfileContent;
-  isRtl: boolean;
-  onClose: () => void;
-}) {
-  const modalRef = useRef<HTMLDivElement>(null);
-
-  useLayoutEffect(() => {
-    if (!modalRef.current) return;
-
-    const ctx = gsap.context(() => {
-      const timeline = gsap.timeline({
-        defaults: {
-          ease: "power4.out",
-        },
-      });
-
-      gsap.set(".profile-modal-backdrop", {
-        opacity: 0,
-      });
-
-      gsap.set(".profile-modal-panel", {
-        opacity: 0,
-        y: 40,
-        scale: 0.985,
-      });
-
-      gsap.set(".profile-modal-image", {
-        scale: 1.05,
-      });
-
-      gsap.set(".profile-modal-content", {
-        opacity: 0,
-        y: 25,
-      });
-
-      timeline
-        .to(".profile-modal-backdrop", {
-          opacity: 1,
-          duration: 0.35,
-        })
-        .to(
-          ".profile-modal-panel",
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.65,
-          },
-          "-=0.18",
-        )
-        .to(
-          ".profile-modal-image",
-          {
-            scale: 1,
-            duration: 1,
-          },
-          "-=0.55",
-        )
-        .to(
-          ".profile-modal-content",
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.65,
-          },
-          "-=0.7",
-        );
-    }, modalRef);
-
-    return () => {
-      ctx.revert();
-    };
-  }, []);
-
-  return (
-    <div
-      ref={modalRef}
-      className="fixed inset-0 z-[9999] flex items-center justify-center p-[28rem] max-[700px]:p-0"
-      role="dialog"
-      aria-modal="true"
-      aria-label={`${person.name} profile`}
-    >
-      <button
-        type="button"
-        onClick={onClose}
-        aria-label="Close profile"
-        className="profile-modal-backdrop absolute inset-0 bg-[#0b1029]/78 backdrop-blur-[6px]"
-      />
-
-      <div className="profile-modal-panel relative z-[2] grid h-[min(860rem,90vh)] w-full max-w-[1540rem] grid-cols-[.72fr_1.28fr] overflow-hidden bg-white shadow-[0_30px_100px_rgba(10,20,50,.3)] max-[1024px]:grid-cols-[.8fr_1.2fr] max-[700px]:h-[100svh] max-[700px]:grid-cols-1 max-[700px]:grid-rows-[42vh_1fr]">
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label="Close profile"
-          className={`absolute top-[24rem] z-[10] flex h-[48rem] w-[48rem] items-center justify-center rounded-full bg-white text-[var(--di-primary)] shadow-[0_8px_30px_rgba(22,37,91,.12)] transition-colors duration-300 hover:bg-[var(--di-accent)] hover:text-white max-[700px]:top-[16rem] ${
-            isRtl
-              ? "left-[24rem] max-[700px]:left-[16rem]"
-              : "right-[24rem] max-[700px]:right-[16rem]"
-          }`}
-        >
-          <FiX className="h-[22rem] w-[22rem]" />
-        </button>
-
-        <div className="relative min-h-0 overflow-hidden bg-[#eef0f4]">
-          <Image
-            src={media.image}
-            alt={`${person.name} — ${person.role}`}
-            fill
-            sizes="(max-width: 700px) 100vw, 40vw"
-            className="profile-modal-image object-cover object-center"
-          />
-
-          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(22,37,91,0)_55%,rgba(22,37,91,.26)_100%)]" />
-        </div>
-
-        <div className="profile-modal-content min-h-0 overflow-y-auto">
-          <div className="px-[72rem] pb-[80rem] pt-[70rem] max-[1200px]:px-[48rem] max-[1024px]:px-[38rem] max-[700px]:px-[24rem] max-[700px]:pb-[55rem] max-[700px]:pt-[38rem]">
-            <span className="block break-words font-['Inter'] text-[12rem] font-semibold uppercase leading-[1.3] tracking-[.08em] text-[var(--di-accent)]">
-              {person.role}
-            </span>
-
+          <div className="border-b border-[var(--di-primary)]/15 pb-[28rem]">
             <h2
               dir="ltr"
-              className={`mt-[13rem] max-w-[760rem] break-words pb-[8rem] text-[70rem] font-bold uppercase leading-[.96] tracking-[-.035em] text-[var(--di-primary)] max-[1200px]:text-[58rem] max-[700px]:text-[42rem] ${
+              className={`max-w-[820rem] break-words text-[74rem] font-bold uppercase leading-[.92] tracking-[-.04em] text-[var(--di-primary)] max-[1400px]:text-[66rem] max-[1200px]:text-[58rem] max-[700px]:text-[44rem] ${
                 isRtl ? "text-right" : "text-left"
               }`}
             >
               {person.name}
             </h2>
 
-            <div className="mt-[35rem] h-[3rem] w-[55rem] bg-[var(--di-accent)]" />
+            <span className="mt-[14rem] block font-['Inter'] text-[12rem] font-semibold uppercase leading-[1.3] tracking-[.1em] text-[var(--di-accent)]">
+              {person.role}
+            </span>
+          </div>
 
-            <div className="mt-[40rem] space-y-[24rem] break-words font-['Inter'] text-[16rem] font-normal leading-[1.75] text-[var(--di-primary)]/72 max-[700px]:mt-[30rem] max-[700px]:text-[15rem]">
-              {profile.paragraphs.map((paragraph, paragraphIndex) => (
-                <p key={`${person.name}-${paragraphIndex}`}>{paragraph}</p>
-              ))}
-            </div>
+          <div className="mt-[38rem] space-y-[22rem] break-words font-['Inter'] text-[16rem] font-normal leading-[1.78] text-[var(--di-primary)]/72 max-[700px]:mt-[30rem] max-[700px]:space-y-[18rem] max-[700px]:text-[15rem]">
+            {profile.paragraphs.map((paragraph, paragraphIndex) => (
+              <p key={`${person.name}-${paragraphIndex}`}>{paragraph}</p>
+            ))}
           </div>
         </div>
       </div>
-    </div>
+    </article>
   );
 }
 
 export default function Teampage() {
   const rootRef = useRef<HTMLElement>(null);
-
-  const [selectedProfile, setSelectedProfile] = useState<number | null>(null);
 
   const { dictionary, locale } = useI18n();
 
@@ -359,30 +206,6 @@ export default function Teampage() {
   const isRtl = locale === "ar";
 
   const titleLines = isRtl ? copy.hero.title : ["Leadership"];
-
-  useEffect(() => {
-    if (selectedProfile === null) {
-      return;
-    }
-
-    const previousOverflow = document.body.style.overflow;
-
-    document.body.style.overflow = "hidden";
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setSelectedProfile(null);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [selectedProfile]);
 
   useLayoutEffect(() => {
     if (!rootRef.current) return;
@@ -393,31 +216,32 @@ export default function Teampage() {
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.set("[data-title-line]", {
+          yPercent: 70,
+          opacity: 0,
+        });
+
+        gsap.set("[data-contact-row]", {
+          y: 20,
+          opacity: 0,
+        });
+
+        gsap.set("[data-profile-image]", {
+          y: 45,
+          opacity: 0,
+          scale: 1.025,
+        });
+
+        gsap.set("[data-profile-content]", {
+          y: 45,
+          opacity: 0,
+        });
+
         const intro = gsap.timeline({
           defaults: {
             ease: "power4.out",
           },
           delay: 0.1,
-        });
-
-        gsap.set("[data-title-line]", {
-          yPercent: 80,
-          opacity: 0,
-        });
-
-        gsap.set("[data-person-card]", {
-          y: 70,
-          opacity: 0,
-        });
-
-        gsap.set("[data-person-image-wrapper]", {
-          scale: 1.06,
-          yPercent: 8,
-        });
-
-        gsap.set("[data-contact-row]", {
-          y: 24,
-          opacity: 0,
         });
 
         intro
@@ -428,51 +252,55 @@ export default function Teampage() {
             stagger: 0.08,
           })
           .to(
-            "[data-person-card]",
-            {
-              y: 0,
-              opacity: 1,
-              duration: 0.95,
-              stagger: 0.12,
-              ease: "expo.out",
-            },
-            "-=0.65",
-          )
-          .to(
-            "[data-person-image-wrapper]",
-            {
-              scale: 1,
-              yPercent: 0,
-              duration: 1.2,
-              stagger: 0.12,
-              ease: "power4.out",
-            },
-            "-=0.95",
-          )
-          .to(
             "[data-contact-row]",
             {
               y: 0,
               opacity: 1,
               duration: 0.7,
-              stagger: 0.08,
             },
             "-=0.55",
           );
 
         gsap.utils
-          .toArray<HTMLElement>("[data-person-card]")
-          .forEach((card, index) => {
-            gsap.to(card, {
-              y: index === 0 ? -20 : -30,
-              ease: "none",
+          .toArray<HTMLElement>("[data-profile-section]")
+          .forEach((section) => {
+            const image = section.querySelector<HTMLElement>(
+              "[data-profile-image]",
+            );
+
+            const content = section.querySelector<HTMLElement>(
+              "[data-profile-content]",
+            );
+
+            if (!image || !content) return;
+
+            const timeline = gsap.timeline({
               scrollTrigger: {
-                trigger: rootRef.current,
-                start: "top top",
-                end: "bottom top",
-                scrub: 1,
+                trigger: section,
+                start: "top 78%",
+                once: true,
+              },
+              defaults: {
+                ease: "power4.out",
               },
             });
+
+            timeline
+              .to(image, {
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 1.05,
+              })
+              .to(
+                content,
+                {
+                  y: 0,
+                  opacity: 1,
+                  duration: 0.9,
+                },
+                "-=0.72",
+              );
           });
 
         return () => {
@@ -498,71 +326,47 @@ export default function Teampage() {
         ref={rootRef}
         className="contact-page overflow-x-clip bg-white text-[var(--di-primary)]"
       >
-        <section className="bg-white pb-[110rem] pt-[190rem] max-[1280px]:pt-[180rem] max-[1025px]:pb-[75rem] max-[1025px]:pt-[150rem] max-[700px]:pt-[135rem]">
+        <section className="bg-white pb-[40rem] pt-[190rem] max-[1280px]:pt-[180rem] max-[1025px]:pt-[150rem] max-[700px]:pt-[135rem]">
           <div className="di-container">
-            <div className="grid grid-cols-[.9fr_1fr_1fr] gap-[14rem] max-[1025px]:grid-cols-2 max-[1025px]:gap-[20rem] max-[700px]:grid-cols-1">
-              <div
-                className={`flex min-h-[690rem] flex-col justify-between max-[1025px]:col-span-2 max-[1025px]:min-h-0 max-[1025px]:px-0 max-[700px]:col-span-1 ${
-                  isRtl
-                    ? "pl-[105rem] max-[1500px]:pl-[65rem] max-[1280px]:pl-[30rem]"
-                    : "pr-[105rem] max-[1500px]:pr-[65rem] max-[1280px]:pr-[30rem]"
-                }`}
-              >
-                <div className="max-w-[590rem] pb-[20rem] max-[1025px]:mb-[70rem] max-[700px]:mb-[50rem]">
-                  {titleLines.map((line) => (
-                    <div key={line} className="pb-[14rem]">
-                      <span
-                        data-title-line
-                        className="contact-page__title block max-w-full break-words pb-[6rem] text-[clamp(82rem,7.2vw,145rem)] font-bold uppercase leading-[.9] tracking-[-.045em] text-[var(--di-primary)] max-[700px]:text-[64rem]"
-                      >
-                        {line}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="max-w-[510rem]">
-                  <ContactRow
-                    label={copy.labels.email}
-                    value={copy.people[0].email}
-                    href={`mailto:${copy.people[0].email}`}
-                    isRtl={isRtl}
-                  />
-
-                  <div className="h-px w-full bg-[var(--di-primary)]/15" />
-                </div>
+            <div className="grid grid-cols-[1fr_.82fr] items-end gap-[100rem] pb-[85rem] max-[1200px]:gap-[60rem] max-[900px]:grid-cols-1 max-[900px]:gap-[40rem] max-[700px]:pb-[60rem]">
+              <div className="max-w-[760rem]">
+                {titleLines.map((line) => (
+                  <div key={line} className="overflow-hidden pb-[14rem]">
+                    <span
+                      data-title-line
+                      className="contact-page__title block max-w-full break-words pb-[6rem] text-[clamp(82rem,8vw,155rem)] font-bold uppercase leading-[.86] tracking-[-.05em] text-[var(--di-primary)] max-[700px]:text-[64rem]"
+                    >
+                      {line}
+                    </span>
+                  </div>
+                ))}
               </div>
 
-              <PersonCard
-                person={copy.people[0]}
-                media={peopleMedia[0]}
-                index={0}
-                isRtl={isRtl}
-                onOpenProfile={() => setSelectedProfile(0)}
-              />
+              <div className="max-w-[590rem] justify-self-end max-[900px]:w-full max-[900px]:max-w-none max-[900px]:justify-self-stretch">
+                <ContactRow
+                  label={copy.labels.email}
+                  value={copy.people[0].email}
+                  href={`mailto:${copy.people[0].email}`}
+                  isRtl={isRtl}
+                />
 
-              <PersonCard
-                person={copy.people[1]}
-                media={peopleMedia[1]}
-                index={1}
-                isRtl={isRtl}
-                onOpenProfile={() => setSelectedProfile(1)}
-              />
+                <div className="h-px w-full bg-[var(--di-primary)]/15" />
+              </div>
             </div>
+
+            {copy.people.map((person, index) => (
+              <LeadershipProfile
+                key={`${person.name}-${index}`}
+                person={person}
+                media={peopleMedia[index]}
+                profile={profileContent[index]}
+                index={index}
+                isRtl={isRtl}
+              />
+            ))}
           </div>
         </section>
-
       </main>
-
-      {selectedProfile !== null && (
-        <ProfileModal
-          person={copy.people[selectedProfile]}
-          media={peopleMedia[selectedProfile]}
-          profile={profileContent[selectedProfile]}
-          isRtl={isRtl}
-          onClose={() => setSelectedProfile(null)}
-        />
-      )}
     </>
   );
 }

@@ -148,7 +148,7 @@ const en = {
   },
   contactPage: {
     metadata: {
-      title: "Contact | Difference Integrated",
+      title: "Our Team | Difference Integrated",
       description:
         "Contact Difference Integrated for transportation, project logistics, fleet operations and logistics coordination across Saudi Arabia.",
     },
@@ -263,30 +263,30 @@ const en = {
     },
     services: [
       {
-        title: "Construction Logistics",
-        tagline: "Transport that works with the project schedule.",
+        title: "Heavy Dumper Logistics",
+        tagline: "Made for high-volume, repeated movement.",
         description:
-          "Difference Integrated coordinates transport around construction schedules, site access, delivery sequences, and changing material requirements to keep incoming loads aligned with work on site.",
+          "Difference Integrated coordinates heavy dumper operations around material volume, repeated haul cycles, site conditions, and fleet readiness for demanding construction environments.",
         points: [
           {
-            title: "Project Timing",
-            text: "Transport activity aligned with construction schedules and delivery priorities.",
+            title: "Heavy-Duty Capability",
+            text: "Dumper resources suited to demanding bulk material requirements.",
           },
           {
-            title: "Site Access",
-            text: "Entry routes, unloading areas, and active working conditions considered before movement.",
+            title: "Repeated Cycles",
+            text: "Operations structured around continuous movement over active project schedules.",
           },
           {
-            title: "Delivery Sequence",
-            text: "Loads organized according to where and when materials are required.",
+            title: "Turnaround Control",
+            text: "Loading and unloading conditions are considered to support efficient vehicle cycles.",
           },
           {
-            title: "Site Coordination",
-            text: "Transport activity kept connected with relevant projects and receiving teams.",
+            title: "Site Conditions",
+            text: "Fleet activity planned around the physical and operational requirements of the project.",
           },
         ],
         supportingCopy:
-          "The objective is not simply to reach the site. It is to make each delivery fit the way the site is actually operating.",
+          "In repeated haulage operations, the efficiency of the cycle matters just as much as the capacity of the vehicle.",
       },
       {
         title: "Sand Transportation",
@@ -367,30 +367,30 @@ const en = {
           "The right fleet decision starts with understanding the job, not simply identifying what is available.",
       },
       {
-        title: "Heavy Dumper Logistics",
-        tagline: "Made for high-volume, repeated movement.",
+        title: "Construction Logistics",
+        tagline: "Transport that works with the project schedule.",
         description:
-          "Difference Integrated coordinates heavy dumper operations around material volume, repeated haul cycles, site conditions, and fleet readiness for demanding construction environments.",
+          "Difference Integrated coordinates transport around construction schedules, site access, delivery sequences, and changing material requirements to keep incoming loads aligned with work on site.",
         points: [
           {
-            title: "Heavy-Duty Capability",
-            text: "Dumper resources suited to demanding bulk material requirements.",
+            title: "Project Timing",
+            text: "Transport activity aligned with construction schedules and delivery priorities.",
           },
           {
-            title: "Repeated Cycles",
-            text: "Operations structured around continuous movement over active project schedules.",
+            title: "Site Access",
+            text: "Entry routes, unloading areas, and active working conditions considered before movement.",
           },
           {
-            title: "Turnaround Control",
-            text: "Loading and unloading conditions are considered to support efficient vehicle cycles.",
+            title: "Delivery Sequence",
+            text: "Loads organized according to where and when materials are required.",
           },
           {
-            title: "Site Conditions",
-            text: "Fleet activity planned around the physical and operational requirements of the project.",
+            title: "Site Coordination",
+            text: "Transport activity kept connected with relevant projects and receiving teams.",
           },
         ],
         supportingCopy:
-          "In repeated haulage operations, the efficiency of the cycle matters just as much as the capacity of the vehicle.",
+          "The objective is not simply to reach the site. It is to make each delivery fit the way the site is actually operating.",
       },
       {
         title: "Logistics Coordination",
@@ -676,8 +676,8 @@ const en = {
       allServices: "All our services",
       items: [
         {
-          heading: "Construction Logistics",
-          text: "Transportation and logistics support for construction and infrastructure projects.",
+          heading: "Heavy Dumper Logistics",
+          text: "Heavy-duty dumper operations for demanding construction environments and continuous project schedules.",
         },
         {
           heading: "Sand Transportation",
@@ -692,8 +692,8 @@ const en = {
           text: "Heavy-duty transportation vehicles and equipment supporting diverse logistics requirements.",
         },
         {
-          heading: "Heavy Dumper Logistics",
-          text: "Heavy-duty dumper operations for demanding construction environments and continuous project schedules.",
+          heading: "Constructions Logistics",
+          text: "Transportation and logistics support for construction and infrastructure projects.",
         },
         {
           heading: "Logistics Coordination",
@@ -749,7 +749,7 @@ const en = {
       fullName: "Full name",
       phone: "Phone number",
       email: "E-mail address",
-      message:"Message",
+      message: "Message",
       submit: "LET’S PLAN THE NEXT MOVE.",
       responseNote: "Our team will review your request and get back to you.",
     },

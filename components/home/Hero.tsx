@@ -21,12 +21,12 @@ export function Hero() {
               className="hero__abb-wrapper flex gap-[10rem] max-[1025px]:gap-[20rem]"
             >
               <span className="hero__abb-item inline-block w-[360rem] max-[1025px]:w-auto">
-                D.
+                Difference Integrated
               </span>
 
-              <span className="hero__abb-item inline-block w-[360rem] max-[1025px]:w-auto">
-                I.
-              </span>
+              {/* <span className="hero__abb-item inline-block w-[360rem] max-[1025px]:w-auto">
+                Integrated
+              </span> */}
             </div>
 
             <span className="hero__abb-text text-[40rem] uppercase max-[1025px]:text-[max(16px,20rem)]">

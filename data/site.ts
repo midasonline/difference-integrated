@@ -108,9 +108,9 @@ export const services = [
   {
     id: 1,
     number: "01",
-    heading: "Construction Logistics",
-    text: "Transportation and logistics support for construction and infrastructure projects.",
-    image: "/assets/img/home/services/construction-logistics.webp",
+    heading: "Heavy Dumper Logistics",
+    text: "Heavy-duty dumper operations for demanding construction environments and continuous project schedules.",
+    image: "/assets/img/home/services/heavy-dumper-logistics.webp",
     accent: false,
   },
   {
@@ -140,9 +140,9 @@ export const services = [
   {
     id: 3,
     number: "05",
-    heading: "Heavy Dumper Logistics",
-    text: "Heavy-duty dumper operations for demanding construction environments and continuous project schedules.",
-    image: "/assets/img/home/services/heavy-dumper-logistics.webp",
+    heading: "Construction Logistics",
+    text: "Transportation and logistics support for construction and infrastructure projects.",
+    image: "/assets/img/home/services/construction-logistics.webp",
     accent: false,
   },
   {

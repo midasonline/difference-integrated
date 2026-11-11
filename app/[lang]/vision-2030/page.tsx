@@ -213,6 +213,7 @@ export default function Vision2030Page() {
             ".vision-hero-image",
             ".vision-hero-label",
             ".vision-hero-line",
+            ".vision-hero-divider",
             ".vision-hero-copy",
             ".vision-hero-meta",
             ".vision-reveal",
@@ -227,6 +228,10 @@ export default function Vision2030Page() {
             scale: 1,
           },
         );
+
+        gsap.set(".vision-hero-divider", {
+          width: "100%",
+        });
 
         return;
       }
@@ -249,9 +254,8 @@ export default function Vision2030Page() {
         scale: 1.08,
       });
 
-      gsap.set(".vision-hero-label", {
-        opacity: 0,
-        y: 20,
+      gsap.set(".vision-hero-divider", {
+        width: 0,
       });
 
       gsap.set(".vision-hero-line", {
@@ -313,12 +317,11 @@ export default function Vision2030Page() {
       );
 
       entrance.to(
-        ".vision-hero-label",
+        ".vision-hero-divider",
         {
-          opacity: 1,
-          y: 0,
-          duration: 0.65,
-          ease: "power3.out",
+          width: "100%",
+          duration: 1,
+          ease: "power3.inOut",
         },
         1,
       );
@@ -487,7 +490,7 @@ export default function Vision2030Page() {
 
       <main>
         {/* HERO */}
-        <section className="vision-hero relative flex min-h-[100svh] items-end overflow-hidden bg-[var(--di-primary)] text-white">
+        <section className="vision-hero relative flex h-screen min-h-[760px] flex-col justify-end overflow-hidden bg-[var(--di-primary)] text-white max-[1025px]:min-h-[720px]">
           <img
             src="/assets/img/vision-2030.webp"
             alt=""
@@ -496,68 +499,46 @@ export default function Vision2030Page() {
           />
 
           <div className="pointer-events-none absolute inset-0 bg-[var(--di-primary)]/70" />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[var(--di-primary)]/75 via-[var(--di-primary)]/40 to-black/10" />
 
-          <div className="di-container relative z-[2] w-full pb-[95rem] pt-[180rem] max-[1024px]:pb-[60rem] max-[1024px]:pt-[150rem]">
-            <div className="grid grid-cols-[1.12fr_.88fr] items-end gap-[110rem] max-[1024px]:grid-cols-1 max-[1024px]:gap-[55rem]">
-              <div>
-                <div className="vision-hero-label"></div>
-
-                <div className="mt-[32rem]">
-                  <div>
-                    <h1
-                      className={
-                        isArabic
-                          ? "vision-hero-line text-[135rem] font-bold leading-[1.05] tracking-[-.04em] max-[1440px]:text-[112rem] max-[1024px]:text-[70rem] max-[600px]:text-[50rem]"
-                          : "vision-hero-line text-[135rem] font-bold leading-[.82] tracking-[-.04em] max-[1440px]:text-[112rem] max-[1024px]:text-[70rem] max-[600px]:text-[50rem]"
-                      }
-                    >
-                      {copy.hero.titleLine1}
-                    </h1>
-                  </div>
-
-                  <div className="mt-[6rem] overflow-hidden">
-                    <h2
-                      className={
-                        isArabic
-                          ? "vision-hero-line text-[135rem] font-bold leading-[1.05] tracking-[-.04em] max-[1440px]:text-[112rem] max-[1024px]:text-[70rem] max-[600px]:text-[50rem]"
-                          : "vision-hero-line text-[135rem] font-bold leading-[.82] tracking-[-.04em] max-[1440px]:text-[112rem] max-[1024px]:text-[70rem] max-[600px]:text-[50rem]"
-                      }
-                    >
-                      {copy.hero.titleLine2}
-                    </h2>
-                  </div>
-
-                  <div className="mt-[6rem] overflow-hidden">
-                    <h2
-                      className={
-                        isArabic
-                          ? "vision-hero-line text-[135rem] font-bold leading-[1.05] tracking-[-.04em] text-[var(--di-accent)] max-[1440px]:text-[112rem] max-[1024px]:text-[70rem] max-[600px]:text-[50rem]"
-                          : "vision-hero-line text-[135rem] font-bold leading-[.82] tracking-[-.04em] text-[var(--di-accent)] max-[1440px]:text-[112rem] max-[1024px]:text-[70rem] max-[600px]:text-[50rem]"
-                      }
-                    >
-                      {copy.hero.accent}
-                    </h2>
-                  </div>
-                </div>
+          <div className="di-container relative z-[2] w-full pb-[110rem] pt-[180rem] max-[1025px]:pb-[46rem] max-[1025px]:pt-[145rem]">
+            <div className="relative mb-[105rem] flex items-end justify-between pb-[12rem] max-[1025px]:mb-[38rem] max-[1025px]:flex-col max-[1025px]:items-stretch">
+              <div className="overflow-hidden pb-[8rem]">
+                <h1
+                  className={
+                    isArabic
+                      ? "vision-hero-line text-[180rem] font-bold leading-[1] tracking-[-.035em] max-[1440px]:text-[170rem] max-[1025px]:text-[96rem] max-[700px]:text-[78rem] max-[480px]:text-[68rem]"
+                      : "vision-hero-line text-[180rem] font-bold leading-[.8] tracking-[-.04em] uppercase max-[1440px]:text-[170rem] max-[1025px]:text-[96rem] max-[700px]:text-[78rem] max-[480px]:text-[68rem]"
+                  }
+                >
+                  {isArabic ? "رؤية 2030" : "Vision 2030"}
+                </h1>
               </div>
 
-              <div className="vision-hero-copy max-w-[660rem] justify-self-end max-[1024px]:justify-self-start">
-                <div className="mb-[28rem] h-[1px] w-full bg-white/20" />
+              <span className="vision-hero-divider absolute bottom-0 left-0 h-[1rem] w-0 bg-white/20" />
+            </div>
 
-                <div className="space-y-[20rem] font-['Inter'] text-[19rem] font-normal leading-[1.65] text-white/78 max-[1024px]:text-[16rem]">
-                  {copy.hero.intro.map((paragraph) => (
-                    <p key={paragraph}>{paragraph}</p>
-                  ))}
-                </div>
+            <div className="vision-hero-copy ms-[740rem] flex flex-col gap-[20rem] max-[1025px]:ms-0 max-[1025px]:max-w-none max-[1025px]:gap-[14rem]">
+              <h2
+                className={
+                  isArabic
+                    ? "text-[30rem] font-bold leading-[1.15] tracking-[-.015em] max-[1025px]:text-[28rem] max-[600px]:text-[24rem]"
+                    : "text-[30rem] font-bold leading-[.95] tracking-[-.02em] uppercase max-[1025px]:text-[28rem] max-[600px]:text-[24rem]"
+                }
+              >
+                {copy.hero.titleLine1} {copy.hero.titleLine2}{" "}
+                <span>{copy.hero.accent}</span>
+              </h2>
 
-                <div className="vision-hero-meta mt-[38rem] flex items-center gap-[15rem]">
-                  {/* <span className="h-[8rem] w-[8rem] rounded-full bg-[var(--di-accent)]" /> */}
+              <div className="space-y-[16rem] font-['Inter'] text-[max(16px,20rem)] font-normal leading-[max(1.45em,28rem)] text-white/88 max-[1025px]:text-[max(16px,17rem)] max-[1025px]:leading-[max(1.45em,24rem)]">
+                {copy.hero.intro.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
 
-                  <span className="font-['Inter'] text-[12rem] font-medium uppercase tracking-[.13em] text-white/60">
-                    {copy.hero.meta}
-                  </span>
-                </div>
+              <div className="vision-hero-meta mt-[8rem] flex items-center gap-[15rem]">
+                <span className="font-['Inter'] text-[max(12px,12rem)] font-medium uppercase tracking-[.13em] text-white/65">
+                  {copy.hero.meta}
+                </span>
               </div>
             </div>
           </div>

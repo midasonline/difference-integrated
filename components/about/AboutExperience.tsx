@@ -71,20 +71,6 @@ function AboutHero() {
             {copy.title}
           </h1>
 
-          {/* <div className="hero-about__abb flex w-[1100rem] items-center justify-between text-[40rem] leading-[.9] max-[1025px]:w-full max-[1025px]:text-[max(16px,20rem)]">
-            <div
-              dir="ltr"
-              className="hero-about__abb-wrapper flex gap-[160rem] max-[1025px]:gap-[20rem]"
-            >
-              <span className="hero-about__abb-item">D.</span>
-              <span className="hero-about__abb-item">I.</span>
-            </div>
-
-            <span className="hero-about__abb-text text-[40rem] leading-[.9] uppercase max-[1025px]:text-[max(16px,20rem)]">
-              {copy.eyebrow}
-            </span>
-          </div> */}
-
           <span className="main-animated-line absolute bottom-0 left-0 h-[1rem] w-0 bg-white/20" />
         </div>
 
@@ -183,7 +169,7 @@ function OurStory() {
             </div>
           </div>
 
-          <div className="border-t border-white/15 pt-[15rem] text-center text-[210rem] font-normal leading-none tracking-[-.03em] text-white/5 uppercase max-[1025px]:hidden">
+          <div className="border-t border-white/15 pt-[15rem] text-center text-[210rem] font-normal leading-none tracking-[-.03em] text-white/30 uppercase max-[1025px]:hidden">
             <div className="ticker">
               <span className="ticker-item">{copy.ticker}</span>
               <span className="ticker-item">{copy.ticker}</span>
@@ -494,37 +480,6 @@ export function AboutExperience() {
           scrollTrigger: {
             trigger: element,
             start: "center bottom-=5%",
-          },
-        });
-      });
-
-      gsap.utils.toArray<HTMLElement>(".reading-block").forEach((section) => {
-        const text = section.querySelector<HTMLElement>(".reading-block__text");
-        if (!text) return;
-
-        const split = new SplitText(text, {
-          type: "words",
-          wordsClass: "word",
-        });
-
-        splits.push(split);
-
-        gsap.set(split.words, {
-          willChange: "opacity",
-          opacity: 0.1,
-        });
-
-        gsap.to(split.words, {
-          ease: "none",
-          opacity: 1,
-          stagger: 0.05,
-          scrollTrigger: {
-            trigger: section,
-            start: "center center",
-            end: "bottom+=50% bottom",
-            scrub: true,
-            pin: section.offsetHeight <= window.innerHeight,
-            invalidateOnRefresh: true,
           },
         });
       });
