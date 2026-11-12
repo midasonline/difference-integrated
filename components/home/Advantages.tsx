@@ -168,10 +168,10 @@ export function Advantages() {
 
               {/* EXISTING HEADING */}
 
-              <div className="absolute inset-x-[38rem] bottom-[42rem] z-[2] overflow-hidden max-[700px]:inset-x-[24rem] max-[700px]:bottom-[28rem]">
+              <div className="absolute inset-x-[38rem] top-1/2 -translate-y-1/2 z-[2] overflow-hidden">
                 <h2
                   data-advantages-heading
-                  className="animated-text max-w-[660rem] text-[125rem] leading-[.82] tracking-[-.035em] uppercase text-white max-[1500px]:text-[108rem] max-[1200px]:text-[92rem] max-[1025px]:text-[82rem] max-[700px]:text-[62rem] max-[500px]:text-[52rem]"
+                  className="animated-text text-[105rem] leading-[1] tracking-[-.035em] uppercase text-white 2xl:text-[165rem]! xl:text-[92rem] lg:text-[82rem] md:text-[62rem] sm:text-[52rem]"
                 >
                   {copy.title}
                 </h2>
